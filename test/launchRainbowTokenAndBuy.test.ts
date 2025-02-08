@@ -11,7 +11,7 @@ describe('TokenLauncherSDK', () => {
   let factoryAddress: string;
 
   beforeAll(async () => {
-    await startAnvil();
+    // await startAnvil();
     factoryAddress = await deployTokenLauncher();
     provider = new ethers.JsonRpcProvider('http://localhost:8545');
     signer = await provider.getSigner();
@@ -27,17 +27,23 @@ describe('TokenLauncherSDK', () => {
   });
 
   afterAll(() => {
-    stopAnvil();
+    // stopAnvil();
+  });
+
+  it ('should check that the creator wallet has funds', async () => {
+    const balance = await provider.getBalance(WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS);
+    console.log('balance: ', balance);
+    expect(balance).toBeGreaterThan(BigInt('0'));
   });
 
   it('should launch token and buy', async () => {
     const tx = await sdk.launchRainbowSuperTokenAndBuy({
       name: 'Test Token',
       symbol: 'TEST',
-      supply: BigInt('1000000000000000000000'), // 1000 tokens
-      initialTick: 0, // Start at "fair" price
-      amountIn: BigInt('100000000000000000'), 
-      signer,
+      supply: BigInt('1000000000000000000000'),
+      initialTick: 200,
+      amountIn: BigInt('1000000000000000000'),
+      signer: new ethers.Wallet(WALLET_VARS.PRIVATE_KEY_WALLET.SECRET, provider),
       merkleroot: ethers.ZeroHash,
       creator: WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS,
     });

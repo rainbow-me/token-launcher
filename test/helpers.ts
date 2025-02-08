@@ -27,7 +27,7 @@ export const deployTokenLauncher = async (): Promise<string> => {
   const deployer = await new ethers.JsonRpcProvider('http://localhost:8545').getSigner();
   const uniswapV3FactoryAddress = '0x1F98431c8aD98523631AE4a59f267346ea31F984';
   const nonfungiblePositionManagerAddress = '0xC36442b4a4522E871399CD717aBDD847Ab11FE88';
-  const swapRouterAddress = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';
+  const swapRouterAddress = '0xE592427A0AEce92De3Edee1F18E0157C05861564';
   const wethAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
   const artifactPath = path.resolve(
     __dirname,
@@ -60,6 +60,6 @@ export const deployTokenLauncher = async (): Promise<string> => {
     'https://rainbow.me/tokens'
   );
   await factory.waitForDeployment();
-  console.log('factory deployed at address: ', factory.getAddress());
-  return factory.getAddress();
+  console.log('factory deployed at address: ', await factory.getAddress());
+  return await factory.getAddress();
 };

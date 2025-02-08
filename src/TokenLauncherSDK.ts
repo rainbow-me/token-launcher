@@ -19,10 +19,6 @@ interface SDKConfig {
   logger?: Console;
 }
 
-interface ContractCallParams {
-  signer: ethers.Signer;
-}
-
 interface LaunchTokenParams {
   name: string;
   symbol: string;
@@ -31,6 +27,7 @@ interface LaunchTokenParams {
   initialTick: number; // For setting initial price
   creator?: string; // Optional, defaults to signer address
   amountIn: bigint; // Amount of ETH/token to buy with
+  signer: ethers.Signer;
 }
 
 export class TokenLauncherSDK {
@@ -39,7 +36,7 @@ export class TokenLauncherSDK {
   private readonly factoryAddress?: string;
   private readonly logger: Console;
   private readonly isProduction: boolean;
-  private factoryContract?: RainbowSuperTokenFactory;
+  private factoryContract?: any;
 
   constructor(config: SDKConfig) {
     this.apiUrl = config.apiUrl;
@@ -71,7 +68,7 @@ export class TokenLauncherSDK {
       this.factoryAddress,
       artifact.abi,
       signer
-    ) as RainbowSuperTokenFactory;
+    );
 
     return this.factoryContract;
   }
@@ -81,14 +78,33 @@ export class TokenLauncherSDK {
   }
 
   async launchRainbowSuperTokenAndBuy(
-    params: LaunchTokenParams & ContractCallParams
-  ): Promise<ethers.ContractTransaction> {
+    params: LaunchTokenParams
+  ): Promise<ethers.TransactionResponse> {
     const factory = await this.getFactoryContract(params.signer);
-    const salt = this.generateSalt();
     const creator = params.creator || await params.signer.getAddress();
-    const merkleroot = params.merkleroot ? keccak256(toUtf8Bytes(params.merkleroot)) : ethers.ZeroHash;
-    
-    const tx = await factory.launchRainbowSuperTokenAndBuy(
+    const merkleroot = params.merkleroot
+      ? keccak256(toUtf8Bytes(params.merkleroot))
+      : ethers.ZeroHash;
+  
+    let salt: string;
+    let predictedAddress: string;
+    // Get the default pair token address from the factory contract.
+    const defaultPairTokenAddr = await factory.defaultPairToken();
+  
+    // Loop until the predicted token address is <= the default pair token address.
+    do {
+      salt = this.generateSalt();
+      predictedAddress = await factory.predictTokenAddress(
+        creator,
+        params.name,
+        params.symbol,
+        merkleroot,
+        params.supply,
+        salt
+      );
+    } while (BigInt(predictedAddress) > BigInt(defaultPairTokenAddr));
+  
+    const popTx = await factory.launchRainbowSuperTokenAndBuy.populateTransaction(
       params.name,
       params.symbol,
       merkleroot,
@@ -99,11 +115,21 @@ export class TokenLauncherSDK {
       params.amountIn,
     );
 
+    const foo = {
+      data: popTx.data,
+      to: this.factoryAddress,
+      from: params.signer.getAddress(),
+      value: params.amountIn,
+    };
+    console.log('sending transaction with params: ', foo);
+
+    const tx = await params.signer.sendTransaction(foo);
+  
     return tx;
   }
 
   async predictTokenAddress(
-    params: Omit<LaunchTokenParams, 'amountIn' | 'initialTick'> & ContractCallParams
+    params: Omit<LaunchTokenParams, 'amountIn' | 'initialTick'>
   ): Promise<string> {
     const factory = await this.getFactoryContract(params.signer);
     const salt = this.generateSalt();

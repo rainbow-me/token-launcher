@@ -60,6 +60,6 @@ export const deployTokenLauncher = async (): Promise<string> => {
     'https://rainbow.me/tokens'
   );
   await factory.waitForDeployment();
-  console.log('factory deployed at address: ', factory.target);
-  return factory.target.toString();
+  console.log('factory deployed at address: ', factory.getAddress());
+  return factory.getAddress();
 };
