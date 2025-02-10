@@ -1,6 +1,5 @@
-import { startAnvil, stopAnvil } from './setupAnvil';
 import { ethers } from 'ethers';
-import { deployTokenLauncher } from './helpers';
+import { deployTokenLauncher, startAnvil, stopAnvil } from './helpers/index';
 import { TokenLauncherSDK } from '../src/TokenLauncherSDK';
 import { WALLET_VARS } from './references';
 
@@ -11,7 +10,7 @@ describe('TokenLauncherSDK', () => {
   let factoryAddress: string;
 
   beforeAll(async () => {
-    // await startAnvil();
+    await startAnvil();
     factoryAddress = await deployTokenLauncher();
     provider = new ethers.JsonRpcProvider('http://localhost:8545');
     signer = await provider.getSigner();
@@ -26,14 +25,28 @@ describe('TokenLauncherSDK', () => {
     });
   });
 
-  afterAll(() => {
-    // stopAnvil();
-  });
+  afterAll(async () => {
+    await stopAnvil();
+  }, 10000);
 
   it ('should check that the creator wallet has funds', async () => {
     const balance = await provider.getBalance(WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS);
     console.log('balance: ', balance);
     expect(balance).toBeGreaterThan(BigInt('0'));
+  });
+  
+  it('should predict token address', async () => {
+    const address = await sdk.predictTokenAddress({
+      name: 'Test Token',
+      symbol: 'TEST',
+      supply: BigInt('1000000000000000000000'),
+      signer,
+      merkleroot: ethers.ZeroHash,
+      creator: WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS,
+    });
+
+    console.log('predicted address: ', address);
+    expect(ethers.isAddress(address)).toBe(true);
   });
 
   it('should launch token and buy', async () => {
@@ -48,21 +61,29 @@ describe('TokenLauncherSDK', () => {
       creator: WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS,
     });
 
-    console.log('tx: ', tx);
-    expect(tx).toBeDefined();
-  });
+    console.log('Transaction submitted, waiting for confirmation...');
 
-  it('should predict token address', async () => {
-    const address = await sdk.predictTokenAddress({
-      name: 'Test Token',
-      symbol: 'TEST',
-      supply: BigInt('1000000000000000000000'),
-      signer,
-      merkleroot: ethers.ZeroHash,
-      creator: WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS,
-    });
+    // Wait for transaction to be mined
+    const receipt = await tx.wait();
+    console.log('Transaction confirmed in block:', receipt?.blockNumber);
+    expect(receipt?.status).toBe(1);
 
-    console.log('predicted address: ', address);
-    expect(ethers.isAddress(address)).toBe(true);
-  });
+    // Get the token creation event
+    const event = receipt?.logs.find(
+      log => log.topics[0] === ethers.id("RainbowSuperTokenCreated(address,address,address)")
+    );
+    expect(event).toBeDefined();
+
+    // Get the new token address from the event
+    const tokenAddress = ethers.dataSlice(event!.topics[1], 12);
+    expect(ethers.isAddress(tokenAddress)).toBe(true);
+
+    // Verify the token exists and has the correct properties
+    const tokenContract = new ethers.Contract(
+      tokenAddress,
+      ['function symbol() view returns (string)'],
+      provider
+    );
+    expect(await tokenContract.symbol()).toBe('TEST');
+  }, 20000);
 });

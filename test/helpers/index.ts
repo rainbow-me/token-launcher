@@ -1,37 +1,70 @@
-import { exec, ChildProcess } from 'child_process';
 import { ethers } from 'ethers';
 import path from 'path';
 import fs from 'fs';
-let anvilProcess: ChildProcess;
+import { spawn, ChildProcess } from 'child_process';
+
+let anvilProcess: ChildProcess | null = null;
 
 export const startAnvil = (): Promise<void> => {
   return new Promise((resolve, reject) => {
-    anvilProcess = exec('./scripts/start-anvil.sh', (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Anvil error: ${stderr}`);
-        return reject(error);
-      } else {
-        console.log(`Anvil started with PID ${anvilProcess.pid}`);
+    // Kill any existing process first
+    if (anvilProcess) {
+      if (anvilProcess.pid) {
+        process.kill(-anvilProcess.pid);
       }
+      anvilProcess = null;
+    }
+
+    anvilProcess = spawn('./scripts/start-anvil.sh', {
+      detached: true,
+      stdio: 'ignore',
+      shell: true,
     });
-    // Wait a few seconds to ensure anvil is up
+
+    anvilProcess.unref();
+
+    anvilProcess.on('error', (err) => {
+      console.error('Failed to start anvil:', err);
+      reject(err);
+    });
+
+    // Wait a bit to ensure anvil has started
     setTimeout(() => resolve(), 3000);
   });
 };
 
-export const stopAnvil = (): void => {
-  exec('kill $(lsof -t -i:8545)');
+export const stopAnvil = (): Promise<void> => {
+  return new Promise((resolve) => {
+    if (anvilProcess) {
+      // Kill the entire process group
+      try {
+        if (anvilProcess.pid) {
+          process.kill(-anvilProcess.pid, 'SIGTERM');
+        }
+      } catch (error) {
+        console.error('Error killing anvil process:', error);
+      }
+
+      // Listen for the process to exit
+      anvilProcess.on('close', () => {
+        anvilProcess = null;
+        resolve();
+      });
+    } else {
+      resolve();
+    }
+  });
 };
 
 export const deployTokenLauncher = async (): Promise<string> => {
   const deployer = await new ethers.JsonRpcProvider('http://localhost:8545').getSigner();
   const uniswapV3FactoryAddress = '0x1F98431c8aD98523631AE4a59f267346ea31F984';
   const nonfungiblePositionManagerAddress = '0xC36442b4a4522E871399CD717aBDD847Ab11FE88';
-  const swapRouterAddress = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';
+  const swapRouterAddress = '0xE592427A0AEce92De3Edee1F18E0157C05861564';
   const wethAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
   const artifactPath = path.resolve(
     __dirname,
-    '../smart-contracts/TokenLauncher/out/RainbowSuperTokenFactory.sol/RainbowSuperTokenFactory.json'
+    '../../smart-contracts/TokenLauncher/out/RainbowSuperTokenFactory.sol/RainbowSuperTokenFactory.json'
   );
 
   if (!fs.existsSync(artifactPath)) {
@@ -60,6 +93,5 @@ export const deployTokenLauncher = async (): Promise<string> => {
     'https://rainbow.me/tokens'
   );
   await factory.waitForDeployment();
-  console.log('factory deployed at address: ', factory.getAddress());
-  return factory.getAddress();
+  return await factory.getAddress();
 };

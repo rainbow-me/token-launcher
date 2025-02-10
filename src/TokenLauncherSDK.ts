@@ -9,7 +9,6 @@ import {
 import { keccak256, toUtf8Bytes, randomBytes } from 'ethers';
 import path from 'path';
 import fs from 'fs';
-import { RainbowSuperTokenFactory } from './types/contracts';
 
 interface SDKConfig {
   apiUrl: string;
@@ -104,7 +103,7 @@ export class TokenLauncherSDK {
       );
     } while (BigInt(predictedAddress) > BigInt(defaultPairTokenAddr));
   
-    const popTx = await factory.launchRainbowSuperTokenAndBuy.populateTransaction(
+    const populatedTransactionData = await factory.launchRainbowSuperTokenAndBuy.populateTransaction(
       params.name,
       params.symbol,
       merkleroot,
@@ -115,15 +114,14 @@ export class TokenLauncherSDK {
       params.amountIn,
     );
 
-    const foo = {
-      data: popTx.data,
+    const payload = {
+      data: populatedTransactionData.data,
       to: this.factoryAddress,
-      from: params.signer.getAddress(),
+      from: await params.signer.getAddress(),
       value: params.amountIn,
     };
-    console.log('sending transaction with params: ', foo);
 
-    const tx = await params.signer.sendTransaction(foo);
+    const tx = await params.signer.sendTransaction(payload);
   
     return tx;
   }
@@ -146,7 +144,7 @@ export class TokenLauncherSDK {
     );
   }
 
-  async getTokenByUri(tokenUri: string): Promise<GetTokenResponse> {
+  async getRainbowSuperTokenByUri(tokenUri: string): Promise<GetTokenResponse> {
     const response = await fetchWithRetry(`${this.apiUrl}/v1/token/${tokenUri}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -156,7 +154,7 @@ export class TokenLauncherSDK {
     return response.json();
   }
 
-  async getTokens(): Promise<GetTokensResponse> {
+  async getRainbowSuperTokens(): Promise<GetTokensResponse> {
     const response = await fetchWithRetry(`${this.apiUrl}/v1/token`, {
       headers: {
         'Content-Type': 'application/json',
@@ -166,7 +164,7 @@ export class TokenLauncherSDK {
     return response.json();
   }
 
-  async deployToken(payload: DeployTokenRequest): Promise<DeployTokenResponse> {
+  async submitRainbowSuperToken(payload: DeployTokenRequest): Promise<DeployTokenResponse> {
     const response = await fetchWithRetry(`${this.apiUrl}/v1/token`, {
       method: 'POST',
       headers: {
@@ -178,7 +176,7 @@ export class TokenLauncherSDK {
     return response.json();
   }
 
-  async submitAirdropData(tokenUri: string, addresses: string[]): Promise<void> {
+  async getMerkleRootForCohorts(tokenUri: string, addresses: string[]): Promise<void> {
     await fetchWithRetry(`${this.apiUrl}/v1/token/${tokenUri}/airdrop`, {
       method: 'POST',
       headers: {
