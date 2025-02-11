@@ -1,10 +1,10 @@
 import { ethers } from 'ethers';
-import { fetchWithRetry } from './utils/fetchWithRetry';
+import { rainbowFetch } from './utils/rainbowFetch';
 import {
-  GetTokensResponse,
-  GetTokenResponse,
-  DeployTokenRequest,
-  DeployTokenResponse,
+  GetRainbowSuperTokensResponse,
+  GetRainbowSuperTokenResponse,
+  DeployRainbowSuperTokenRequest,
+  DeployRainbowSuperTokenResponse,
 } from './types/api';
 import { keccak256, toUtf8Bytes, randomBytes } from 'ethers';
 import path from 'path';
@@ -12,10 +12,7 @@ import fs from 'fs';
 
 interface SDKConfig {
   apiUrl: string;
-  provider: ethers.Provider;
   factoryAddress?: string;
-  isProduction?: boolean;
-  logger?: Console;
 }
 
 interface LaunchTokenParams {
@@ -26,28 +23,21 @@ interface LaunchTokenParams {
   initialTick: number; // For setting initial price
   creator?: string; // Optional, defaults to signer address
   amountIn: bigint; // Amount of ETH/token to buy with
-  signer: ethers.Signer;
+  salt: string;
+  wallet: ethers.Signer;
 }
 
 export class TokenLauncherSDK {
   private readonly apiUrl: string;
-  private readonly provider: ethers.Provider;
   private readonly factoryAddress?: string;
-  private readonly logger: Console;
-  private readonly isProduction: boolean;
   private factoryContract?: any;
 
   constructor(config: SDKConfig) {
     this.apiUrl = config.apiUrl;
-    this.provider = config.provider;
     this.factoryAddress = config.factoryAddress;
-    this.logger = config.logger || console;
-    this.isProduction = config.isProduction || false;
   }
 
-  private async getFactoryContract(signer: ethers.Signer) {
-    if (this.factoryContract) return this.factoryContract;
-
+  private async getFactoryContract(wallet: ethers.Signer) {
     const artifactPath = path.resolve(
       __dirname,
       '../smart-contracts/TokenLauncher/out/RainbowSuperTokenFactory.sol/RainbowSuperTokenFactory.json'
@@ -66,42 +56,18 @@ export class TokenLauncherSDK {
     this.factoryContract = new ethers.Contract(
       this.factoryAddress,
       artifact.abi,
-      signer
+      wallet
     );
 
     return this.factoryContract;
   }
 
-  private generateSalt(): string {
-    return keccak256(randomBytes(32));
-  }
-
   async launchRainbowSuperTokenAndBuy(
     params: LaunchTokenParams
   ): Promise<ethers.TransactionResponse> {
-    const factory = await this.getFactoryContract(params.signer);
-    const creator = params.creator || await params.signer.getAddress();
-    const merkleroot = params.merkleroot
-      ? keccak256(toUtf8Bytes(params.merkleroot))
-      : ethers.ZeroHash;
-  
-    let salt: string;
-    let predictedAddress: string;
-    // Get the default pair token address from the factory contract.
-    const defaultPairTokenAddr = await factory.defaultPairToken();
-  
-    // Loop until the predicted token address is <= the default pair token address.
-    do {
-      salt = this.generateSalt();
-      predictedAddress = await factory.predictTokenAddress(
-        creator,
-        params.name,
-        params.symbol,
-        merkleroot,
-        params.supply,
-        salt
-      );
-    } while (BigInt(predictedAddress) > BigInt(defaultPairTokenAddr));
+    const factory = await this.getFactoryContract(params.wallet);
+    const creator = params.creator || await params.wallet.getAddress();
+    const merkleroot = params.merkleroot ?? ethers.ZeroHash;
   
     const populatedTransactionData = await factory.launchRainbowSuperTokenAndBuy.populateTransaction(
       params.name,
@@ -109,7 +75,7 @@ export class TokenLauncherSDK {
       merkleroot,
       params.supply,
       params.initialTick,
-      salt,
+      params.salt,
       creator,
       params.amountIn,
     );
@@ -117,35 +83,17 @@ export class TokenLauncherSDK {
     const payload = {
       data: populatedTransactionData.data,
       to: this.factoryAddress,
-      from: await params.signer.getAddress(),
+      from: await params.wallet.getAddress(),
       value: params.amountIn,
     };
 
-    const tx = await params.signer.sendTransaction(payload);
+    const tx = await params.wallet.sendTransaction(payload);
   
     return tx;
   }
 
-  async predictTokenAddress(
-    params: Omit<LaunchTokenParams, 'amountIn' | 'initialTick'>
-  ): Promise<string> {
-    const factory = await this.getFactoryContract(params.signer);
-    const salt = this.generateSalt();
-    const creator = params.creator || await params.signer.getAddress();
-    const merkleroot = params.merkleroot ? keccak256(toUtf8Bytes(params.merkleroot)) : ethers.ZeroHash;
-    
-    return await factory.predictTokenAddress(
-      creator,
-      params.name,
-      params.symbol,
-      merkleroot,
-      params.supply,
-      salt
-    );
-  }
-
-  async getRainbowSuperTokenByUri(tokenUri: string): Promise<GetTokenResponse> {
-    const response = await fetchWithRetry(`${this.apiUrl}/v1/token/${tokenUri}`, {
+  async getRainbowSuperTokenByUri(tokenUri: string): Promise<GetRainbowSuperTokenResponse> {
+    const response = await rainbowFetch(`${this.apiUrl}/v1/token/${tokenUri}`, {
       headers: {
         'Content-Type': 'application/json',
         // Authorization: `Bearer ${process.env.AUTH_TOKEN}`,
@@ -154,8 +102,8 @@ export class TokenLauncherSDK {
     return response.json();
   }
 
-  async getRainbowSuperTokens(): Promise<GetTokensResponse> {
-    const response = await fetchWithRetry(`${this.apiUrl}/v1/token`, {
+  async getRainbowSuperTokens(): Promise<GetRainbowSuperTokensResponse> {
+    const response = await rainbowFetch(`${this.apiUrl}/v1/token`, {
       headers: {
         'Content-Type': 'application/json',
         // Authorization: `Bearer ${process.env.AUTH_TOKEN}`,
@@ -164,8 +112,8 @@ export class TokenLauncherSDK {
     return response.json();
   }
 
-  async submitRainbowSuperToken(payload: DeployTokenRequest): Promise<DeployTokenResponse> {
-    const response = await fetchWithRetry(`${this.apiUrl}/v1/token`, {
+  async submitRainbowSuperToken(payload: DeployRainbowSuperTokenRequest): Promise<DeployRainbowSuperTokenResponse> {
+    const response = await rainbowFetch(`${this.apiUrl}/v1/token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -177,7 +125,7 @@ export class TokenLauncherSDK {
   }
 
   async getMerkleRootForCohorts(tokenUri: string, addresses: string[]): Promise<void> {
-    await fetchWithRetry(`${this.apiUrl}/v1/token/${tokenUri}/airdrop`, {
+    await rainbowFetch(`${this.apiUrl}/v1/token/${tokenUri}/airdrop`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -185,5 +133,24 @@ export class TokenLauncherSDK {
       },
       body: JSON.stringify({ addresses }),
     });
+  }
+ 
+  // testing purposes only
+  async _predictTokenAddress(
+    params: Omit<LaunchTokenParams, 'amountIn' | 'initialTick'>
+  ): Promise<string> {
+    const factory = await this.getFactoryContract(params.wallet);
+    const salt = keccak256(randomBytes(32));
+    const creator = params.creator || await params.wallet.getAddress();
+    const merkleroot = params.merkleroot ? keccak256(toUtf8Bytes(params.merkleroot)) : ethers.ZeroHash;
+    
+    return await factory.predictTokenAddress(
+      creator,
+      params.name,
+      params.symbol,
+      merkleroot,
+      params.supply,
+      salt
+    );
   }
 } 

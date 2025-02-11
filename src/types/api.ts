@@ -1,4 +1,4 @@
-export interface TokenMetadata {
+export interface RainbowSuperTokenMetadata {
   address: string;
   chainId: number;
   uri: string;
@@ -11,15 +11,15 @@ export interface TokenMetadata {
   creatorAddress: string;
 }
 
-export interface GetTokensResponse {
-  data: TokenMetadata[];
+export interface GetRainbowSuperTokensResponse {
+  data: RainbowSuperTokenMetadata[];
 }
 
-export interface GetTokenResponse {
-  data: TokenMetadata;
+export interface GetRainbowSuperTokenResponse {
+  data: RainbowSuperTokenMetadata;
 }
 
-export interface DeployTokenRequest {
+export interface DeployRainbowSuperTokenRequest {
   address: string;
   chainId: number;
   name: string;
@@ -36,6 +36,14 @@ export interface DeployTokenRequest {
   };
 }
 
-export interface DeployTokenResponse {
-  data: string; // token URI
-} 
+export interface DeployRainbowSuperTokenResponse {
+  data: {
+    tokenUri: string;
+    salt: string;
+  },
+}
+
+export interface AirdropMetadata {
+  merkleRoot: string;
+  merkleRootId: number;
+}
