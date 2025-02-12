@@ -7,7 +7,7 @@ describe('Submit Rainbow Super Token', () => {
       chainId: 1,
       name: 'Test Token',
       symbol: 'TEST',
-      supply: BigInt(1000000),
+      totalSupply: '1000000',
       tokenUri: 'https://example.com/tokenuri', 
       logoUrl: 'https://example.com/logo.png',
       description: 'Test Token Description',

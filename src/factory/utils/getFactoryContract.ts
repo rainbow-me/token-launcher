@@ -61,6 +61,6 @@ export const deployFactoryContract = async (signer: Signer): Promise<string> => 
     'https://rainbow.me/tokens'
   );
 
-  await factory.waitForDeployment();
-  return await factory.getAddress();
+  await factory.deployed();
+  return factory.address;
 }; 

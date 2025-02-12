@@ -71,6 +71,7 @@ export class RainbowFetchError extends Error {
             errorBody = await response.text();
           }
   
+          console.error(errorBody);
           throw new RainbowFetchError(
             `HTTP error ${response.status}`,
             url,
@@ -85,6 +86,7 @@ export class RainbowFetchError extends Error {
           try {
             await response.clone().json();
           } catch (e) {
+            console.error(e);
             throw new RainbowFetchError(
               'Invalid JSON response',
               url,
@@ -120,6 +122,7 @@ export class RainbowFetchError extends Error {
     }
   
     // For other errors (network, timeout, etc)
+    console.error(lastError);
     throw new RainbowFetchError(
       lastError?.message || 'Network error',
       url,

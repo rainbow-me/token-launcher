@@ -38,7 +38,7 @@ export const createRainbowTokenFactory = (factoryAddress: string) => {
       const creator = params.creator || await params.wallet.getAddress();
       const merkleroot = params.merkleroot ?? HashZero;
     
-      const populatedTransactionData = await factory.launchRainbowSuperTokenAndBuy.populateTransaction(
+      const populatedTransactionData = await factory.populateTransaction.launchRainbowSuperTokenAndBuy(
         params.name,
         params.symbol,
         merkleroot,

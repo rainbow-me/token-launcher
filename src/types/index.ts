@@ -1,4 +1,5 @@
 import { Signer } from '@ethersproject/abstract-signer';
+import { BigNumberish } from '@ethersproject/bignumber';
 
 export interface RainbowSuperTokenMetadata {
   address: string;
@@ -32,7 +33,7 @@ export interface DeployRainbowSuperTokenRequest {
   creatorAddress: string;
   merkleroot: string;
   merkle_root_id: string;
-  supply: bigint;
+  totalSupply: BigNumberish;
   tokenUri: string;
 }
 
@@ -51,9 +52,9 @@ export interface AirdropMetadata {
 export interface LaunchTokenParams {
   name: string;
   symbol: string;
-  supply: bigint;
+  supply: BigNumberish;
   initialTick: number;
-  amountIn: bigint;
+  amountIn: BigNumberish;
   wallet: Signer;
   merkleroot?: string;
   creator?: string;

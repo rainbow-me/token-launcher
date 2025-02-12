@@ -1,6 +1,7 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Wallet } from '@ethersproject/wallet';
+import { BigNumber } from '@ethersproject/bignumber';
 import { deployTokenLauncher, startAnvil, stopAnvil } from './helpers';
 import { launchRainbowSuperTokenAndBuy, predictTokenAddress } from '../src/factory';
 import { WALLET_VARS } from './references';
@@ -30,14 +31,14 @@ describe('Launch Rainbow Super Token and Buy', () => {
   it('should check that the creator wallet has funds', async () => {
     const balance = await provider.getBalance(WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS);
     console.log('creator wallet balance: ', balance);
-    expect(balance).toBeGreaterThan(BigInt('0'));
+    expect(balance.gt(BigNumber.from('0'))).toBe(true);
   });
   
   it('should predict token address', async () => {
     const address = await predictTokenAddress({
       name: 'Test Token',
       symbol: 'TEST',
-      supply: BigInt('1000000000000000000000'),
+      supply: '1000000000000000000000',
       wallet,
       merkleroot: HashZero,
       creator: WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS,
@@ -52,9 +53,9 @@ describe('Launch Rainbow Super Token and Buy', () => {
     const tx = await launchRainbowSuperTokenAndBuy({
       name: 'Test Token',
       symbol: 'TEST',
-      supply: BigInt('1000000000000000000000'),
+      supply: '1000000000000000000000',
       initialTick: 200,
-      amountIn: BigInt('1000000000000000000'),
+      amountIn: '1000000000000000000',
       wallet,
       merkleroot: HashZero,
       creator: WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS,
