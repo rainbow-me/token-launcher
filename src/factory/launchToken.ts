@@ -1,14 +1,15 @@
-import { ethers } from 'ethers';
 import { LaunchTokenParams } from '../types';
 import { getFactoryContract } from './utils/getFactoryContract';
+import { Transaction } from '@ethersproject/transactions';
+import { HashZero } from '@ethersproject/constants';
 
 export const launchRainbowSuperTokenAndBuy = async (
   params: LaunchTokenParams
-): Promise<ethers.TransactionResponse> => {
+): Promise<Transaction> => {
   const factory = await getFactoryContract(params.wallet);
   const factoryAddress = process.env.FACTORY_ADDRESS || await factory.getAddress();
   const creator = params.creator || await params.wallet.getAddress();
-  const merkleroot = params.merkleroot ?? ethers.ZeroHash;
+  const merkleroot = params.merkleroot ?? HashZero;
 
   const populatedTransactionData = await factory.launchRainbowSuperTokenAndBuy.populateTransaction(
     params.name,

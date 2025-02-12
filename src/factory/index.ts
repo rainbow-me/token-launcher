@@ -1,12 +1,15 @@
-import { ethers } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
+import { Signer } from '@ethersproject/abstract-signer';
+import { Transaction } from '@ethersproject/transactions';
+import { HashZero } from '@ethersproject/constants';
 import { LaunchTokenParams } from '../types';
 import path from 'path';
 import fs from 'fs';
 
 export const createRainbowTokenFactory = (factoryAddress: string) => {
-  let factoryContract: ethers.Contract | undefined;
+  let factoryContract: Contract | undefined;
 
-  const getFactoryContract = async (wallet: ethers.Signer) => {
+  const getFactoryContract = async (wallet: Signer) => {
     if (factoryContract) return factoryContract;
 
     const artifactPath = path.resolve(
@@ -20,7 +23,7 @@ export const createRainbowTokenFactory = (factoryAddress: string) => {
 
     const artifact = JSON.parse(fs.readFileSync(artifactPath, 'utf-8'));
     
-    factoryContract = new ethers.Contract(
+    factoryContract = new Contract(
       factoryAddress,
       artifact.abi,
       wallet
@@ -30,10 +33,10 @@ export const createRainbowTokenFactory = (factoryAddress: string) => {
   };
 
   return {
-    async launchRainbowSuperTokenAndBuy(params: LaunchTokenParams): Promise<ethers.TransactionResponse> {
+    async launchRainbowSuperTokenAndBuy(params: LaunchTokenParams): Promise<Transaction> {
       const factory = await getFactoryContract(params.wallet);
       const creator = params.creator || await params.wallet.getAddress();
-      const merkleroot = params.merkleroot ?? ethers.ZeroHash;
+      const merkleroot = params.merkleroot ?? HashZero;
     
       const populatedTransactionData = await factory.launchRainbowSuperTokenAndBuy.populateTransaction(
         params.name,
@@ -59,7 +62,7 @@ export const createRainbowTokenFactory = (factoryAddress: string) => {
     async predictTokenAddress(params: Omit<LaunchTokenParams, 'amountIn' | 'initialTick'>): Promise<string> {
       const factory = await getFactoryContract(params.wallet);
       const creator = params.creator || await params.wallet.getAddress();
-      const merkleroot = params.merkleroot ?? ethers.ZeroHash;
+      const merkleroot = params.merkleroot ?? HashZero;
       
       return factory.predictTokenAddress(
         creator,

@@ -1,18 +1,26 @@
-import { ethers } from 'ethers';
-import { deployTokenLauncher, startAnvil, stopAnvil } from '../../helpers';
-import { launchRainbowSuperTokenAndBuy, predictTokenAddress } from '../../../src/factory';
-import { WALLET_VARS } from '../../references';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import { Signer } from '@ethersproject/abstract-signer';
+import { Wallet } from '@ethersproject/wallet';
+import { deployTokenLauncher, startAnvil, stopAnvil } from './helpers';
+import { launchRainbowSuperTokenAndBuy, predictTokenAddress } from '../src/factory';
+import { WALLET_VARS } from './references';
+import { HashZero } from '@ethersproject/constants';
+import { isAddress } from '@ethersproject/address';
+import { Contract } from '@ethersproject/contracts';
+import { hexDataSlice } from '@ethersproject/bytes';
+import { keccak256 } from '@ethersproject/keccak256';
+import { toUtf8Bytes } from '@ethersproject/strings';
 
 describe('Launch Rainbow Super Token and Buy', () => {
-  let provider: ethers.JsonRpcProvider;
-  let wallet: ethers.Signer;
+  let provider: JsonRpcProvider;
+  let wallet: Signer;
 
   beforeAll(async () => {
     await startAnvil();
     // Deploy factory and set FACTORY_ADDRESS in env
     process.env.FACTORY_ADDRESS = await deployTokenLauncher();
-    provider = new ethers.JsonRpcProvider('http://localhost:8545');
-    wallet = new ethers.Wallet(WALLET_VARS.PRIVATE_KEY_WALLET.SECRET, provider);
+    provider = new JsonRpcProvider('http://localhost:8545');
+    wallet = new Wallet(WALLET_VARS.PRIVATE_KEY_WALLET.SECRET, provider);
   });
 
   afterAll(async () => {
@@ -31,13 +39,13 @@ describe('Launch Rainbow Super Token and Buy', () => {
       symbol: 'TEST',
       supply: BigInt('1000000000000000000000'),
       wallet,
-      merkleroot: ethers.ZeroHash,
+      merkleroot: HashZero,
       creator: WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS,
-      salt: ethers.ZeroHash,
+      salt: HashZero,
     });
 
     console.log('predicted address: ', address);
-    expect(ethers.isAddress(address)).toBe(true);
+    expect(isAddress(address)).toBe(true);
   });
 
   it('should launch token and buy', async () => {
@@ -48,26 +56,26 @@ describe('Launch Rainbow Super Token and Buy', () => {
       initialTick: 200,
       amountIn: BigInt('1000000000000000000'),
       wallet,
-      merkleroot: ethers.ZeroHash,
+      merkleroot: HashZero,
       creator: WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS,
-      salt: ethers.ZeroHash,
+      salt: HashZero,
     });
 
     console.log('Transaction submitted, waiting for confirmation...');
 
-    const receipt = await tx.wait();
+    const receipt = await provider.waitForTransaction(tx?.hash || '');
     console.log('Transaction confirmed in block:', receipt?.blockNumber);
     expect(receipt?.status).toBe(1);
 
     const event = receipt?.logs.find(
-      log => log.topics[0] === ethers.id("RainbowSuperTokenCreated(address,address,address)")
+      log => log.topics[0] === keccak256(toUtf8Bytes('RainbowSuperTokenCreated(address,address,address)'))
     );
     expect(event).toBeDefined();
 
-    const tokenAddress = ethers.dataSlice(event!.topics[1], 12);
-    expect(ethers.isAddress(tokenAddress)).toBe(true);
+    const tokenAddress = hexDataSlice(event!.topics[1], 12);
+    expect(isAddress(tokenAddress)).toBe(true);
 
-    const tokenContract = new ethers.Contract(
+    const tokenContract = new Contract(
       tokenAddress,
       ['function symbol() view returns (string)'],
       provider

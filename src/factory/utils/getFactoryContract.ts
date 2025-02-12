@@ -1,10 +1,11 @@
-import { ethers } from 'ethers';
 import path from 'path';
 import fs from 'fs';
+import { Contract, ContractFactory } from '@ethersproject/contracts';
+import { Signer } from '@ethersproject/abstract-signer';
 
-let factoryContract: ethers.Contract | undefined;
+let factoryContract: Contract | undefined;
 
-export const getFactoryContract = async (wallet: ethers.Signer): Promise<ethers.Contract> => {
+export const getFactoryContract = async (wallet: Signer): Promise<Contract> => {
   const factoryAddress = process.env.FACTORY_ADDRESS || await deployFactoryContract(wallet);
 
   if (factoryContract) return factoryContract;
@@ -20,7 +21,7 @@ export const getFactoryContract = async (wallet: ethers.Signer): Promise<ethers.
 
   const artifact = JSON.parse(fs.readFileSync(artifactPath, 'utf-8'));
   
-  factoryContract = new ethers.Contract(
+  factoryContract = new Contract(
     factoryAddress,
     artifact.abi,
     wallet
@@ -29,7 +30,7 @@ export const getFactoryContract = async (wallet: ethers.Signer): Promise<ethers.
   return factoryContract;
 };
 
-export const deployFactoryContract = async (signer: ethers.Signer): Promise<string> => {
+export const deployFactoryContract = async (signer: Signer): Promise<string> => {
   const artifactPath = path.resolve(
     __dirname,
     '../../../smart-contracts/TokenLauncher/out/RainbowSuperTokenFactory.sol/RainbowSuperTokenFactory.json'
@@ -46,7 +47,7 @@ export const deployFactoryContract = async (signer: ethers.Signer): Promise<stri
   const swapRouterAddress = '0xE592427A0AEce92De3Edee1F18E0157C05861564';
   const wethAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
 
-  const RainbowSuperTokenFactory = new ethers.ContractFactory(
+  const RainbowSuperTokenFactory = new ContractFactory(
     artifact.abi,
     artifact.bytecode,
     signer

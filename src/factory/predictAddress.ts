@@ -1,13 +1,13 @@
-import { ethers } from 'ethers';
 import { LaunchTokenParams } from '../types';
 import { getFactoryContract } from './utils/getFactoryContract';
+import { HashZero } from '@ethersproject/constants';
 
 export const predictTokenAddress = async (
   params: Omit<LaunchTokenParams, 'amountIn' | 'initialTick'>
 ): Promise<string> => {
   const factory = await getFactoryContract(params.wallet);
   const creator = params.creator || await params.wallet.getAddress();
-  const merkleroot = params.merkleroot ?? ethers.ZeroHash;
+  const merkleroot = params.merkleroot ?? HashZero;
   
   return factory.predictTokenAddress(
     creator,

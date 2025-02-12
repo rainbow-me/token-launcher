@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { Signer } from '@ethersproject/abstract-signer';
 
 export interface RainbowSuperTokenMetadata {
   address: string;
@@ -27,14 +27,13 @@ export interface DeployRainbowSuperTokenRequest {
   name: string;
   symbol: string;
   logoUrl: string;
-  totalSupply: string;
   description: string;
   links: string[];
   creatorAddress: string;
-  airdropMetadata?: {
-    merkleRoot: string;
-    merkleRootId: number;
-  };
+  merkleroot: string;
+  merkle_root_id: string;
+  supply: bigint;
+  tokenUri: string;
 }
 
 export interface DeployRainbowSuperTokenResponse {
@@ -55,7 +54,7 @@ export interface LaunchTokenParams {
   supply: bigint;
   initialTick: number;
   amountIn: bigint;
-  wallet: ethers.Signer;
+  wallet: Signer;
   merkleroot?: string;
   creator?: string;
   salt: string;

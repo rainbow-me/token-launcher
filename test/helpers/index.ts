@@ -1,6 +1,6 @@
-import { ethers } from 'ethers';
 import { spawn, ChildProcess } from 'child_process';
 import { deployFactoryContract } from '../../src/factory/utils/getFactoryContract';
+import { JsonRpcProvider } from '@ethersproject/providers';
 
 let anvilProcess: ChildProcess | null = null;
 
@@ -56,6 +56,6 @@ export const stopAnvil = (): Promise<void> => {
 };
 
 export const deployTokenLauncher = async (): Promise<string> => {
-  const deployer = await new ethers.JsonRpcProvider('http://localhost:8545').getSigner();
+  const deployer = await new JsonRpcProvider('http://localhost:8545').getSigner();
   return deployFactoryContract(deployer);
 };
