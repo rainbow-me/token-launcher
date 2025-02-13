@@ -11,4 +11,4 @@ requiredEnvVars.forEach(envVar => {
   if (!process.env[envVar]) {
     throw new Error(`Required environment variable ${envVar} is not set`);
   }
-}); 
+});

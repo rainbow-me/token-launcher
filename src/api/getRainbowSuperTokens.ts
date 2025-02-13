@@ -8,4 +8,4 @@ export const getRainbowSuperTokens = async (): Promise<GetRainbowSuperTokensResp
     },
   });
   return response.json();
-}; 
+};

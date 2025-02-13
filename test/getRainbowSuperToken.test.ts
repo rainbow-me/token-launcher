@@ -1,7 +1,6 @@
-import { getRainbowSuperTokens, getRainbowSuperTokenByUri } from "../src/api";
+import { getRainbowSuperTokens, getRainbowSuperTokenByUri } from '../src/api';
 
 describe('Get Rainbow Super Tokens', () => {
-
   it('get all rainbow super tokens', async () => {
     const tokens = await getRainbowSuperTokens();
     expect(tokens.data.length).toBeGreaterThan(0);

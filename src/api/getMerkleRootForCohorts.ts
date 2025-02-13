@@ -8,4 +8,4 @@ export const getMerkleRootForCohorts = async (addresses: string[]): Promise<void
     },
     body: JSON.stringify({ addresses }),
   });
-}; 
+};

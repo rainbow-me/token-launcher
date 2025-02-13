@@ -33,7 +33,7 @@ describe('Launch Rainbow Super Token and Buy', () => {
     console.log('creator wallet balance: ', balance);
     expect(balance.gt(BigNumber.from('0'))).toBe(true);
   });
-  
+
   it('should predict token address', async () => {
     const address = await predictTokenAddress({
       name: 'Test Token',
@@ -69,7 +69,9 @@ describe('Launch Rainbow Super Token and Buy', () => {
     expect(receipt?.status).toBe(1);
 
     const event = receipt?.logs.find(
-      log => log.topics[0] === keccak256(toUtf8Bytes('RainbowSuperTokenCreated(address,address,address)'))
+      log =>
+        log.topics[0] ===
+        keccak256(toUtf8Bytes('RainbowSuperTokenCreated(address,address,address)'))
     );
     expect(event).toBeDefined();
 
@@ -83,4 +85,4 @@ describe('Launch Rainbow Super Token and Buy', () => {
     );
     expect(await tokenContract.symbol()).toBe('TEST');
   }, 20000);
-}); 
+});

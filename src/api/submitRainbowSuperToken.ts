@@ -12,4 +12,4 @@ export const submitRainbowSuperToken = async (
     body: JSON.stringify(payload),
   });
   return response.json();
-}; 
+};

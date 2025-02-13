@@ -6,9 +6,9 @@ export const predictTokenAddress = async (
   params: Omit<LaunchTokenParams, 'amountIn' | 'initialTick'>
 ): Promise<string> => {
   const factory = await getFactoryContract(params.wallet);
-  const creator = params.creator || await params.wallet.getAddress();
+  const creator = params.creator || (await params.wallet.getAddress());
   const merkleroot = params.merkleroot ?? HashZero;
-  
+
   return factory.predictTokenAddress(
     creator,
     params.name,
@@ -17,4 +17,4 @@ export const predictTokenAddress = async (
     params.supply,
     params.salt
   );
-}; 
+};

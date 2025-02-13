@@ -6,7 +6,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 let factoryContract: Contract | undefined;
 
 export const getFactoryContract = async (wallet: Signer): Promise<Contract> => {
-  const factoryAddress = process.env.FACTORY_ADDRESS || await deployFactoryContract(wallet);
+  const factoryAddress = process.env.FACTORY_ADDRESS || (await deployFactoryContract(wallet));
 
   if (factoryContract) return factoryContract;
 
@@ -20,12 +20,8 @@ export const getFactoryContract = async (wallet: Signer): Promise<Contract> => {
   }
 
   const artifact = JSON.parse(fs.readFileSync(artifactPath, 'utf-8'));
-  
-  factoryContract = new Contract(
-    factoryAddress,
-    artifact.abi,
-    wallet
-  );
+
+  factoryContract = new Contract(factoryAddress, artifact.abi, wallet);
 
   return factoryContract;
 };
@@ -47,11 +43,7 @@ export const deployFactoryContract = async (signer: Signer): Promise<string> => 
   const swapRouterAddress = '0xE592427A0AEce92De3Edee1F18E0157C05861564';
   const wethAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
 
-  const RainbowSuperTokenFactory = new ContractFactory(
-    artifact.abi,
-    artifact.bytecode,
-    signer
-  );
+  const RainbowSuperTokenFactory = new ContractFactory(artifact.abi, artifact.bytecode, signer);
 
   const factory = await RainbowSuperTokenFactory.deploy(
     uniswapV3FactoryAddress,
@@ -63,4 +55,4 @@ export const deployFactoryContract = async (signer: Signer): Promise<string> => 
 
   await factory.deployed();
   return factory.address;
-}; 
+};

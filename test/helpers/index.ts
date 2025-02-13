@@ -22,7 +22,7 @@ export const startAnvil = (): Promise<void> => {
 
     anvilProcess.unref();
 
-    anvilProcess.on('error', (err) => {
+    anvilProcess.on('error', err => {
       console.error('Failed to start anvil:', err);
       reject(err);
     });
@@ -33,7 +33,7 @@ export const startAnvil = (): Promise<void> => {
 };
 
 export const stopAnvil = (): Promise<void> => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     if (anvilProcess) {
       // Kill the entire process group
       try {
