@@ -56,6 +56,6 @@ export const stopAnvil = (): Promise<void> => {
 };
 
 export const deployTokenLauncher = async (): Promise<string> => {
-  const deployer = await new JsonRpcProvider('http://localhost:8545').getSigner();
+  const deployer = new JsonRpcProvider('http://localhost:8545').getSigner();
   return deployFactoryContract(deployer);
 };

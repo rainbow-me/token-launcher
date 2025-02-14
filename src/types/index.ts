@@ -1,72 +1,41 @@
 import { Signer } from '@ethersproject/abstract-signer';
-import { BigNumberish } from '@ethersproject/bignumber';
-
-export interface DeployRainbowSuperTokenRequest {
-  address: string;
-  chainId: number;
-  name: string;
-  symbol: string;
-  logoUrl: string;
-  description: string;
-  links: string[];
-  creatorAddress: string;
-  merkleroot: string;
-  merkle_root_id: string;
-  totalSupply: BigNumberish;
-  tokenUri: string;
-}
-
-export interface TransactionOptions {
-  gasLimit?: string;
-  maxFeePerGas?: string;
-  maxPriorityFeePerGas?: string;
-  nonce?: string;
-  value?: number | BigNumberish;
-  from?: string;
-}
 
 export interface LaunchTokenParams {
   name: string;
   symbol: string;
-  supply: BigNumberish;
-  initialTick: number;
-  amountIn: BigNumberish;
+  supply: string;
   wallet: Signer;
   merkleroot?: string;
+  initialTick?: number;
+  amountIn?: string;
   creator?: string;
-  salt: string;
-  options?: TransactionOptions;
+  salt?: string;
+  transactionOptions?: TransactionOptions;
 }
 
-export interface AirdropMetadata {
-  merkleRoot: string;
-  merkleRootId: number;
+// Transaction options for gas customization
+export interface TransactionOptions {
+  gasLimit?: string;
+  maxFeePerGas?: string;
+  maxPriorityFeePerGas?: string;
 }
 
-export interface RainbowSuperTokenMetadata {
-  address: string;
-  chainId: number;
-  uri: string;
-  name: string;
-  symbol: string;
-  logoUrl: string;
-  totalSupply: string;
-  description: string;
-  links: string[];
-  creatorAddress: string;
+// Error types
+export interface RainbowError extends Error {
+  code?: string;
+  data?: unknown;
 }
 
-export interface GetRainbowSuperTokensResponse {
-  data: RainbowSuperTokenMetadata[];
-}
-
-export interface GetRainbowSuperTokenResponse {
-  data: RainbowSuperTokenMetadata;
-}
-
-export interface DeployRainbowSuperTokenResponse {
-  data: {
-    tokenUri: string;
-    salt: string;
-  };
-}
+// Re-export API types
+export type {
+  TokenMetadata,
+  AirdropMetadata,
+  DeployRainbowSuperTokenRequest,
+  DeployRainbowSuperTokenResponse,
+  GetRainbowSuperTokenResponse,
+  GetRainbowSuperTokensResponse,
+  GetAirdropSuggestionsResponse,
+  SuggestedUser,
+  PredefinedCohort,
+  PersonalizedCohort,
+} from './api';

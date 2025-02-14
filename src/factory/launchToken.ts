@@ -24,6 +24,7 @@ export const launchRainbowSuperToken = async (
       params.symbol,
       merkleroot,
       params.supply,
+      params.initialTick,
       params.salt,
       creator
     );
@@ -36,9 +37,19 @@ export const launchRainbowSuperToken = async (
       value: 0,
     };
 
-    const estimatedGas = await params.wallet.provider?.estimateGas(payload);
-    const gasBuffer = getGasBuffer();
-    payload.gasLimit = estimatedGas?.mul(BigNumber.from(100 + gasBuffer)).div(BigNumber.from(100));
+    try {
+      if (params.transactionOptions && params.transactionOptions.gasLimit) {
+        payload.gasLimit = params.transactionOptions.gasLimit;
+        payload.maxFeePerGas = params.transactionOptions.maxFeePerGas;
+        payload.maxPriorityFeePerGas = params.transactionOptions.maxPriorityFeePerGas;
+      } else {
+        const estimatedGas = await params.wallet.provider?.estimateGas(payload);
+        const gasBuffer = getGasBuffer();
+        payload.gasLimit = estimatedGas?.mul(BigNumber.from(100 + gasBuffer)).div(BigNumber.from(100));
+      }
+    } catch (error) {
+      console.log('Failed to estimate gas:', error);
+    }
 
     const tx = await params.wallet.sendTransaction(payload);
     return tx;
@@ -75,9 +86,19 @@ export const launchRainbowSuperTokenAndBuy = async (
       value: params.amountIn,
     };
 
-    const estimatedGas = await params.wallet.provider?.estimateGas(payload);
-    const gasBuffer = getGasBuffer();
-    payload.gasLimit = estimatedGas?.mul(BigNumber.from(100 + gasBuffer)).div(BigNumber.from(100));
+    try {
+      if (params.transactionOptions && params.transactionOptions.gasLimit) {
+        payload.gasLimit = params.transactionOptions.gasLimit;
+        payload.maxFeePerGas = params.transactionOptions.maxFeePerGas;
+        payload.maxPriorityFeePerGas = params.transactionOptions.maxPriorityFeePerGas;
+      } else {
+        const estimatedGas = await params.wallet.provider?.estimateGas(payload);
+        const gasBuffer = getGasBuffer();
+        payload.gasLimit = estimatedGas?.mul(BigNumber.from(100 + gasBuffer)).div(BigNumber.from(100));
+      }
+    } catch (error) {
+      console.log('Failed to estimate gas:', error);
+    }
 
     const tx = await params.wallet.sendTransaction(payload);
     return tx;

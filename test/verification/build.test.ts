@@ -4,12 +4,12 @@ import {
   launchRainbowSuperToken,
   getRainbowSuperTokenByUri,
   submitRainbowSuperToken,
-  getMerkleRootForCohorts,
+  getAirdropSuggestions,
 } from '../../dist';
 
 describe('Build Verification', () => {
   it('should export all required functions', () => {
-    expect(typeof getMerkleRootForCohorts).toBe('function');
+    expect(typeof getAirdropSuggestions).toBe('function');
     expect(typeof getRainbowSuperTokens).toBe('function');
     expect(typeof getRainbowSuperTokenByUri).toBe('function');
     expect(typeof submitRainbowSuperToken).toBe('function');

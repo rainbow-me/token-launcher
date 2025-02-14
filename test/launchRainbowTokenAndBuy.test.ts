@@ -3,7 +3,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { Wallet } from '@ethersproject/wallet';
 import { BigNumber } from '@ethersproject/bignumber';
 import { deployTokenLauncher, startAnvil, stopAnvil } from './helpers';
-import { launchRainbowSuperTokenAndBuy, predictTokenAddress } from '../src/factory';
+import { launchRainbowSuperToken, launchRainbowSuperTokenAndBuy, predictTokenAddress } from '../src/factory';
 import { WALLET_VARS } from './references';
 import { HashZero } from '@ethersproject/constants';
 import { isAddress } from '@ethersproject/address';
@@ -11,6 +11,8 @@ import { Contract } from '@ethersproject/contracts';
 import { hexDataSlice } from '@ethersproject/bytes';
 import { keccak256 } from '@ethersproject/keccak256';
 import { toUtf8Bytes } from '@ethersproject/strings';
+import { findValidSalt } from './helpers/findValidSalt';
+import { getFactoryContract } from '../src/factory/utils/getFactoryContract';
 
 describe('Launch Rainbow Super Token and Buy', () => {
   let provider: JsonRpcProvider;
@@ -59,7 +61,7 @@ describe('Launch Rainbow Super Token and Buy', () => {
       wallet,
       merkleroot: HashZero,
       creator: WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS,
-      salt: HashZero,
+      salt: (await findValidSalt(await getFactoryContract(wallet), WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS, 'Test Token', 'TEST', HashZero, '1000000000000000000000')).salt,
     });
 
     console.log('Transaction submitted, waiting for confirmation...');
@@ -72,6 +74,40 @@ describe('Launch Rainbow Super Token and Buy', () => {
       log =>
         log.topics[0] ===
         keccak256(toUtf8Bytes('RainbowSuperTokenCreated(address,address,address)'))
+    );
+    expect(event).toBeDefined();
+
+    const tokenAddress = hexDataSlice(event!.topics[1], 12);
+    expect(isAddress(tokenAddress)).toBe(true);
+
+    const tokenContract = new Contract(
+      tokenAddress,
+      ['function symbol() view returns (string)'],
+      provider
+    );
+    expect(await tokenContract.symbol()).toBe('TEST');
+  }, 20000);
+  
+  it('should launch a rainbow super token', async () => {
+    const tx = await launchRainbowSuperToken({
+      name: 'Test Token',
+      symbol: 'TEST',
+      supply: '1000000000000000000000',
+      wallet,
+      merkleroot: HashZero,
+      creator: WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS,
+      salt: HashZero,
+      initialTick: 200,
+    });
+
+    console.log('Transaction submitted, waiting for confirmation...');
+
+    const receipt = await provider.waitForTransaction(tx.hash);
+    console.log('Transaction confirmed in block:', receipt.blockNumber);
+    expect(receipt.status).toBe(1);
+
+    const event = receipt.logs.find(
+      log => log.topics[0] === keccak256(toUtf8Bytes('RainbowSuperTokenCreated(address,address,address)'))
     );
     expect(event).toBeDefined();
 
