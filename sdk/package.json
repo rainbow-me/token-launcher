@@ -1,0 +1,70 @@
+{
+  "name": "@rainbow-me/token-launcher",
+  "version": "0.1.0",
+  "license": "GPL-3.0",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "dotenv": "^16.4.7",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "@ethereumjs/util": "9.0.0",
+    "@ethersproject/abi": "5.7.0",
+    "@ethersproject/abstract-signer": "5.7.0",
+    "@ethersproject/bignumber": "5.7.0",
+    "@ethersproject/bytes": "5.7.0",
+    "@ethersproject/contracts": "5.7.0",
+    "@ethersproject/keccak256": "5.7.0",
+    "@ethersproject/providers": "5.7.0",
+    "@ethersproject/random": "5.7.0",
+    "@ethersproject/solidity": "5.7.0",
+    "@ethersproject/strings": "5.7.0",
+    "@ethersproject/transactions": "5.7.0",
+    "@ethersproject/units": "5.7.0",
+    "@ethersproject/wallet": "5.7.0",
+    "@metamask/eth-sig-util": "7.0.0"
+  },
+  "author": "Christopher Howard",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rm -rf dist",
+    "build:clean": "yarn clean && yarn build",
+    "prepublishOnly": "yarn build:clean",
+    "prepare": "yarn build",
+    "pretest": "grep -v '^IS_TESTING=' .env > .env.tmp 2>/dev/null || true; echo 'IS_TESTING=true' >> .env.tmp; mv .env.tmp .env",
+    "test": "./scripts/test.sh",
+    "lint": "eslint '**/*.{js,ts}'",
+    "format:check": "prettier --check '**/*.{js,ts,json,md}'",
+    "format:fix": "prettier --write '**/*.{js,ts,json,md}'",
+    "clean": "rm -rf dist"
+  },
+  "jest": {
+    "rootDir": ".",
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "<rootDir>/test/helpers/setupTestEnv.ts"
+    ]
+  },
+  "sideEffects": false
+} 
