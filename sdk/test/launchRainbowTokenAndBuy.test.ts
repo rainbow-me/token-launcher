@@ -65,7 +65,7 @@ describe('Launch Rainbow Super Token and Buy', () => {
     console.log('Transaction confirmed in block:', receipt?.blockNumber);
     expect(receipt?.status).toBe(1);
   }, 20000);
-  
+   
   it('should launch a rainbow super token', async () => {
     const txParams = {
       name: "Api Test Submission Number 3",
@@ -75,6 +75,7 @@ describe('Launch Rainbow Super Token and Buy', () => {
       initialTick: 200,
       wallet,
       creator: wallet.address,
+      links: [],
       merkleroot: HashZero,
       transactionOptions: {
         gasLimit: '8000000',

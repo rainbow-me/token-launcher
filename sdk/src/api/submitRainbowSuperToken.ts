@@ -4,12 +4,11 @@ import { DeployRainbowSuperTokenRequest, DeployRainbowSuperTokenResponse } from 
 export const submitRainbowSuperToken = async (
   payload: DeployRainbowSuperTokenRequest
 ): Promise<DeployRainbowSuperTokenResponse> => {
-  const response = await rainbowFetch(`${process.env.API_URL_DEV}/v1/token`, {
+  return await rainbowFetch<DeployRainbowSuperTokenResponse>(`https://token-launcher-api.rainbowdotme.workers.dev/v1/token`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
   });
-  return response.json();
 };

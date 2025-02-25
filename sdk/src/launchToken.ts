@@ -129,6 +129,7 @@ const getRainbowSuperTokenSubmissionDetails = async (
     description: params.description || 'This is a test token.',
     links: params.links || [],
     creatorAddress: creator,
+    airdropMetadata: params.airdropMetadata,
   };
 
   try {

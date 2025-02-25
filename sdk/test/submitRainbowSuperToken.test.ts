@@ -1,22 +1,18 @@
 import { submitRainbowSuperToken } from '../src/api';
 
 describe('submitRainbowSuperToken', () => {
-  it.skip('should submit token metadata and receive deployment info', async () => {
+  it('should submit token metadata and receive deployment info', async () => {
+    // {"chainId": 73571, "creatorAddress": "0x38AF5a9117142F12F81246C595d9961b932bf367", "description": "This is a test.", "links": [], "logoUrl": "https://picsum.photos/200/300", "name": "Integration Test", "symbol": "SDK", "totalSupply": "1000000000000000000000000000"}
     const request = {
       chainId: 73571,
-      name: 'Test Token',
-      symbol: 'TEST',
-      logoUrl: 'https://example.com/logo.png',
-      totalSupply: '1000000000000000000000',
-      description: 'A test token',
-      links: ['https://example.com'],
-      creatorAddress: '0x1234567890123456789012345678901234567890',
-      airdropMetadata: {
-        cohortIds: ['cohort1'],
-        addresses: ['0x1234567890123456789012345678901234567890']
-      }
+      name: 'Integration Test',
+      symbol: 'SDK',
+      logoUrl: 'https://picsum.photos/200/300',
+      totalSupply: '1000000000000000000000000000',
+      description: 'This is a test.',
+      links: [],
+      creatorAddress: '0x38AF5a9117142F12F81246C595d9961b932bf367',
     };
-
     const response = await submitRainbowSuperToken(request);
 
     // Verify response structure

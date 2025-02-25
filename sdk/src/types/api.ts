@@ -1,3 +1,8 @@
+export interface AirdropMetadata {
+  cohortIds: string[];
+  addresses: string[];
+}
+
 export interface TokenMetadata {
   chainId: number;
   name: string;
@@ -7,11 +12,6 @@ export interface TokenMetadata {
   description: string;
   links: string[];
   creatorAddress: string;
-}
-
-export interface AirdropMetadata {
-  cohortIds: string[];
-  addresses: string[];
 }
 
 export interface DeployRainbowSuperTokenRequest extends TokenMetadata {
@@ -46,13 +46,13 @@ export interface CohortIcons {
 
 export interface PredefinedCohort {
   id: string;
-  Name: string;
+  name: string;
   icons: CohortIcons;
   totalUsers: number;
 }
 
 export interface PersonalizedCohort {
-  Name: string;
+  name: string;
   icons: CohortIcons;
   totalUsers: number;
   addresses: SuggestedUser[];

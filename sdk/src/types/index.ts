@@ -1,4 +1,5 @@
 import { Wallet } from '@ethersproject/wallet';
+import { AirdropMetadata } from './api';
 
 export interface LaunchTokenParams {
   name: string;
@@ -12,6 +13,7 @@ export interface LaunchTokenParams {
   logoUrl?: string;
   description?: string;
   links?: string[];
+  airdropMetadata?: AirdropMetadata;
 }
 
 // Transaction options for gas customization
