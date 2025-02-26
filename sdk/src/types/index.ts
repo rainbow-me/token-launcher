@@ -1,6 +1,27 @@
 import { Wallet } from '@ethersproject/wallet';
 import { AirdropMetadata } from './api';
 
+export type SupportedNetwork = {
+  chainId: number;
+  contractAddress: string;
+};
+
+export interface SDKConfig {
+  // api urls
+  API_URL_DEV?: string;
+  API_URL_PROD?: string;
+
+  // api keys
+  API_KEY_DEV?: string;
+  API_KEY_PROD?: string;
+
+  // supported networks
+  SUPPORTED_NETWORKS?: SupportedNetwork[];
+
+  // modes
+  MODE?: 'jest' | 'development' | 'production';
+}
+
 export interface LaunchTokenParams {
   name: string;
   symbol: string;
@@ -12,7 +33,7 @@ export interface LaunchTokenParams {
   transactionOptions?: TransactionOptions;
   logoUrl?: string;
   description?: string;
-  links?: string[];
+  links?: Record<string, string>;
   airdropMetadata?: AirdropMetadata;
 }
 
@@ -42,3 +63,14 @@ export type {
   PredefinedCohort,
   PersonalizedCohort,
 } from './api';
+
+export class RainbowFetchError extends Error {
+  constructor(
+    message: string,
+    public status: number,
+    public details: string
+  ) {
+    super(message)
+    this.name = 'RainbowFetchError'
+  }
+}

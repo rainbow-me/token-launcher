@@ -10,7 +10,7 @@ describe('submitRainbowSuperToken', () => {
       logoUrl: 'https://picsum.photos/200/300',
       totalSupply: '1000000000000000000000000000',
       description: 'This is a test.',
-      links: [],
+      links: {},
       creatorAddress: '0x38AF5a9117142F12F81246C595d9961b932bf367',
     };
     const response = await submitRainbowSuperToken(request);

@@ -4,17 +4,19 @@ import { TransactionRequest, TransactionResponse } from '@ethersproject/provider
 import { HashZero } from '@ethersproject/constants';
 import { submitRainbowSuperToken } from './api';
 import { findValidSalt } from './utils/findValidSalt';
+import { SDKConfig } from './index';
 
 export const launchRainbowSuperToken = async (
-  params: LaunchTokenParams
+  params: LaunchTokenParams,
+  config: SDKConfig
 ): Promise<TransactionResponse> => {
   try {
-    const factory = await getRainbowSuperTokenFactory(params.wallet);
+    const factory = await getRainbowSuperTokenFactory(params.wallet, config);
     const creator = params.creator || (await params.wallet.getAddress());
 
     let enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string } = params;
     if (process.env.IS_TESTING !== 'true') {
-      const submissionDetails = await getRainbowSuperTokenSubmissionDetails(params);
+      const submissionDetails = await getRainbowSuperTokenSubmissionDetails(params, config);
       enrichedParams = {
         ...params,
         merkleRoot: submissionDetails.merkleRoot ?? HashZero,
@@ -61,14 +63,15 @@ export const launchRainbowSuperToken = async (
 };
 
 export const launchRainbowSuperTokenAndBuy = async (
-  params: LaunchTokenParams
+  params: LaunchTokenParams,
+  config: SDKConfig
 ): Promise<TransactionResponse> => {
   try {
-    const factory = await getRainbowSuperTokenFactory(params.wallet);
+    const factory = await getRainbowSuperTokenFactory(params.wallet, config);
     const creator = params.creator || (await params.wallet.getAddress());
     let enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string } = params;
     if (process.env.IS_TESTING !== 'true') {
-      const submissionDetails = await getRainbowSuperTokenSubmissionDetails(params);
+      const submissionDetails = await getRainbowSuperTokenSubmissionDetails(params, config);
       enrichedParams = {
         ...params,
         merkleRoot: submissionDetails.merkleRoot ?? HashZero,
@@ -116,7 +119,8 @@ export const launchRainbowSuperTokenAndBuy = async (
 };
 
 const getRainbowSuperTokenSubmissionDetails = async (
-  params: LaunchTokenParams
+  params: LaunchTokenParams,
+  config: SDKConfig
 ): Promise<DeployRainbowSuperTokenResponse['data']> => {
   const creator = params.creator || (await params.wallet.getAddress());
   const chainId = await params.wallet.getChainId();
@@ -127,13 +131,13 @@ const getRainbowSuperTokenSubmissionDetails = async (
     logoUrl: params.logoUrl || 'http://example.com/logo.png',
     totalSupply: params.supply,
     description: params.description || 'This is a test token.',
-    links: params.links || [],
+    links: params.links || {},
     creatorAddress: creator,
     airdropMetadata: params.airdropMetadata,
   };
 
   try {
-    const submissionDetails = await submitRainbowSuperToken(submissionDetailParams);
+    const submissionDetails = await submitRainbowSuperToken(submissionDetailParams, config);
     if (!submissionDetails.data) {
       throw new Error(`No submission details returned for params: ${JSON.stringify(submissionDetailParams)}`);
     }

@@ -1,39 +1,47 @@
-export class RainbowFetchError extends Error {
-  constructor(
-    message: string,
-    public url: string,
-    public status?: number,
-    public body?: unknown
-  ) {
-    super(message);
-    this.name = 'RainbowFetchError';
-  }
-}
+import { RainbowFetchError } from '../../types'
 
-export async function rainbowFetch<T>(
-  url: string, 
-  options: RequestInit = {}
-): Promise<T> {
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+/**
+ * Wrapper for fetch with improved error handling and logging
+ */
+export async function rainbowFetch(input: RequestInfo | URL, init?: RequestInit) {
+  // TODO: remove this
+  console.log('Rainbow API Request:', {
+    url: typeof input === 'string' ? input : input.toString(),
+    method: init?.method || 'GET',
+    headers: init?.headers,
+    body: init?.body ? JSON.parse(init.body.toString()) : undefined
+  })
 
-  const data = await response.json();
-
+  const response = await fetch(input, init)
+  
+  // TODO: remove this
+  console.log('Rainbow API Response:', {
+    status: response.status,
+    statusText: response.statusText,
+    headers: Object.fromEntries(response.headers.entries())
+  })
+  
   if (!response.ok) {
+    const errorBody = await response.text()
+    console.error('Rainbow API Error:', {
+      status: response.status,
+      statusText: response.statusText,
+      details: errorBody
+    })
+
     throw new RainbowFetchError(
-      `HTTP error ${response.status}`,
-      url,
+      `HTTP error ${response.status}: ${response.statusText}\nDetails: ${errorBody}`,
       response.status,
-      data
-    );
+      errorBody
+    )
   }
 
-  return data;
+  const responseData = await response.json()
+
+  // TODO: remove this
+  console.log('Rainbow API Success:', responseData)
+
+  return responseData
 }
 
 /**
@@ -42,11 +50,11 @@ export async function rainbowFetch<T>(
 export function createRainbowHeaders(authToken?: string): HeadersInit {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
-  };
-
-  if (authToken) {
-    headers['Authorization'] = `Bearer ${authToken}`;
   }
 
-  return headers;
+  if (authToken) {
+    headers['Authorization'] = `Bearer ${authToken}`
+  }
+
+  return headers
 }

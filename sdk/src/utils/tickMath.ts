@@ -2,7 +2,8 @@
 
 import JSBI from 'jsbi'
 import invariant from 'tiny-invariant'
-
+import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
+import { parseUnits } from '@ethersproject/units'
 export const ZERO = JSBI.BigInt(0)
 export const ONE = JSBI.BigInt(1)
 export const TWO = JSBI.BigInt(2)
@@ -153,21 +154,50 @@ export function alignTick(tick: number, tickSpacing: number): number {
 }
 
 /**
- * Calculates the initial tick for a given price
- * @param price The desired price ratio
- * @param tickSpacing The spacing between ticks
- * @returns The nearest valid tick for the price
+ * Babylonian square root using BigInt.
  */
-export function priceToInitialTick(price: number, tickSpacing: number): number {
-  const sqrtPriceX96 = encodePriceToX96(price)
-  const tick = TickMath.getTickAtSqrtRatio(sqrtPriceX96)
-  return Math.round(tick / tickSpacing) * tickSpacing
-}
+function sqrt(value: bigint): bigint {
+    if (value < 0n) throw new Error("Square root of negative numbers is not supported");
+    if (value < 2n) return value;
+    let x0 = value;
+    let x1 = (x0 + value / x0) >> 1n;
+    while (x1 < x0) {
+      x0 = x1;
+      x1 = (x0 + value / x0) >> 1n;
+    }
+    return x0;
+  }
 
-function encodePriceToX96(price: number): JSBI {
-  const sqrtPrice = Math.sqrt(price)
-  return JSBI.multiply(
-    JSBI.BigInt(Math.floor(sqrtPrice * 2 ** 48)), 
-    JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(48))
-  )
-}
+/**
+ * Encodes the token price (in fixed-point 1e18 format) into the Q96 sqrt price.
+ *
+ * We want:
+ *   sqrtPriceX96 = floor( sqrt(price/1e18) * 2^96 )
+ *
+ * Because sqrt(price/1e18) = sqrt(price)/1e9 (since sqrt(1e18) = 1e9),
+ * we can compute it entirely with integer math as:
+ *
+ *   sqrtPriceX96 = floor( sqrt(price * 2^192) / 1e9 )
+ */
+function encodePriceToX96(price: BigNumber): JSBI {
+    const P: bigint = price.toBigInt();
+    const shifted: bigint = P * (2n ** 192n);
+    const sqrtShifted: bigint = sqrt(shifted); // equals floor( sqrt(P)*2^96 )
+    const result: bigint = sqrtShifted / 1000000000n; // divide by 1e9
+    return JSBI.BigInt(result.toString());
+  }
+  
+  /**
+   * Converts a token price (in fixed-point 1e18 format) to the nearest valid tick.
+   *
+   * @param price The token price (1e18 fixed-point).
+   * @param tickSpacing The spacing between valid ticks.
+   * @returns The nearest valid tick.
+   */
+  export function priceToInitialTick(price: BigNumberish, tickSpacing: number): number {
+    const priceBN = BigNumber.from(price);
+    const sqrtPriceX96 = encodePriceToX96(priceBN);
+    const tick = TickMath.getTickAtSqrtRatio(sqrtPriceX96);
+    // Align tick to the spacing.
+    return Math.round(tick / tickSpacing) * tickSpacing;
+  }

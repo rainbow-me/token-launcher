@@ -10,7 +10,7 @@ export interface TokenMetadata {
   logoUrl: string;
   totalSupply: string;
   description: string;
-  links: string[];
+  links: Record<string, string>;
   creatorAddress: string;
 }
 
@@ -76,7 +76,7 @@ export interface GetRainbowSuperTokenResponse {
     logoUrl: string;
     totalSupply: string;
     description: string;
-    links: string[];
+    links: Record<string, string>;
     creatorAddress: string;
     merkleRoot?: string;
   };

@@ -1,12 +1,26 @@
 import { rainbowFetch } from './utils/rainbowFetch';
-import { GetRainbowSuperTokenResponse } from '../types';
+import { GetRainbowSuperTokenResponse, SDKConfig } from '../types';
 
 export const getRainbowSuperTokenByUri = async (
-  tokenUri: string
+  tokenUri: string,
+  config: SDKConfig
 ): Promise<GetRainbowSuperTokenResponse> => {
-  return await rainbowFetch<GetRainbowSuperTokenResponse>(`https://token-launcher-api.rainbowdotme.workers.dev/v1/token/${tokenUri}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  let url;
+  let headers: HeadersInit = {
+    'Content-Type': 'application/json',
+  };
+  switch (config.MODE) {
+    case 'jest':
+    case 'development':
+      url = config.API_URL_DEV || process.env.API_URL_DEV;
+      break;
+    case 'production':
+      url = config.API_URL_PROD || process.env.API_URL_PROD;
+      break;
+    default:
+      throw new Error('Invalid mode');
+  }
+  return await rainbowFetch(`${url}/v1/tokens/${tokenUri}`, {
+    headers,
   });
 };

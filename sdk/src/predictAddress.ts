@@ -1,6 +1,7 @@
 import { Wallet } from '@ethersproject/wallet';
 import { getRainbowSuperTokenFactory } from './utils/getRainbowSuperTokenFactory';
 import { HashZero } from '@ethersproject/constants';
+import { SDKConfig } from './types';
 
 export const predictTokenAddress = async (
   params: {
@@ -11,9 +12,10 @@ export const predictTokenAddress = async (
     name: string;
     symbol: string;
     supply: string;
-  }
+  },
+  config: SDKConfig
 ): Promise<string> => {
-  const factory = await getRainbowSuperTokenFactory(params.wallet);
+  const factory = await getRainbowSuperTokenFactory(params.wallet, config);
   const creator = params.creator || (await params.wallet.getAddress());
   const merkleroot = params.merkleroot ?? HashZero;
 
