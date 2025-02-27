@@ -1,51 +1,57 @@
 import { BigNumberish } from '@ethersproject/bignumber'
-import { TransactionResponse } from '@ethersproject/abstract-provider'
-import { LaunchTokenParams, SDKConfig } from './types'
+import { GetAirdropSuggestionsResponse, GetRainbowSuperTokenResponse, GetRainbowSuperTokensResponse, LaunchTokenParams, SDKConfig, LaunchTokenResponse } from './types'
 import { getInitialTick } from './getInitialTick'
 import { launchRainbowSuperToken, launchRainbowSuperTokenAndBuy } from './launchToken'
+import { getAirdropSuggestions, getRainbowSuperTokenByUri, getRainbowSuperTokens } from './api'
 
 class RainbowSDK {
-  private static instance: RainbowSDK
-  private config: SDKConfig = {}
+  private static instance: RainbowSDK;
+  private config: SDKConfig = {};
 
   public static getInstance(): RainbowSDK {
     if (!RainbowSDK.instance) {
-      RainbowSDK.instance = new RainbowSDK()
+      RainbowSDK.instance = new RainbowSDK();
     }
-    return RainbowSDK.instance
+    return RainbowSDK.instance;
   }
 
   public configure(config: SDKConfig): void {
-    this.config = { ...this.config, ...config }
+    this.config = { ...this.config, ...config };
   }
 
   public getConfig(): SDKConfig {
-    return { ...this.config }
+    return { ...this.config };
   }
 
   public getInitialTick(tokenPrice: BigNumberish): number {
-    return getInitialTick(tokenPrice)
+    return getInitialTick(tokenPrice);
   }
 
-  public async launchToken(params: LaunchTokenParams): Promise<TransactionResponse> {
-    return launchRainbowSuperToken(params, this.config)
+  public async launchToken(params: LaunchTokenParams): Promise<LaunchTokenResponse> {
+    return launchRainbowSuperToken(params, this.config);
   }
 
-  public async launchTokenAndBuy(params: LaunchTokenParams): Promise<TransactionResponse> {
-    return launchRainbowSuperTokenAndBuy(params, this.config)
+  public async launchTokenAndBuy(params: LaunchTokenParams): Promise<LaunchTokenResponse> {
+    return launchRainbowSuperTokenAndBuy(params, this.config);
+  }
+
+  public async getAirdropSuggestions(address: string): Promise<GetAirdropSuggestionsResponse> {
+    return getAirdropSuggestions(address);
+  }
+
+  public async getRainbowSuperTokens(): Promise<GetRainbowSuperTokensResponse> {
+    return getRainbowSuperTokens(this.config);
+  }
+
+  public async getRainbowSuperTokenByUri(uri: string): Promise<GetRainbowSuperTokenResponse> {
+    return getRainbowSuperTokenByUri(uri, this.config);
   }
 }
 
 // Export singleton instance
 export const TokenLauncher = RainbowSDK.getInstance()
 
-export * from './launchToken';
-export * from './predictAddress';
-export * from './types';
-export * from './api';
-export * from './api/utils/rainbowFetch';
-export * from './getInitialTick';
-
+// Export types
 export type {
   TokenMetadata,
   AirdropMetadata,
@@ -58,4 +64,6 @@ export type {
   DeployRainbowSuperTokenRequest,
   DeployRainbowSuperTokenResponse,
   LaunchTokenParams,
+  LaunchTokenResponse,
+  SDKConfig,
 } from './types';

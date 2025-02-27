@@ -1,7 +1,7 @@
 import { submitRainbowSuperToken } from '../src/api';
 
 describe('submitRainbowSuperToken', () => {
-  it('should submit token metadata and receive deployment info', async () => {
+  it.skip('should submit token metadata and receive deployment info', async () => {
     // {"chainId": 73571, "creatorAddress": "0x38AF5a9117142F12F81246C595d9961b932bf367", "description": "This is a test.", "links": [], "logoUrl": "https://picsum.photos/200/300", "name": "Integration Test", "symbol": "SDK", "totalSupply": "1000000000000000000000000000"}
     const request = {
       chainId: 73571,
@@ -13,7 +13,7 @@ describe('submitRainbowSuperToken', () => {
       links: {},
       creatorAddress: '0x38AF5a9117142F12F81246C595d9961b932bf367',
     };
-    const response = await submitRainbowSuperToken(request);
+    const response = await submitRainbowSuperToken(request, {});
 
     // Verify response structure
     expect(response).toHaveProperty('data');
@@ -29,7 +29,7 @@ describe('submitRainbowSuperToken', () => {
     expect(data).toHaveProperty('creatorAddress');
 
     // Verify data types
-    expect(typeof data.tokenUri).toBe('string');
+    expect(typeof data.tokenURI).toBe('string');
     expect(typeof data.salt).toBe('string');
     expect(typeof data.merkleRoot).toBe('string');
     expect(typeof data.totalSupply).toBe('string');

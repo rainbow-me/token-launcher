@@ -1,4 +1,5 @@
 import { Wallet } from '@ethersproject/wallet';
+import { TransactionResponse } from '@ethersproject/providers';
 import { AirdropMetadata } from './api';
 
 export type SupportedNetwork = {
@@ -35,6 +36,12 @@ export interface LaunchTokenParams {
   description?: string;
   links?: Record<string, string>;
   airdropMetadata?: AirdropMetadata;
+}
+
+export interface LaunchTokenResponse {
+  transaction: TransactionResponse;
+  tokenUri: string;
+  tokenAddress: string;
 }
 
 // Transaction options for gas customization

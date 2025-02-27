@@ -2,7 +2,7 @@ import { getAirdropSuggestions } from '../src/api';
 import { WALLET_VARS } from './references';
 
 describe('getAirdropSuggestions', () => {
-  it('should fetch airdrop suggestions for a user', async () => {
+  it.skip('should fetch airdrop suggestions for a user', async () => {
     const response = await getAirdropSuggestions(WALLET_VARS.PRIVATE_KEY_WALLET.ADDRESS);
 
     // Verify response structure

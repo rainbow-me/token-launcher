@@ -20,13 +20,29 @@ export interface DeployRainbowSuperTokenRequest extends TokenMetadata {
 
 export interface DeployRainbowSuperTokenResponse {
   data: {
-    tokenUri: string;
+    tokenURI: string;
     salt: string;
     merkleRoot: string;
     totalSupply: string;
     name: string;
     symbol: string;
     creatorAddress: string;
+    token: {
+      address: string;
+      chainId: number;
+      decimals: number;
+      name: string;
+      symbol: string;
+      logoUrl: string;
+      totalSupply: string;
+      description: string;
+      links: Record<string, string>;
+      version: string;
+      status: string;
+      creatorAddress: string;
+      tokenUri: string;
+      merkleRoot: string;
+  };
   };
 }
 

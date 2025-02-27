@@ -15,10 +15,10 @@
 //     const nonfungiblePositionManagerAddress = '0xC36442b4a4522E871399CD717aBDD847Ab11FE88';
 //     const swapRouterAddress = '0xE592427A0AEce92De3Edee1F18E0157C05861564';
 //     const wethAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
-//     const baseTokenURI = 'https://launcher.rainbow.me/v1/token';
+//     const baseTokenURI = 'https://launcher.rainbow.me/v1/tokens/';
 
 //     // Hardcode the Tenderly virtual testnet RPC URL
-//     const tenderlyRpcUrl = 'https://virtual.mainnet.rpc.tenderly.co/9833b31c-b57c-483a-879f-4fae648e2054';
+//     const tenderlyRpcUrl = 'https://virtual.mainnet.rpc.tenderly.co/4c05b3f5-d9a6-46f0-b221-6c0290eb1783';
 //     const provider = new JsonRpcProvider(tenderlyRpcUrl);
 
 //     // Verify provider connection by fetching network info

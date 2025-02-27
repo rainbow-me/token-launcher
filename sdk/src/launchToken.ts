@@ -1,22 +1,25 @@
-import { DeployRainbowSuperTokenResponse, LaunchTokenParams } from './types';
+import { DeployRainbowSuperTokenResponse, LaunchTokenParams, SDKConfig, LaunchTokenResponse } from './types';
 import { getRainbowSuperTokenFactory } from './utils/getRainbowSuperTokenFactory';
 import { TransactionRequest, TransactionResponse } from '@ethersproject/providers';
 import { HashZero } from '@ethersproject/constants';
 import { submitRainbowSuperToken } from './api';
 import { findValidSalt } from './utils/findValidSalt';
-import { SDKConfig } from './index';
 
 export const launchRainbowSuperToken = async (
   params: LaunchTokenParams,
   config: SDKConfig
-): Promise<TransactionResponse> => {
+): Promise<LaunchTokenResponse> => {
   try {
     const factory = await getRainbowSuperTokenFactory(params.wallet, config);
     const creator = params.creator || (await params.wallet.getAddress());
 
     let enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string } = params;
+    let tokenUri = '';
+    let tokenAddress = '';
     if (process.env.IS_TESTING !== 'true') {
       const submissionDetails = await getRainbowSuperTokenSubmissionDetails(params, config);
+      tokenUri = submissionDetails.tokenURI;
+      tokenAddress = submissionDetails.token.address;
       enrichedParams = {
         ...params,
         merkleRoot: submissionDetails.merkleRoot ?? HashZero,
@@ -54,8 +57,12 @@ export const launchRainbowSuperToken = async (
       payload.maxFeePerGas = params.transactionOptions.maxFeePerGas;
       payload.maxPriorityFeePerGas = params.transactionOptions.maxPriorityFeePerGas;
     } 
-      const tx = await params.wallet.sendTransaction(payload);
-      return tx;
+    const tx = await params.wallet.sendTransaction(payload);
+    return {
+      transaction: tx,
+      tokenUri,
+      tokenAddress,
+    };
   } catch (error) {
     console.error('Error in launchRainbowSuperToken:', error);
     throw error;
@@ -65,13 +72,17 @@ export const launchRainbowSuperToken = async (
 export const launchRainbowSuperTokenAndBuy = async (
   params: LaunchTokenParams,
   config: SDKConfig
-): Promise<TransactionResponse> => {
+): Promise<LaunchTokenResponse> => {
   try {
     const factory = await getRainbowSuperTokenFactory(params.wallet, config);
     const creator = params.creator || (await params.wallet.getAddress());
     let enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string } = params;
+    let tokenUri = '';
+    let tokenAddress = '';
     if (process.env.IS_TESTING !== 'true') {
       const submissionDetails = await getRainbowSuperTokenSubmissionDetails(params, config);
+      tokenUri = submissionDetails.tokenURI;
+      tokenAddress = submissionDetails.token.address;
       enrichedParams = {
         ...params,
         merkleRoot: submissionDetails.merkleRoot ?? HashZero,
@@ -111,7 +122,11 @@ export const launchRainbowSuperTokenAndBuy = async (
     }
 
     const tx = await params.wallet.sendTransaction(payload);
-    return tx;
+    return {
+      transaction: tx,
+      tokenUri,
+      tokenAddress,
+    };
   } catch (error) {
     console.error('Error in launchRainbowSuperTokenAndBuy:', error);
     throw error;

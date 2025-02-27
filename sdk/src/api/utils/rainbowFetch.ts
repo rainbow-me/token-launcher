@@ -23,7 +23,7 @@ export async function rainbowFetch(input: RequestInfo | URL, init?: RequestInit)
   
   if (!response.ok) {
     const errorBody = await response.text()
-    console.error('Rainbow API Error:', {
+    console.log('Rainbow API Error:', {
       status: response.status,
       statusText: response.statusText,
       details: errorBody
