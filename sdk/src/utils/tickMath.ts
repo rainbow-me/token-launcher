@@ -3,7 +3,6 @@
 import JSBI from 'jsbi'
 import invariant from 'tiny-invariant'
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
-import { parseUnits } from '@ethersproject/units'
 export const ZERO = JSBI.BigInt(0)
 export const ONE = JSBI.BigInt(1)
 export const TWO = JSBI.BigInt(2)
@@ -179,13 +178,13 @@ function sqrt(value: bigint): bigint {
  *
  *   sqrtPriceX96 = floor( sqrt(price * 2^192) / 1e9 )
  */
-function encodePriceToX96(price: BigNumber): JSBI {
+export function encodePriceToX96(price: BigNumber): JSBI {
     const P: bigint = price.toBigInt();
     const shifted: bigint = P * (2n ** 192n);
     const sqrtShifted: bigint = sqrt(shifted); // equals floor( sqrt(P)*2^96 )
     const result: bigint = sqrtShifted / 1000000000n; // divide by 1e9
     return JSBI.BigInt(result.toString());
-  }
+}
   
   /**
    * Converts a token price (in fixed-point 1e18 format) to the nearest valid tick.

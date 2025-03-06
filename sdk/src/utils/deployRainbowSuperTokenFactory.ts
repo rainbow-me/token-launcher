@@ -11,14 +11,14 @@
 
 // async function deployFactoryOnVirtualTestnet(): Promise<string> {
 //     // Hardcoded constructor parameters (mainnet values)
-//     const uniswapV3FactoryAddress = '0x1F98431c8aD98523631AE4a59f267346ea31F984';
-//     const nonfungiblePositionManagerAddress = '0xC36442b4a4522E871399CD717aBDD847Ab11FE88';
-//     const swapRouterAddress = '0xE592427A0AEce92De3Edee1F18E0157C05861564';
-//     const wethAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
+//     const uniswapV3FactoryAddress = '0x640887A9ba3A9C53Ed27D0F7e8246A4F933f3424';
+//     const nonfungiblePositionManagerAddress = '0xC0836E5B058BBE22ae2266e1AC488A1A0fD8DCE8';
+//     const swapRouterAddress = '0x177778F19E89dD1012BdBe603F144088A95C4B53';
+//     const wethAddress = '0x4200000000000000000000000000000000000006';
 //     const baseTokenURI = 'https://launcher.rainbow.me/v1/tokens/';
 
 //     // Hardcode the Tenderly virtual testnet RPC URL
-//     const tenderlyRpcUrl = 'https://virtual.mainnet.rpc.tenderly.co/4c05b3f5-d9a6-46f0-b221-6c0290eb1783';
+//     const tenderlyRpcUrl = 'https://virtual.ink.rpc.tenderly.co/fa79833f-f555-475d-8618-666d06a4e3a7';
 //     const provider = new JsonRpcProvider(tenderlyRpcUrl);
 
 //     // Verify provider connection by fetching network info

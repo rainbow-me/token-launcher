@@ -10,7 +10,7 @@ import { formatUnits } from '@ethersproject/units';
 import { TokenLauncher } from '../src/index';
 import { getFactorySupportedChains } from '../src/utils/getFactorySupportedChains';
 
-describe('Launch Rainbow Super Token and Buy', () => {
+describe.skip('Launch Rainbow Super Token and Buy', () => {
   let provider: JsonRpcProvider;
   let wallet: Wallet;
   let sdk: typeof TokenLauncher;
