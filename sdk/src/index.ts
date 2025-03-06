@@ -3,7 +3,7 @@ import { launchRainbowSuperToken, launchRainbowSuperTokenAndBuy } from './launch
 import { getAirdropSuggestions, getRainbowSuperTokenByUri, getRainbowSuperTokens } from './api'
 import { calculateTokenomics, TokenomicsParams, TokenomicsResult, TokenomicsResultFormatted, weiToEth } from './utils/tokenomics'
 import JSBI from 'jsbi'
-import { formatUnits } from '@ethersproject/units';
+import { BigNumber } from '@ethersproject/bignumber';
 
 class TokenLauncherSDK {
   private static instance: TokenLauncherSDK;
@@ -49,50 +49,62 @@ class TokenLauncherSDK {
     return getRainbowSuperTokenByUri(uri, this.config);
   }
 
-  public serializeTokenomics(result: TokenomicsResult): any {
-    const serialize = (obj: any): any => {
-      if (obj instanceof JSBI) {
-        return obj.toString();
-      }
-      if (typeof obj === 'object' && obj !== null) {
-        return Object.fromEntries(
-          Object.entries(obj).map(([k, v]) => [k, serialize(v)])
-        );
-      }
-      return obj;
-    };
-    
-    return serialize(result);
-  }
-
   public convertTokenomicsToNumbers(tokenomics: TokenomicsResult): TokenomicsResultFormatted {
-    const serialized = this.serializeTokenomics(tokenomics);
-    
-    return {
+    // Helper to convert JSBI to BigNumber safely
+    const toBigNumber = (jsbiValue: JSBI): BigNumber => {
+      return BigNumber.from(jsbiValue.toString());
+    };
+
+    // Helper to convert JSBI to number safely (with division)
+    const toPercentage = (jsbiValue: JSBI): number => {
+      return Number(jsbiValue.toString()) / 100;
+    };
+
+    const result: TokenomicsResultFormatted = {
       supply: {
-        total: formatUnits(serialized.supply.total, 18),
-        lp: formatUnits(serialized.supply.lp, 18),
-        creator: formatUnits(serialized.supply.creator, 18),
-        airdrop: formatUnits(serialized.supply.airdrop, 18),
-      },
-      price: {
-        targetUsd: formatUnits(serialized.price.targetUsd, 18),
-        targetEth: formatUnits(serialized.price.targetEth, 18),
-        actualUsd: formatUnits(serialized.price.actualUsd, 18),
-        actualEth: formatUnits(serialized.price.actualEth, 18),
-      },
-      marketCap: {
-        targetUsd: formatUnits(serialized.marketCap.targetUsd, 18),
-        actualUsd: formatUnits(serialized.marketCap.actualUsd, 18),
-        actualEth: formatUnits(serialized.marketCap.actualEth, 18),
+        total: toBigNumber(tokenomics.supply.total),
+        lp: toBigNumber(tokenomics.supply.lp),
+        creator: toBigNumber(tokenomics.supply.creator),
+        airdrop: toBigNumber(tokenomics.supply.airdrop)
       },
       allocation: {
-        creator: Number(serialized.allocation.creator) / 100,
-        airdrop: Number(serialized.allocation.airdrop) / 100,
-        lp: Number(serialized.allocation.lp) / 100,
+        creator: toPercentage(tokenomics.allocation.creator),
+        airdrop: toPercentage(tokenomics.allocation.airdrop),
+        lp: toPercentage(tokenomics.allocation.lp)
+      },
+      price: {
+        targetEth: toBigNumber(tokenomics.price.targetEth),
+        targetUsd: toBigNumber(tokenomics.price.targetUsd),
+        actualEth: toBigNumber(tokenomics.price.actualEth),
+        actualUsd: toBigNumber(tokenomics.price.actualUsd),
       },
       tick: tokenomics.tick,
+      marketCap: {
+        targetUsd: toBigNumber(tokenomics.marketCap.targetUsd),
+        actualUsd: toBigNumber(tokenomics.marketCap.actualUsd),
+        actualEth: toBigNumber(tokenomics.marketCap.actualEth),
+      }
     };
+
+    if (tokenomics.swap) {
+      result.swap = {
+        input: {
+          amountInEth: toBigNumber(tokenomics.swap.input.amountInEth),
+          feeAmount: toBigNumber(tokenomics.swap.input.feeAmount),
+          amountInAfterFee: toBigNumber(tokenomics.swap.input.amountInAfterFee)
+        },
+        output: {
+          tokensOut: toBigNumber(tokenomics.swap.output.tokensOut),
+          priceImpact: toBigNumber(tokenomics.swap.output.priceImpact)
+        },
+        marketCapAfter: {
+          eth: toBigNumber(tokenomics.swap.marketCapAfter.eth),
+          usd: toBigNumber(tokenomics.swap.marketCapAfter.usd)
+        }
+      };
+    }
+
+    return result;
   }
 }
 
