@@ -3,8 +3,8 @@ import { launchRainbowSuperToken, launchRainbowSuperTokenAndBuy } from './launch
 import { getAirdropSuggestions, getRainbowSuperTokenByUri, getRainbowSuperTokens } from './api'
 import { calculateTokenomics, TokenomicsParams, TokenomicsResult, TokenomicsResultFormatted, weiToEth } from './utils/tokenomics'
 import JSBI from 'jsbi'
-import { BigNumber } from '@ethersproject/bignumber';
-
+import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
+import { getInitialTick } from './getInitialTick';
 class TokenLauncherSDK {
   private static instance: TokenLauncherSDK;
   private config: SDKConfig = {};
@@ -29,6 +29,10 @@ class TokenLauncherSDK {
     return this.convertTokenomicsToNumbers(precise);
   }
 
+  public getInitialTick(tokenPrice: BigNumber): number {
+    return getInitialTick(tokenPrice);
+  }
+
   public async launchToken(params: LaunchTokenParams): Promise<LaunchTokenResponse> {
     return launchRainbowSuperToken(params, this.config);
   }
@@ -38,7 +42,7 @@ class TokenLauncherSDK {
   }
 
   public async getAirdropSuggestions(address: string): Promise<GetAirdropSuggestionsResponse> {
-    return getAirdropSuggestions(address);
+    return getAirdropSuggestions(address, this.config);
   }
 
   public async getRainbowSuperTokens(): Promise<GetRainbowSuperTokensResponse> {
@@ -49,7 +53,7 @@ class TokenLauncherSDK {
     return getRainbowSuperTokenByUri(uri, this.config);
   }
 
-  public convertTokenomicsToNumbers(tokenomics: TokenomicsResult): TokenomicsResultFormatted {
+  convertTokenomicsToNumbers(tokenomics: TokenomicsResult): TokenomicsResultFormatted {
     // Helper to convert JSBI to BigNumber safely
     const toBigNumber = (jsbiValue: JSBI): BigNumber => {
       return BigNumber.from(jsbiValue.toString());

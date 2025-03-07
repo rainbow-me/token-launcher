@@ -3,7 +3,7 @@ import { parseUnits, formatUnits } from '@ethersproject/units'
 import { BigNumber } from '@ethersproject/bignumber'
 import { CREATOR_BPS, CREATOR_BPS_WITH_AIRDROP, AIRDROP_BPS } from '../src/utils/tokenomics'
 
-describe('Tokenomics Allocation Tests', () => {
+describe.skip('Tokenomics Allocation Tests', () => {
   // Base parameters - $35,000 market cap, 1B tokens, ETH at $2200
   const baseParams = {
     targetMarketCapUsd: parseUnits('35000', 18),

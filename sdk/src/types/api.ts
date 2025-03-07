@@ -46,12 +46,17 @@ export interface DeployRainbowSuperTokenResponse {
   };
 }
 
+interface Icons {
+  iconURL: string;
+  pfpURLs: string[];
+}
+
 export interface SuggestedUser {
-  username?: string;
   address: string;
   pfpURL: string;
-  type: 'Farcaster' | 'ENS' | 'Rainbow';
-  typePfpURL: string;
+  type: string;
+  typeIconURL: string;
+  username: string;
 }
 
 export interface CohortIcons {
@@ -61,24 +66,27 @@ export interface CohortIcons {
 }
 
 export interface PredefinedCohort {
+  icons: Icons;
   id: string;
   name: string;
-  icons: CohortIcons;
   totalUsers: number;
 }
 
 export interface PersonalizedCohort {
-  name: string;
-  icons: CohortIcons;
-  totalUsers: number;
   addresses: SuggestedUser[];
+  icons: Icons;
+  name: string;
+  totalUsers: number;
 }
 
 export interface GetAirdropSuggestionsResponse {
+  meta: {
+    maxUserAllocations: number;
+  },
   data: {
-    predefinedCohorts: PredefinedCohort[];
     personalizedCohorts: PersonalizedCohort[];
-    suggested: SuggestedUser[];
+    predefinedCohorts: PredefinedCohort[];
+    suggestedUsers: SuggestedUser[];
   };
 }
 

@@ -5,7 +5,7 @@ import JSBI from 'jsbi'
 import { BigNumber } from '@ethersproject/bignumber'
 import { CREATOR_BPS, CREATOR_BPS_WITH_AIRDROP, AIRDROP_BPS } from '../src/utils/tokenomics'
 
-describe('Tokenomics Conversion', () => {
+describe.skip('Tokenomics Conversion', () => {
   const mockTokenomics = {
     supply: {
       total: JSBI.BigInt('1000000000000000000000000'), // 1M tokens

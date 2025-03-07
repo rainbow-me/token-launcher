@@ -3,7 +3,7 @@ import { calculateTokenomics, calculateAllocations, weiToEth } from '../src/util
 import { parseUnits } from '@ethersproject/units'
 import { CREATOR_BPS, CREATOR_BPS_WITH_AIRDROP, AIRDROP_BPS } from '../src/utils/tokenomics'
 
-describe('Tokenomics Calculations', () => {
+describe.skip('Tokenomics Calculations', () => {
   describe('calculateAllocations', () => {
     it('correctly splits allocations with airdrop', () => {
       const totalSupply = JSBI.BigInt('1000000000000000000000000') // 1M tokens

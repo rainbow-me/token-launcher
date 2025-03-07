@@ -1,1057 +1,1058 @@
 {
-  "abi": [
-    {
-      "type": "constructor",
-      "inputs": [
-        {
-          "name": "_uniswapV3Factory",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "_nonfungiblePositionManager",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "_swapRouter",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "_weth",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "_baseTokenURI",
-          "type": "string",
-          "internalType": "string"
-        }
-      ],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "POOL_FEE",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint24",
-          "internalType": "uint24"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "RainbowSuperTokenContractCodeHash",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "TICK_SPACING",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "int24",
-          "internalType": "int24"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "WETH",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "contract IWETH9"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "banName",
-      "inputs": [
-        {
-          "name": "name",
-          "type": "string",
-          "internalType": "string"
-        },
-        {
-          "name": "status",
-          "type": "bool",
-          "internalType": "bool"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "banTicker",
-      "inputs": [
-        {
-          "name": "ticker",
-          "type": "string",
-          "internalType": "string"
-        },
-        {
-          "name": "status",
-          "type": "bool",
-          "internalType": "bool"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "bannedNames",
-      "inputs": [
-        {
-          "name": "",
-          "type": "string",
-          "internalType": "string"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool",
-          "internalType": "bool"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "bannedTickers",
-      "inputs": [
-        {
-          "name": "",
-          "type": "string",
-          "internalType": "string"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool",
-          "internalType": "bool"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "baseTokenURI",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "string",
-          "internalType": "string"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "claimCreatorFees",
-      "inputs": [
-        {
-          "name": "token",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "recipient",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "claimProtocolFees",
-      "inputs": [
-        {
-          "name": "token",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "recipient",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "collectFees",
-      "inputs": [
-        {
-          "name": "token",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "creatorUnclaimedFees",
-      "inputs": [
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "unclaimed0",
-          "type": "uint128",
-          "internalType": "uint128"
-        },
-        {
-          "name": "unclaimed1",
-          "type": "uint128",
-          "internalType": "uint128"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "defaultFeeConfig",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "creatorLPFeeBps",
-          "type": "uint16",
-          "internalType": "uint16"
-        },
-        {
-          "name": "protocolBaseBps",
-          "type": "uint16",
-          "internalType": "uint16"
-        },
-        {
-          "name": "creatorBaseBps",
-          "type": "uint16",
-          "internalType": "uint16"
-        },
-        {
-          "name": "airdropBps",
-          "type": "uint16",
-          "internalType": "uint16"
-        },
-        {
-          "name": "hasAirdrop",
-          "type": "bool",
-          "internalType": "bool"
-        },
-        {
-          "name": "feeToken",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "creator",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "defaultPairToken",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "contract ERC20"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "launchFromOtherChain",
-      "inputs": [
-        {
-          "name": "name",
-          "type": "string",
-          "internalType": "string"
-        },
-        {
-          "name": "symbol",
-          "type": "string",
-          "internalType": "string"
-        },
-        {
-          "name": "merkleroot",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        },
-        {
-          "name": "supply",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "salt",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        },
-        {
-          "name": "creator",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "originalChainId",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "airdropAmount",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "newToken",
-          "type": "address",
-          "internalType": "contract RainbowSuperToken"
-        }
-      ],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "launchRainbowSuperToken",
-      "inputs": [
-        {
-          "name": "name",
-          "type": "string",
-          "internalType": "string"
-        },
-        {
-          "name": "symbol",
-          "type": "string",
-          "internalType": "string"
-        },
-        {
-          "name": "merkleroot",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        },
-        {
-          "name": "supply",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "initialTick",
-          "type": "int24",
-          "internalType": "int24"
-        },
-        {
-          "name": "salt",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        },
-        {
-          "name": "creator",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "newToken",
-          "type": "address",
-          "internalType": "contract RainbowSuperToken"
-        }
-      ],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "launchRainbowSuperTokenAndBuy",
-      "inputs": [
-        {
-          "name": "name",
-          "type": "string",
-          "internalType": "string"
-        },
-        {
-          "name": "symbol",
-          "type": "string",
-          "internalType": "string"
-        },
-        {
-          "name": "merkleroot",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        },
-        {
-          "name": "supply",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "initialTick",
-          "type": "int24",
-          "internalType": "int24"
-        },
-        {
-          "name": "salt",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        },
-        {
-          "name": "creator",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "amountIn",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "contract RainbowSuperToken"
-        }
-      ],
-      "stateMutability": "payable"
-    },
-    {
-      "type": "function",
-      "name": "nonfungiblePositionManager",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "contract INonfungiblePositionManager"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "onERC721Received",
-      "inputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "",
-          "type": "bytes",
-          "internalType": "bytes"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "bytes4",
-          "internalType": "bytes4"
-        }
-      ],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "owner",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "predictTokenAddress",
-      "inputs": [
-        {
-          "name": "creator",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "internalType": "string"
-        },
-        {
-          "name": "symbol",
-          "type": "string",
-          "internalType": "string"
-        },
-        {
-          "name": "merkleroot",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        },
-        {
-          "name": "supply",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "salt",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "token",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "protocolUnclaimedFees",
-      "inputs": [
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "unclaimed0",
-          "type": "uint128",
-          "internalType": "uint128"
-        },
-        {
-          "name": "unclaimed1",
-          "type": "uint128",
-          "internalType": "uint128"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "setBaseTokenURI",
-      "inputs": [
-        {
-          "name": "newBaseTokenURI",
-          "type": "string",
-          "internalType": "string"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "setDefaultFeeConfig",
-      "inputs": [
-        {
-          "name": "newConfig",
-          "type": "tuple",
-          "internalType": "struct RainbowSuperTokenFactory.FeeConfig",
-          "components": [
-            {
-              "name": "creatorLPFeeBps",
-              "type": "uint16",
-              "internalType": "uint16"
-            },
-            {
-              "name": "protocolBaseBps",
-              "type": "uint16",
-              "internalType": "uint16"
-            },
-            {
-              "name": "creatorBaseBps",
-              "type": "uint16",
-              "internalType": "uint16"
-            },
-            {
-              "name": "airdropBps",
-              "type": "uint16",
-              "internalType": "uint16"
-            },
-            {
-              "name": "hasAirdrop",
-              "type": "bool",
-              "internalType": "bool"
-            },
-            {
-              "name": "feeToken",
-              "type": "address",
-              "internalType": "address"
-            },
-            {
-              "name": "creator",
-              "type": "address",
-              "internalType": "address"
-            }
-          ]
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "setNewPairToken",
-      "inputs": [
-        {
-          "name": "newPairToken",
-          "type": "address",
-          "internalType": "contract ERC20"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "setNewTickSpacing",
-      "inputs": [
-        {
-          "name": "newPoolFee",
-          "type": "uint24",
-          "internalType": "uint24"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "swapRouter",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "contract ISwapRouter"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "tokenFeeConfig",
-      "inputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "creatorLPFeeBps",
-          "type": "uint16",
-          "internalType": "uint16"
-        },
-        {
-          "name": "protocolBaseBps",
-          "type": "uint16",
-          "internalType": "uint16"
-        },
-        {
-          "name": "creatorBaseBps",
-          "type": "uint16",
-          "internalType": "uint16"
-        },
-        {
-          "name": "airdropBps",
-          "type": "uint16",
-          "internalType": "uint16"
-        },
-        {
-          "name": "hasAirdrop",
-          "type": "bool",
-          "internalType": "bool"
-        },
-        {
-          "name": "feeToken",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "creator",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "tokenPositionIds",
-      "inputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "transferOwnership",
-      "inputs": [
-        {
-          "name": "newOwner",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "uniswapV3Factory",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "contract IUniswapV3Factory"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "event",
-      "name": "FeeConfigUpdated",
-      "inputs": [
-        {
-          "name": "token",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        },
-        {
-          "name": "config",
-          "type": "tuple",
-          "indexed": false,
-          "internalType": "struct RainbowSuperTokenFactory.FeeConfig",
-          "components": [
-            {
-              "name": "creatorLPFeeBps",
-              "type": "uint16",
-              "internalType": "uint16"
-            },
-            {
-              "name": "protocolBaseBps",
-              "type": "uint16",
-              "internalType": "uint16"
-            },
-            {
-              "name": "creatorBaseBps",
-              "type": "uint16",
-              "internalType": "uint16"
-            },
-            {
-              "name": "airdropBps",
-              "type": "uint16",
-              "internalType": "uint16"
-            },
-            {
-              "name": "hasAirdrop",
-              "type": "bool",
-              "internalType": "bool"
-            },
-            {
-              "name": "feeToken",
-              "type": "address",
-              "internalType": "address"
-            },
-            {
-              "name": "creator",
-              "type": "address",
-              "internalType": "address"
-            }
-          ]
-        }
-      ],
-      "anonymous": false
-    },
-    {
-      "type": "event",
-      "name": "FeesClaimed",
-      "inputs": [
-        {
-          "name": "recipient",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        },
-        {
-          "name": "tokenId",
-          "type": "uint256",
-          "indexed": true,
-          "internalType": "uint256"
-        },
-        {
-          "name": "amount0",
-          "type": "uint256",
-          "indexed": false,
-          "internalType": "uint256"
-        },
-        {
-          "name": "amount1",
-          "type": "uint256",
-          "indexed": false,
-          "internalType": "uint256"
-        }
-      ],
-      "anonymous": false
-    },
-    {
-      "type": "event",
-      "name": "FeesCollected",
-      "inputs": [
-        {
-          "name": "tokenId",
-          "type": "uint256",
-          "indexed": true,
-          "internalType": "uint256"
-        },
-        {
-          "name": "creatorFee0",
-          "type": "uint256",
-          "indexed": false,
-          "internalType": "uint256"
-        },
-        {
-          "name": "creatorFee1",
-          "type": "uint256",
-          "indexed": false,
-          "internalType": "uint256"
-        },
-        {
-          "name": "protocolFee0",
-          "type": "uint256",
-          "indexed": false,
-          "internalType": "uint256"
-        },
-        {
-          "name": "protocolFee1",
-          "type": "uint256",
-          "indexed": false,
-          "internalType": "uint256"
-        }
-      ],
-      "anonymous": false
-    },
-    {
-      "type": "event",
-      "name": "NewDefaultPairToken",
-      "inputs": [
-        {
-          "name": "token",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        }
-      ],
-      "anonymous": false
-    },
-    {
-      "type": "event",
-      "name": "OwnershipTransferred",
-      "inputs": [
-        {
-          "name": "user",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        },
-        {
-          "name": "newOwner",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        }
-      ],
-      "anonymous": false
-    },
-    {
-      "type": "event",
-      "name": "RainbowSuperTokenCreated",
-      "inputs": [
-        {
-          "name": "token",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        },
-        {
-          "name": "owner",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        },
-        {
-          "name": "creator",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        },
-        {
-          "name": "uri",
-          "type": "string",
-          "indexed": false,
-          "internalType": "string"
-        }
-      ],
-      "anonymous": false
-    },
-    {
-      "type": "error",
-      "name": "BannedName",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "BannedTicker",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "IncorrectSalt",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "InsufficientFunds",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "InvalidFeeSplit",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "InvalidSupplyAllocation",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "InvalidToken",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "NoFeesToClaim",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "NotUniswapPositionManager",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "ReservedName",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "ReservedTicker",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "StringsInsufficientHexLength",
-      "inputs": [
-        {
-          "name": "value",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        },
-        {
-          "name": "length",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ]
-    },
-    {
-      "type": "error",
-      "name": "T",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "Unauthorized",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "ZeroSupply",
-      "inputs": []
-    }
-  ]
-} 
+    "abi": [
+      {
+        "type": "constructor",
+        "inputs": [
+          {
+            "name": "_uniswapV3Factory",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "_nonfungiblePositionManager",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "_swapRouter",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "_weth",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "_baseTokenURI",
+            "type": "string",
+            "internalType": "string"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "POOL_FEE",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint24",
+            "internalType": "uint24"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "RainbowSuperTokenContractCodeHash",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "TICK_SPACING",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "int24",
+            "internalType": "int24"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "WETH",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "contract IWETH9"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "banName",
+        "inputs": [
+          {
+            "name": "name",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "status",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "banTicker",
+        "inputs": [
+          {
+            "name": "ticker",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "status",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "bannedNames",
+        "inputs": [
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "bannedTickers",
+        "inputs": [
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "baseTokenURI",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "claimCreatorFees",
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "recipient",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "claimProtocolFees",
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "recipient",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "collectFees",
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "creatorUnclaimedFees",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "unclaimed0",
+            "type": "uint128",
+            "internalType": "uint128"
+          },
+          {
+            "name": "unclaimed1",
+            "type": "uint128",
+            "internalType": "uint128"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "defaultFeeConfig",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "creatorLPFeeBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "protocolBaseBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "creatorBaseBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "airdropBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "hasAirdrop",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "feeToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "creator",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "defaultPairToken",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "contract ERC20"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "launchFromOtherChain",
+        "inputs": [
+          {
+            "name": "name",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "merkleroot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "supply",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "salt",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "creator",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "originalChainId",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "airdropAmount",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "newToken",
+            "type": "address",
+            "internalType": "contract RainbowSuperToken"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "launchRainbowSuperToken",
+        "inputs": [
+          {
+            "name": "name",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "merkleroot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "supply",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "initialTick",
+            "type": "int24",
+            "internalType": "int24"
+          },
+          {
+            "name": "salt",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "creator",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "newToken",
+            "type": "address",
+            "internalType": "contract RainbowSuperToken"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "launchRainbowSuperTokenAndBuy",
+        "inputs": [
+          {
+            "name": "name",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "merkleroot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "supply",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "initialTick",
+            "type": "int24",
+            "internalType": "int24"
+          },
+          {
+            "name": "salt",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "creator",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "amountIn",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "contract RainbowSuperToken"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "type": "function",
+        "name": "nonfungiblePositionManager",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "contract INonfungiblePositionManager"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "onERC721Received",
+        "inputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "",
+            "type": "bytes",
+            "internalType": "bytes"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bytes4",
+            "internalType": "bytes4"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "owner",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "predictTokenAddress",
+        "inputs": [
+          {
+            "name": "creator",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "merkleroot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "supply",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "salt",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "protocolUnclaimedFees",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "unclaimed0",
+            "type": "uint128",
+            "internalType": "uint128"
+          },
+          {
+            "name": "unclaimed1",
+            "type": "uint128",
+            "internalType": "uint128"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "setBaseTokenURI",
+        "inputs": [
+          {
+            "name": "newBaseTokenURI",
+            "type": "string",
+            "internalType": "string"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "setDefaultFeeConfig",
+        "inputs": [
+          {
+            "name": "newConfig",
+            "type": "tuple",
+            "internalType": "struct RainbowSuperTokenFactory.FeeConfig",
+            "components": [
+              {
+                "name": "creatorLPFeeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "protocolBaseBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "creatorBaseBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "airdropBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "hasAirdrop",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "feeToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "creator",
+                "type": "address",
+                "internalType": "address"
+              }
+            ]
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "setNewPairToken",
+        "inputs": [
+          {
+            "name": "newPairToken",
+            "type": "address",
+            "internalType": "contract ERC20"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "setNewTickSpacing",
+        "inputs": [
+          {
+            "name": "newPoolFee",
+            "type": "uint24",
+            "internalType": "uint24"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "swapRouter",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "contract ISwapRouter02"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "tokenFeeConfig",
+        "inputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "creatorLPFeeBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "protocolBaseBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "creatorBaseBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "airdropBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "hasAirdrop",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "feeToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "creator",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "tokenPositionIds",
+        "inputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "transferOwnership",
+        "inputs": [
+          {
+            "name": "newOwner",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "uniswapV3Factory",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "contract IUniswapV3Factory"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "event",
+        "name": "FeeConfigUpdated",
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "config",
+            "type": "tuple",
+            "indexed": false,
+            "internalType": "struct RainbowSuperTokenFactory.FeeConfig",
+            "components": [
+              {
+                "name": "creatorLPFeeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "protocolBaseBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "creatorBaseBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "airdropBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "hasAirdrop",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "feeToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "creator",
+                "type": "address",
+                "internalType": "address"
+              }
+            ]
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "FeesClaimed",
+        "inputs": [
+          {
+            "name": "recipient",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "tokenId",
+            "type": "uint256",
+            "indexed": true,
+            "internalType": "uint256"
+          },
+          {
+            "name": "amount0",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "amount1",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "FeesCollected",
+        "inputs": [
+          {
+            "name": "tokenId",
+            "type": "uint256",
+            "indexed": true,
+            "internalType": "uint256"
+          },
+          {
+            "name": "creatorFee0",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "creatorFee1",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "protocolFee0",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "protocolFee1",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "NewDefaultPairToken",
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "OwnershipTransferred",
+        "inputs": [
+          {
+            "name": "user",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "newOwner",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "RainbowSuperTokenCreated",
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "owner",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "creator",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "uri",
+            "type": "string",
+            "indexed": false,
+            "internalType": "string"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "error",
+        "name": "BannedName",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "BannedTicker",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "IncorrectSalt",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "InsufficientFunds",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "InvalidFeeSplit",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "InvalidSupplyAllocation",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "InvalidToken",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "NoFeesToClaim",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "NotUniswapPositionManager",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "ReservedName",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "ReservedTicker",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "StringsInsufficientHexLength",
+        "inputs": [
+          {
+            "name": "value",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "length",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "type": "error",
+        "name": "T",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "Unauthorized",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "ZeroSupply",
+        "inputs": []
+      }
+    ]
+  }
+  
