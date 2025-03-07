@@ -1,42 +1,51 @@
 import JSBI from 'jsbi'
 import { calculateTokenomics, calculateAllocations, weiToEth } from '../src/utils/tokenomics'
 import { parseUnits } from '@ethersproject/units'
+import { CREATOR_BPS, CREATOR_BPS_WITH_AIRDROP, AIRDROP_BPS } from '../src/utils/tokenomics'
 
 describe('Tokenomics Calculations', () => {
   describe('calculateAllocations', () => {
     it('correctly splits allocations with airdrop', () => {
       const totalSupply = JSBI.BigInt('1000000000000000000000000') // 1M tokens
       const allocations = calculateAllocations(totalSupply, true)
-
-      // With airdrop: 10% creator, 10% airdrop, 80% LP
-      expect(JSBI.equal(
-        allocations.creator,
-        JSBI.BigInt('100000000000000000000000')
-      )).toBe(true)
-      expect(JSBI.equal(
-        allocations.airdrop,
-        JSBI.BigInt('100000000000000000000000')
-      )).toBe(true)
-      expect(JSBI.equal(
-        allocations.lp,
-        JSBI.BigInt('800000000000000000000000')
-      )).toBe(true)
+      
+      // Calculate expected amounts
+      const expectedCreator = JSBI.divide(
+        JSBI.multiply(totalSupply, JSBI.BigInt(CREATOR_BPS_WITH_AIRDROP)),
+        JSBI.BigInt(10000)
+      )
+      const expectedAirdrop = JSBI.divide(
+        JSBI.multiply(totalSupply, JSBI.BigInt(AIRDROP_BPS)),
+        JSBI.BigInt(10000)
+      )
+      const expectedLp = JSBI.subtract(
+        totalSupply, 
+        JSBI.add(expectedCreator, expectedAirdrop)
+      )
+      
+      // Check allocations match expected values
+      expect(JSBI.equal(allocations.creator, expectedCreator)).toBe(true)
+      expect(JSBI.equal(allocations.airdrop, expectedAirdrop)).toBe(true)
+      expect(JSBI.equal(allocations.lp, expectedLp)).toBe(true)
+      expect(JSBI.equal(allocations.total, totalSupply)).toBe(true)
     })
 
     it('correctly splits allocations without airdrop', () => {
       const totalSupply = JSBI.BigInt('1000000000000000000000000') // 1M tokens
       const allocations = calculateAllocations(totalSupply, false)
-
-      // Without airdrop: 20% creator, 0% airdrop, 80% LP
-      expect(JSBI.equal(
-        allocations.creator,
-        JSBI.BigInt('200000000000000000000000')
-      )).toBe(true)
+      
+      // Calculate expected amounts
+      const expectedCreator = JSBI.divide(
+        JSBI.multiply(totalSupply, JSBI.BigInt(CREATOR_BPS)),
+        JSBI.BigInt(10000)
+      )
+      const expectedLp = JSBI.subtract(totalSupply, expectedCreator)
+      
+      // Check allocations match expected values
+      expect(JSBI.equal(allocations.creator, expectedCreator)).toBe(true)
       expect(JSBI.equal(allocations.airdrop, JSBI.BigInt('0'))).toBe(true)
-      expect(JSBI.equal(
-        allocations.lp,
-        JSBI.BigInt('800000000000000000000000')
-      )).toBe(true)
+      expect(JSBI.equal(allocations.lp, expectedLp)).toBe(true)
+      expect(JSBI.equal(allocations.total, totalSupply)).toBe(true)
     })
   })
 

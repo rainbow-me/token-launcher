@@ -3,6 +3,7 @@ import { parseUnits, formatUnits } from '@ethersproject/units'
 import { calculateTokenomics } from '../src/utils/tokenomics'
 import JSBI from 'jsbi'
 import { BigNumber } from '@ethersproject/bignumber'
+import { CREATOR_BPS, CREATOR_BPS_WITH_AIRDROP, AIRDROP_BPS } from '../src/utils/tokenomics'
 
 describe('Tokenomics Conversion', () => {
   const mockTokenomics = {
@@ -79,7 +80,7 @@ describe('Tokenomics Conversion', () => {
       expect(formatUnits(result.price.targetUsd, 18)).toBe('1.0')
       expect(formatUnits(result.price.targetEth, 18)).toBe('0.0005')
       expect(formatUnits(result.supply.total, 18)).toBe('1000000.0')
-      expect(result.allocation.creator).toBe(20)
+      expect(result.allocation.creator).toBe(CREATOR_BPS / 100);
     })
   })
 })
@@ -105,14 +106,14 @@ describe('App Integration', () => {
 
     // Test supply
     expect(formatUnits(result.supply.total, 18)).toBe('1000000000.0');
-    expect(formatUnits(result.supply.creator, 18)).toBe('200000000.0'); // 20%
-    expect(formatUnits(result.supply.lp, 18)).toBe('800000000.0');     // 80%
+    expect(formatUnits(result.supply.creator, 18)).toBe(`${1000000000 * CREATOR_BPS / 10000}.0`);
+    expect(formatUnits(result.supply.lp, 18)).toBe(`${1000000000 * (10000 - CREATOR_BPS) / 10000}.0`);
     expect(formatUnits(result.supply.airdrop, 18)).toBe('0.0');        // No airdrop
 
-    // Test allocations
-    expect(result.allocation.creator).toBe(20);
-    expect(result.allocation.lp).toBe(80);
-    expect(result.allocation.airdrop).toBe(0);
+    // Test allocations (for hasAirdrop: false)
+    expect(result.allocation.creator).toBe(CREATOR_BPS / 100);  // Use CREATOR_BPS (not WITH_AIRDROP)
+    expect(result.allocation.airdrop).toBe(0);                  // Should be 0 with hasAirdrop=false
+    expect(result.allocation.lp).toBe(100 - (CREATOR_BPS / 100));
 
     // Test prices (with more tolerance due to tick spacing constraints)
     expect(Number(formatUnits(result.price.targetUsd, 18))).toBeCloseTo(0.000035, 5);
@@ -175,9 +176,9 @@ describe('App Integration', () => {
     const result = TokenLauncher.calculateTokenomics(params);
 
     // With airdrop: 10% creator, 10% airdrop, 80% LP
-    expect(result.allocation.creator).toBe(10);
-    expect(result.allocation.airdrop).toBe(10);
-    expect(result.allocation.lp).toBe(80);
+    expect(result.allocation.creator).toBe(CREATOR_BPS_WITH_AIRDROP / 100);
+    expect(result.allocation.airdrop).toBe(AIRDROP_BPS / 100);
+    expect(result.allocation.lp).toBe(100 - (CREATOR_BPS_WITH_AIRDROP / 100) - (AIRDROP_BPS / 100));
   });
 
   it('formats numbers correctly', () => {

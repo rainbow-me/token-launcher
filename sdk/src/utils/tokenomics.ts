@@ -11,6 +11,10 @@ const BPS_DENOMINATOR = JSBI.BigInt(10000);
 const POOL_FEE = JSBI.BigInt(3000); // 0.3%
 const FEE_DENOMINATOR = JSBI.BigInt(1000000);
 
+export const CREATOR_BPS = 69;
+export const CREATOR_BPS_WITH_AIRDROP = 46;
+export const AIRDROP_BPS = 23;
+
 interface TokenAllocation {
   creator: JSBI;
   airdrop: JSBI;
@@ -126,8 +130,8 @@ export function calculateAllocations(
 ): TokenAllocation {
   invariant(JSBI.greaterThan(totalSupply, ZERO), 'ZERO_SUPPLY');
 
-  const creatorBaseBips = JSBI.BigInt(hasAirdrop ? 1000 : 2000);
-  const airdropBips = JSBI.BigInt(hasAirdrop ? 1000 : 0);
+  const creatorBaseBips = JSBI.BigInt(hasAirdrop ? CREATOR_BPS_WITH_AIRDROP : CREATOR_BPS);
+  const airdropBips = JSBI.BigInt(hasAirdrop ? AIRDROP_BPS : 0);
   
   const creatorAmount = JSBI.divide(JSBI.multiply(totalSupply, creatorBaseBips), BPS_DENOMINATOR);
   const airdropAmount = JSBI.divide(JSBI.multiply(totalSupply, airdropBips), BPS_DENOMINATOR);

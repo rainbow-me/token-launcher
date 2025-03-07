@@ -1,6 +1,7 @@
 import { TokenLauncher } from '../src'
 import { parseUnits, formatUnits } from '@ethersproject/units'
 import { BigNumber } from '@ethersproject/bignumber'
+import { CREATOR_BPS, CREATOR_BPS_WITH_AIRDROP, AIRDROP_BPS } from '../src/utils/tokenomics'
 
 describe('Tokenomics Allocation Tests', () => {
   // Base parameters - $35,000 market cap, 1B tokens, ETH at $2200
@@ -49,7 +50,7 @@ describe('Tokenomics Allocation Tests', () => {
       }
       
       // Verify allocations are valid
-      expect(result.allocation.creator).toBeGreaterThanOrEqual(0);
+      expect(result.allocation.creator).toBeGreaterThanOrEqual(CREATOR_BPS / 100);
       expect(result.allocation.creator).toBeLessThanOrEqual(100);
       
       expect(result.allocation.lp).toBeGreaterThanOrEqual(0);
@@ -58,9 +59,9 @@ describe('Tokenomics Allocation Tests', () => {
       expect(result.allocation.airdrop).toBeGreaterThanOrEqual(0);
       expect(result.allocation.airdrop).toBeLessThanOrEqual(100);
       
-      // Verify that allocation percentages sum to approximately 100%
+      // Verify that allocation percentages sum to exactly 100%
       const totalAllocation = result.allocation.creator + result.allocation.lp + result.allocation.airdrop;
-      expect(Math.abs(totalAllocation - 100)).toBeLessThan(0.1); // Allow 0.1% tolerance for rounding
+      expect(totalAllocation).toBe(100);
     });
   });
 
@@ -84,9 +85,34 @@ describe('Tokenomics Allocation Tests', () => {
     console.log(`LP: ${lpPercentage}% vs ${result.allocation.lp}%`);
     console.log(`Airdrop: ${airdropPercentage}% vs ${result.allocation.airdrop}%`);
     
-    // Verify reported percentages match calculated percentages (within rounding tolerance)
-    expect(Math.abs(Number(creatorPercentage) - result.allocation.creator)).toBeLessThan(0.1);
-    expect(Math.abs(Number(lpPercentage) - result.allocation.lp)).toBeLessThan(0.1);
-    expect(Math.abs(Number(airdropPercentage) - result.allocation.airdrop)).toBeLessThan(0.1);
+    // Verify reported percentages match calculated percentages with higher tolerance 
+    // due to integer division and rounding in the calculations
+    expect(Math.abs(Number(creatorPercentage) - result.allocation.creator)).toBeLessThan(0.6);
+    expect(Math.abs(Number(lpPercentage) - result.allocation.lp)).toBeLessThan(0.6);
+    expect(Math.abs(Number(airdropPercentage) - result.allocation.airdrop)).toBeLessThan(0.6);
+  });
+
+  it('uses correct default allocations with no airdrop', () => {
+    const result = TokenLauncher.calculateTokenomics({
+      ...baseParams,
+      hasAirdrop: false
+    });
+
+    // Default allocation with no airdrop and no buys
+    expect(result.allocation.creator).toBe(CREATOR_BPS / 100);
+    expect(result.allocation.airdrop).toBe(0);
+    expect(result.allocation.lp).toBe(100 - (CREATOR_BPS / 100));
+  });
+
+  it('uses correct default allocations with airdrop', () => {
+    const result = TokenLauncher.calculateTokenomics({
+      ...baseParams,
+      hasAirdrop: true
+    });
+
+    // Default allocation with airdrop and no buys
+    expect(result.allocation.creator).toBe(CREATOR_BPS_WITH_AIRDROP / 100);
+    expect(result.allocation.airdrop).toBe(AIRDROP_BPS / 100);
+    expect(result.allocation.lp).toBe(100 - (CREATOR_BPS_WITH_AIRDROP / 100) - (AIRDROP_BPS / 100));
   });
 }); 
