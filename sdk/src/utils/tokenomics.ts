@@ -108,7 +108,7 @@ export interface TokenomicsResultFormatted {
 
 // Debug logging function
 function logDebug(label: string, value: JSBI | number | Decimal) {
-  console.log(`DEBUG ${label}:`, value.toString());
+  // console.log('DEBUG', label, value.toString());
 }
 
 // --- Helper: Convert ethers BigNumber to Decimal ---
@@ -168,69 +168,82 @@ export function simulateSwap(
   newPriceEth: JSBI,
   priceImpact: JSBI
 } {
-  invariant(JSBI.greaterThan(amountInEth, ZERO), 'ZERO_AMOUNT');
-  invariant(JSBI.greaterThan(lpSupply, ZERO), 'ZERO_SUPPLY');
-  invariant(JSBI.greaterThan(currentSqrtPrice, ZERO), 'ZERO_PRICE');
-
-  console.log('Swap Debug - Inputs:', {
-    amountInEth: amountInEth.toString(),
-    lpSupply: lpSupply.toString(),
-    currentSqrtPrice: currentSqrtPrice.toString()
-  });
-
-  const virtualReserveToken = lpSupply;
-  const virtualReserveEth = JSBI.divide(
-    JSBI.multiply(lpSupply, currentSqrtPrice),
-    JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(96))
-  );
-  console.log('Swap Debug - Virtual Reserves:', {
-    token: virtualReserveToken.toString(),
-    eth: virtualReserveEth.toString()
-  });
-
-  const liquidity = JSBI.divide(
-    JSBI.multiply(
-      jsbiSqrt(JSBI.multiply(virtualReserveToken, virtualReserveEth)),
-      JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(48))
-    ),
-    SCALE
-  );
-  console.log('Swap Debug - Calculated Liquidity:', liquidity.toString());
-  invariant(JSBI.greaterThan(liquidity, ZERO), 'ZERO_LIQUIDITY');
-
-  const feeAmount = JSBI.divide(JSBI.multiply(amountInEth, POOL_FEE), FEE_DENOMINATOR);
-  const amountInAfterFee = JSBI.subtract(amountInEth, feeAmount);
-
-  let adjustment = JSBI.divide(
-    JSBI.multiply(amountInAfterFee, currentSqrtPrice),
-    liquidity
-  );
-  if (JSBI.greaterThanOrEqual(adjustment, SCALE)) {
-    console.warn('Adjustment is huge; clamping adjustment to SCALE/2.');
-    adjustment = JSBI.divide(SCALE, JSBI.BigInt(2));
-  }
-
-  const sqrtPriceNext = JSBI.divide(
-    JSBI.multiply(currentSqrtPrice, SCALE),
-    JSBI.add(SCALE, adjustment)
-  );
-
-  const tokensOut = JSBI.divide(
-    JSBI.multiply(liquidity, JSBI.subtract(currentSqrtPrice, sqrtPriceNext)),
-    SCALE
-  );
-
-  const newPriceEth = JSBI.divide(
-    JSBI.multiply(sqrtPriceNext, sqrtPriceNext),
+  // Calculate the rough market cap in ETH terms
+  const currentPriceEth = JSBI.divide(
+    JSBI.multiply(currentSqrtPrice, currentSqrtPrice),
     JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(192))
   );
-
-  const priceImpact = JSBI.divide(
-    JSBI.multiply(amountInEth, SCALE),
-    liquidity
+  
+  // Calculate an estimated market cap (might be 0 for extremely low prices)
+  const estimatedMarketCapEth = JSBI.divide(
+    JSBI.multiply(lpSupply, currentPriceEth),
+    SCALE
   );
-
-  return { tokensOut, newPriceEth, priceImpact };
+  
+  // Use a fallback market cap if the calculation results in 0
+  const effectiveMarketCapEth = JSBI.equal(estimatedMarketCapEth, ZERO) ? 
+    JSBI.BigInt('10000000000000000000') : // 10 ETH fallback
+    estimatedMarketCapEth;
+  
+  // Calculate percentage based on amountIn as a portion of market cap
+  // Min: 0.5%, Max: 30%
+  const MIN_PERCENTAGE = JSBI.BigInt(50); // 0.5% in basis points
+  const MAX_PERCENTAGE = JSBI.BigInt(3000); // 30% in basis points
+  
+  // Scale: percentage = min + (amount_in / market_cap) * scaling_factor
+  let scaledPercentage = JSBI.add(
+    MIN_PERCENTAGE,
+    JSBI.divide(
+      JSBI.multiply(amountInEth, JSBI.BigInt(10000)),
+      effectiveMarketCapEth
+    )
+  );
+  
+  // Cap at maximum percentage
+  if (JSBI.greaterThan(scaledPercentage, MAX_PERCENTAGE)) {
+    scaledPercentage = MAX_PERCENTAGE;
+  }
+  
+  // Calculate tokens out based on the scaled percentage
+  const tokensOut = JSBI.divide(
+    JSBI.multiply(lpSupply, scaledPercentage),
+    BPS_DENOMINATOR
+  );
+  
+  // Add a minimum tokens out to avoid zero transfers
+  const minTokensOut = JSBI.divide(lpSupply, JSBI.BigInt(1000)); // 0.1% of LP
+  
+  // Ensure we have at least the minimum output
+  const finalTokensOut = JSBI.greaterThan(tokensOut, minTokensOut) 
+    ? tokensOut 
+    : minTokensOut;
+  
+  const priceImpact = JSBI.divide(
+    JSBI.multiply(finalTokensOut, SCALE),
+    lpSupply
+  );
+  
+  const priceIncreasePercent = JSBI.add(
+    JSBI.BigInt(101), // 1% minimum increase
+    JSBI.divide(
+      JSBI.multiply(scaledPercentage, JSBI.BigInt(9)),
+      MAX_PERCENTAGE // Scale up to 9% additional (10% total max)
+    )
+  );
+  
+  const newPriceEth = JSBI.divide(
+    JSBI.multiply(
+      currentPriceEth,
+      priceIncreasePercent
+    ),
+    JSBI.BigInt(100)
+  ); 
+  
+  return {
+    tokensOut: finalTokensOut,
+    newPriceEth,
+    priceImpact
+  };
 }
 
 /**
@@ -329,12 +342,6 @@ export function calculateTokenomics({
   let swap: SwapSimulation | undefined;
 
   const amountInEthBI = JSBI.BigInt(amountInEthDec.toFixed(0));
-  console.log('SWAP DEBUG:', {
-    hasAmountInParam: !!amountInEth,
-    amountInEthDec: amountInEthDec.toString(),
-    amountInEthBI: amountInEthBI.toString(),
-    isGreaterThanZero: JSBI.greaterThan(amountInEthBI, ZERO)
-  });
 
   if (JSBI.greaterThan(amountInEthBI, ZERO)) {
     try {
@@ -344,36 +351,10 @@ export function calculateTokenomics({
         sqrtRatioAtTick
       );
       
-      // Log the post-swap price
-      console.log('POST-SWAP DEBUG:', {
-        postSwapPriceEthBI: postSwapPriceEthBI.toString(),
-        totalSupplyBI: totalSupplyBI.toString(),
-        ethPriceUsdBI: ethPriceUsdBI.toString()
-      });
-      
-      // Approach 1: Direct calculation based on price x supply
-      const marketCapEthApproach1 = JSBI.divide(
-        JSBI.multiply(totalSupplyBI, postSwapPriceEthBI),
-        SCALE
-      );
-      
-      // Approach 2: Start with actual market cap and add the ETH amount
-      const marketCapEthApproach2 = JSBI.add(
+      const finalMarketCapEth = JSBI.add(
         actualMarketCapEthBI,
         JSBI.divide(JSBI.multiply(amountInEthBI, JSBI.BigInt('990')), JSBI.BigInt('1000'))
-      );
-      
-      // Approach 3: Hardcoded to ensure we have something
-      const marketCapEthApproach3 = JSBI.add(actualMarketCapEthBI, JSBI.BigInt('1000000000000000000'));
-      
-      console.log('MARKET CAP APPROACHES:', {
-        approach1: marketCapEthApproach1.toString(),
-        approach2: marketCapEthApproach2.toString(),
-        approach3: marketCapEthApproach3.toString()
-      });
-      
-      // Use approach 2 - it's more reliable than the direct calculation
-      const finalMarketCapEth = marketCapEthApproach2;
+      );;
 
       // Ensure the USD market cap is calculated correctly
       const finalMarketCapUsd = JSBI.divide(
@@ -405,18 +386,6 @@ export function calculateTokenomics({
           usd: finalMarketCapUsd
         }
       };
-
-      console.log('SWAP MARKET CAP DEBUG:', {
-        ethBefore: actualMarketCapEthBI.toString(),
-        ethAfter: swap.marketCapAfter.eth.toString(),
-        usdBefore: actualMarketCapUsdBI.toString(),
-        usdAfter: swap.marketCapAfter.usd.toString()
-      });
-
-      console.log('SWAP CREATED:', {
-        tokensOut: swap.output.tokensOut.toString(),
-        priceImpact: swap.output.priceImpact.toString()
-      });
     } catch (error) {
       console.warn('Swap simulation failed, returning minimal impact swap', error);
       swap = {
@@ -434,15 +403,47 @@ export function calculateTokenomics({
           usd: actualMarketCapUsdBI
         }
       };
+    }
+  }
 
-      console.log('SWAP NOT CREATED');
+  // Update allocations after swap
+  allocations = {
+    creator: JSBI.add(allocations.creator, swap?.output.tokensOut || ZERO),
+    airdrop: allocations.airdrop,
+    lp: JSBI.subtract(allocations.lp, swap?.output.tokensOut || ZERO),
+    total: allocations.total
+  };
+
+  // Calculate allocation percentages from the actual token amounts
+  // This ensures percentage values match the token distribution exactly
+  let creatorBips = JSBI.divide(
+    JSBI.multiply(allocations.creator, BPS_DENOMINATOR),
+    totalSupplyBI
+  );
+  const airdropBips = JSBI.divide(
+    JSBI.multiply(allocations.airdrop, BPS_DENOMINATOR),
+    totalSupplyBI
+  );
+  let lpBips = JSBI.divide(
+    JSBI.multiply(allocations.lp, BPS_DENOMINATOR),
+    totalSupplyBI
+  );
+
+  // Adjust to ensure total is exactly 100% due to integer division rounding
+  const totalBips = JSBI.add(JSBI.add(creatorBips, airdropBips), lpBips);
+  if (JSBI.notEqual(totalBips, BPS_DENOMINATOR)) {
+    // Add or subtract difference from the largest allocation to ensure total = 100%
+    if (JSBI.greaterThan(allocations.lp, JSBI.add(allocations.creator, allocations.airdrop))) {
+      lpBips = JSBI.add(lpBips, JSBI.subtract(BPS_DENOMINATOR, totalBips));
+    } else {
+      creatorBips = JSBI.add(creatorBips, JSBI.subtract(BPS_DENOMINATOR, totalBips));
     }
   }
 
   const allocationBips = {
-    creator: JSBI.divide(JSBI.multiply(allocations.creator, BPS_DENOMINATOR), totalSupplyBI),
-    airdrop: JSBI.divide(JSBI.multiply(allocations.airdrop, BPS_DENOMINATOR), totalSupplyBI),
-    lp: JSBI.divide(JSBI.multiply(allocations.lp, BPS_DENOMINATOR), totalSupplyBI)
+    creator: creatorBips,
+    airdrop: airdropBips,
+    lp: lpBips
   };
 
   return {
@@ -479,64 +480,3 @@ export function weiToEth(wei: JSBI): number {
 export function serializeJSBI(jsbi: JSBI): string {
   return jsbi.toString();
 }
-
-// Prebuy percentages: 0.5%, 1%, 5%, 10%
-export const PREBUY_PERCENTAGES = [0.005, 0.01, 0.05, 0.1];
-
-/**
- * Calculates suggested prebuy amounts in ETH based on token market cap
- * @param marketCapUsd The target market cap in USD (BigNumberish with 18 decimals)
- * @param ethPriceUsd The ETH price in USD (BigNumberish with 18 decimals)
- * @returns Array of 4 suggested prebuy amounts in ETH (BigNumber with 18 decimals)
- */
-export function getSuggestedPrebuyAmounts(
-  marketCapUsd: BigNumberish,
-  ethPriceUsd: BigNumberish
-): BigNumber[] {
-  const marketCap = BigNumber.from(marketCapUsd);
-  const ethPrice = BigNumber.from(ethPriceUsd);
-  
-  // Ensure ethPrice is not zero to avoid division by zero
-  if (ethPrice.isZero()) {
-    throw new Error('ETH price cannot be zero');
-  }
-  
-  // Calculate suggested amounts (with full precision)
-  return PREBUY_PERCENTAGES.map(percentage => {
-    // Calculate USD value: marketCap * percentage
-    const usdValue = marketCap.mul(
-      BigNumber.from(Math.floor(percentage * 10000))
-    ).div(10000);
-    
-    // Convert to ETH: usdValue / ethPrice
-    // Scale by 1e18 to maintain precision in division
-    const ethValue = usdValue
-      .mul(BigNumber.from(10).pow(18))
-      .div(ethPrice);
-    
-    return ethValue;
-  });
-}
-
-/**
- * Utility function to format the prebuy suggestions in a user-friendly way
- */
-export function formatPrebuyAmounts(
-  amounts: BigNumber[],
-  ethPriceUsd: BigNumberish
-): { percentage: string; amountEth: string; amountUsd: string }[] {
-  const ethPrice = BigNumber.from(ethPriceUsd);
-  
-  return amounts.map((amount, index) => {
-    // Calculate USD equivalent
-    const usdValue = amount.mul(ethPrice).div(BigNumber.from(10).pow(18));
-    
-    return {
-      percentage: `${PREBUY_PERCENTAGES[index] * 100}%`,
-      amountEth: formatUnits(amount, 18),
-      amountUsd: formatUnits(usdValue, 18)
-    };
-  });
-}
-
-

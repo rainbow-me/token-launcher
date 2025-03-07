@@ -159,7 +159,7 @@ describe('App Integration', () => {
       });
       
       // Compare BigNumber values directly
-      expect(result.swap.marketCapAfter.usd.gt(result.marketCap.actualUsd)).toBe(true);
+      expect(BigNumber.from(result.swap.marketCapAfter.usd).gt(BigNumber.from(result.marketCap.actualUsd))).toBe(true);
     }
   });
 
