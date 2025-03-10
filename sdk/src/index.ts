@@ -138,3 +138,8 @@ export type {
   TokenomicsResult,
   TokenomicsResultFormatted,
 } from './utils/tokenomics';
+
+export {
+  TokenLauncherErrorCode,
+  TokenLauncherSDKError,
+} from './errors';
