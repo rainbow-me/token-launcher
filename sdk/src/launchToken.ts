@@ -27,7 +27,7 @@ export const launchRainbowSuperToken = async (
       throwTokenLauncherError(
         TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
         "Failed to get token factory contract",
-        { operation: "getRainbowSuperTokenFactory", originalError: error, source: "blockchain" }
+        { operation: "getRainbowSuperTokenFactory", originalError: error, source: "chain" }
       );
     }
 
@@ -82,7 +82,7 @@ export const launchRainbowSuperToken = async (
       throwTokenLauncherError(
         TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
         "Failed to populate transaction for token launch",
-        { operation: "populateTransaction.launchRainbowSuperToken", originalError: error, source: "blockchain" }
+        { operation: "populateTransaction.launchRainbowSuperToken", originalError: error, source: "chain" }
       );
     }
 
@@ -109,13 +109,13 @@ export const launchRainbowSuperToken = async (
         throwTokenLauncherError(
           TokenLauncherErrorCode.INSUFFICIENT_FUNDS,
           "Insufficient funds to complete transaction",
-          { operation: "wallet.sendTransaction", originalError: error, source: "blockchain" }
+          { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
         );
       } else {
         throwTokenLauncherError(
           TokenLauncherErrorCode.TRANSACTION_FAILED,
           `Transaction failed: ${error.message || 'Unknown reason'}`,
-          { operation: "wallet.sendTransaction", originalError: error, source: "blockchain" }
+          { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
         );
       }
     }
@@ -161,7 +161,7 @@ export const launchRainbowSuperTokenAndBuy = async (
       throwTokenLauncherError(
         TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
         "Failed to get token factory contract",
-        { operation: "getRainbowSuperTokenFactory", originalError: error, source: "blockchain" }
+        { operation: "getRainbowSuperTokenFactory", originalError: error, source: "chain" }
       );
     }
 
@@ -220,7 +220,7 @@ export const launchRainbowSuperTokenAndBuy = async (
       throwTokenLauncherError(
         TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
         "Failed to populate transaction for token launch and buy",
-        { operation: "populateTransaction.launchRainbowSuperTokenAndBuy", originalError: error, source: "blockchain" }
+        { operation: "populateTransaction.launchRainbowSuperTokenAndBuy", originalError: error, source: "chain" }
       );
     }
 
@@ -246,13 +246,13 @@ export const launchRainbowSuperTokenAndBuy = async (
         throwTokenLauncherError(
           TokenLauncherErrorCode.INSUFFICIENT_FUNDS,
           "Insufficient funds to complete transaction",
-          { operation: "wallet.sendTransaction", originalError: error, source: "blockchain" }
+          { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
         );
       } else {
         throwTokenLauncherError(
           TokenLauncherErrorCode.TRANSACTION_FAILED,
           `Transaction failed: ${error.message || 'Unknown reason'}`,
-          { operation: "wallet.sendTransaction", originalError: error, source: "blockchain" }
+          { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
         );
       }
     }
@@ -291,7 +291,7 @@ const getRainbowSuperTokenSubmissionDetails = async (
       throwTokenLauncherError(
         TokenLauncherErrorCode.WALLET_CONNECTION_ERROR,
         "Failed to get chain ID from wallet",
-        { operation: "wallet.getChainId", originalError: error, source: "blockchain" }
+        { operation: "wallet.getChainId", originalError: error, source: "chain" }
       );
     }
     

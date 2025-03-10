@@ -27,7 +27,7 @@ export enum TokenLauncherErrorCode {
     readonly context: {
       operation: string;
       params?: any;
-      source: "api" | "blockchain" | "sdk";
+      source: "api" | "chain" | "sdk";
       chainId?: number;
       transactionHash?: string;
       originalError?: any;
@@ -39,7 +39,7 @@ export enum TokenLauncherErrorCode {
       context: {
         operation: string;
         params?: any;
-        source: "api" | "blockchain" | "sdk";
+        source: "api" | "chain" | "sdk";
         chainId?: number;
         transactionHash?: string;
         originalError?: any;
@@ -59,7 +59,7 @@ export enum TokenLauncherErrorCode {
   export function throwTokenLauncherError(
     code: TokenLauncherErrorCode,
     message: string,
-    context: Omit<TokenLauncherSDKError["context"], "source"> & { source?: "api" | "blockchain" | "sdk" }
+    context: Omit<TokenLauncherSDKError["context"], "source"> & { source?: "api" | "chain" | "sdk" }
   ): never {
     throw new TokenLauncherSDKError(code, message, {
       ...context,
