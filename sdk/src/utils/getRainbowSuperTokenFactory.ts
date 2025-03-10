@@ -7,7 +7,7 @@ import { SDKConfig } from '../types';
 export const getRainbowSuperTokenFactory = async (wallet: Wallet, config: SDKConfig): Promise<Contract> => {
   const chainId = await wallet.getChainId();
   let factoryAddress;
-  if (config.MODE === 'jest' || !config.SUPPORTED_NETWORKS || config.SUPPORTED_NETWORKS.length === 0) {
+  if (config.MODE === 'jest') {
     factoryAddress = getFactorySupportedChains().find((network) => network.chainId === chainId)?.contractAddress;
   } else {
     factoryAddress = config.SUPPORTED_NETWORKS?.find((network) => network.chainId === chainId)?.contractAddress;

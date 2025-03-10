@@ -3,8 +3,9 @@ import { launchRainbowSuperToken, launchRainbowSuperTokenAndBuy } from './launch
 import { getAirdropSuggestions, getRainbowSuperTokenByUri, getRainbowSuperTokens } from './api'
 import { calculateTokenomics, TokenomicsParams, TokenomicsResult, TokenomicsResultFormatted, weiToEth } from './utils/tokenomics'
 import JSBI from 'jsbi'
-import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
+import { BigNumber } from '@ethersproject/bignumber';
 import { getInitialTick } from './getInitialTick';
+
 class TokenLauncherSDK {
   private static instance: TokenLauncherSDK;
   private config: SDKConfig = {};
@@ -33,11 +34,11 @@ class TokenLauncherSDK {
     return getInitialTick(tokenPrice);
   }
 
-  public async launchToken(params: LaunchTokenParams): Promise<LaunchTokenResponse> {
+  public async launchToken(params: LaunchTokenParams): Promise<LaunchTokenResponse | undefined> {
     return launchRainbowSuperToken(params, this.config);
   }
 
-  public async launchTokenAndBuy(params: LaunchTokenParams): Promise<LaunchTokenResponse> {
+  public async launchTokenAndBuy(params: LaunchTokenParams): Promise<LaunchTokenResponse | undefined> {
     return launchRainbowSuperTokenAndBuy(params, this.config);
   }
 
