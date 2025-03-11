@@ -9,7 +9,7 @@ import { TokenLauncherSDKError, TokenLauncherErrorCode, throwTokenLauncherError 
 export const launchRainbowSuperToken = async (
   params: LaunchTokenParams,
   config: SDKConfig
-): Promise<LaunchTokenResponse | undefined> => {
+): Promise<LaunchTokenResponse | undefined> => { 
   try {
     // Validate required parameters
     if (!params.name || !params.symbol || !params.supply || !params.initialTick || !params.logoUrl || !params.description) {
@@ -32,6 +32,7 @@ export const launchRainbowSuperToken = async (
     }
 
     const creator = params.creator || (await params.wallet.getAddress());
+    
     let enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string } = params;
     let tokenUri = '';
     let tokenAddress = '';
@@ -39,6 +40,7 @@ export const launchRainbowSuperToken = async (
     if (process.env.IS_TESTING !== 'true') {
       try {
         const submissionDetails = await getRainbowSuperTokenSubmissionDetails(params, config);
+        
         tokenUri = submissionDetails.tokenURI;
         tokenAddress = submissionDetails.token.address;
         enrichedParams = {

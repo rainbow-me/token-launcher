@@ -1,3 +1,3 @@
 #!/bin/bash
 source .env
-anvil --fork-url 'https://virtual.mainnet.rpc.tenderly.co/9833b31c-b57c-483a-879f-4fae648e2054'
+anvil --fork-url 'https://virtual.mainnet.rpc.tenderly.co/4a300182-608c-491f-8dd0-3e7fe8d2ec52'

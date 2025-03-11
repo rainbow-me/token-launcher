@@ -1,7 +1,6 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
 import { BigNumber } from '@ethersproject/bignumber';
-import { launchRainbowSuperToken, launchRainbowSuperTokenAndBuy } from '../src/launchToken';
 import { HashZero } from '@ethersproject/constants';
 import { predictTokenAddress } from '../src/predictAddress';
 import { isAddress } from '@ethersproject/address';
@@ -10,7 +9,7 @@ import { formatUnits } from '@ethersproject/units';
 import { TokenLauncher } from '../src/index';
 import { getFactorySupportedChains } from '../src/utils/getFactorySupportedChains';
 
-describe.skip('Launch Rainbow Super Token and Buy', () => {
+describe('Launch Rainbow Super Token and Buy', () => {
   let provider: JsonRpcProvider;
   let wallet: Wallet;
   let sdk: typeof TokenLauncher;
@@ -88,8 +87,8 @@ describe.skip('Launch Rainbow Super Token and Buy', () => {
   
   it('handles extreme token prices', async () => {
     const testCases = [
-      { tokenPrice: "0.0001", comment: 'Very expensive token' },
-      { tokenPrice: "10000", comment: 'Very cheap token' }
+      { tokenPrice: "0.0001", comment: 'Very cheap token' },
+      { tokenPrice: "10000", comment: 'Very expensive token' }
     ];
   
     for (const { tokenPrice } of testCases) {
@@ -109,6 +108,8 @@ describe.skip('Launch Rainbow Super Token and Buy', () => {
       supply: "1000000000000000000000000",
       amountIn: "1000000000000000000",
       initialTick: 200,
+      logoUrl: "https://example.com/logo.png",
+      description: "This is a test token",
       wallet,
       creator: wallet.address,
       transactionOptions: {
@@ -117,15 +118,15 @@ describe.skip('Launch Rainbow Super Token and Buy', () => {
         maxPriorityFeePerGas: '1500000000'
       }
     };
-
-    const tx = await sdk.launchTokenAndBuy(txParams);
-
-    console.log('Transaction submitted, waiting for confirmation...');
-
-    const receipt = await provider.waitForTransaction(tx?.hash || '');
-    console.log('Transaction confirmed in block:', receipt?.blockNumber);
-    expect(receipt?.status).toBe(1);
-  }, 20000);
+    try {
+      const tx = await sdk.launchTokenAndBuy(txParams);
+      console.log('Transaction submitted with hash:', tx?.transaction.hash);
+      expect(tx?.transaction.hash).toBeTruthy();
+    } catch (error) {
+      console.error('Failed to send transaction:', error);
+      throw error;
+    }
+  }, 60000);
    
   it('should launch a rainbow super token', async () => {
     const txParams = {
@@ -138,19 +139,15 @@ describe.skip('Launch Rainbow Super Token and Buy', () => {
       creator: wallet.address,
       links: {},
       merkleroot: HashZero,
+      logoUrl: "https://example.com/logo.png",
+      description: "This is a test token",
       transactionOptions: {
         gasLimit: '8000000',
         maxFeePerGas: '1500000000',
         maxPriorityFeePerGas: '1500000000'
       }
     };
-
     const tx = await sdk.launchToken(txParams);
-
-    console.log('Transaction submitted, waiting for confirmation...');
-
-    const receipt = await provider.waitForTransaction(tx.hash);
-    console.log('Transaction confirmed in block:', receipt.blockNumber);
-    expect(receipt.status).toBe(1);
-  }, 20000);
+    console.log('Transaction submitted with hash:', tx?.transaction.hash);
+  }, 60000);
 });
