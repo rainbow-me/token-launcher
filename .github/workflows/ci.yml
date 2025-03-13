@@ -67,9 +67,10 @@ jobs:
         # Create .env with secrets for CI
         cat > .env << EOF
         IS_TESTING=true
-        TENDERLY_RPC_URL=${{ secrets.TENDERLY_RPC_URL }}
+        RPC_URL=${{ secrets.RPC_URL }}
         API_KEY_DEV=${{ secrets.API_KEY_DEV }}
         API_KEY_PROD=${{ secrets.API_KEY_PROD }}
+        API_URL_DEV=${{ secrets.API_URL_DEV }}
         EOF
         
         $HOME/.foundry/bin/anvil --version
@@ -80,9 +81,15 @@ jobs:
     - name: Check secrets availability
       run: |
         echo "Checking for required secrets..."
-        if [ -z "${{ secrets.TENDERLY_RPC_URL }}" ]; then
-          echo "⚠️ TENDERLY_RPC_URL is not set or empty"
+        if [ -z "${{ secrets.RPC_URL }}" ]; then
+          echo "⚠️ RPC_URL is not set or empty"
         else
-          echo "✅ TENDERLY_RPC_URL is available"
+          echo "✅ RPC_URL is available"
+        fi
+        
+        if [ -z "${{ secrets.API_URL_DEV }}" ]; then
+          echo "⚠️ API_URL_DEV is not set or empty"
+        else
+          echo "✅ API_URL_DEV is available"
         fi
         # Similar checks for other secrets 
