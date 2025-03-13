@@ -1,4 +1,10 @@
-import { DeployRainbowSuperTokenResponse, LaunchTokenParams, SDKConfig, LaunchTokenResponse, LaunchTokenAndBuyParams } from './types';
+import {
+  DeployRainbowSuperTokenResponse,
+  LaunchTokenParams,
+  SDKConfig,
+  LaunchTokenResponse,
+  LaunchTokenAndBuyParams,
+} from './types';
 import { getRainbowSuperTokenFactory } from './utils/getRainbowSuperTokenFactory';
 import { TransactionRequest } from '@ethersproject/providers';
 import { HashZero } from '@ethersproject/constants';
@@ -25,13 +31,17 @@ async function prepareTokenLaunch(
   if (operation === 'launchAndBuy') {
     requiredParams.push('amountIn');
   }
-  
+
   for (const param of requiredParams) {
     if (!params[param as keyof LaunchTokenParams]) {
       throwTokenLauncherError(
         TokenLauncherErrorCode.MISSING_REQUIRED_PARAM,
         `Missing required parameter: ${param}`,
-        { operation: operation === 'launch' ? 'launchRainbowSuperToken' : 'launchRainbowSuperTokenAndBuy', params }
+        {
+          operation:
+            operation === 'launch' ? 'launchRainbowSuperToken' : 'launchRainbowSuperTokenAndBuy',
+          params,
+        }
       );
     }
   }
@@ -43,39 +53,43 @@ async function prepareTokenLaunch(
   } catch (error) {
     throwTokenLauncherError(
       TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
-      "Failed to get token factory contract",
-      { operation: "getRainbowSuperTokenFactory", originalError: error, source: "chain" }
+      'Failed to get token factory contract',
+      { operation: 'getRainbowSuperTokenFactory', originalError: error, source: 'chain' }
     );
   }
 
   const creator = params.creator || (await params.wallet.getAddress());
-  
+
   let enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string } = params;
   let tokenUri = '';
   let tokenAddress = '';
 
   // Get submission details or generate salt for testing
   if (process.env.IS_TESTING !== 'true') {
-    try {
-      const submissionDetails = await getRainbowSuperTokenSubmissionDetails({
+    const submissionDetails = await getRainbowSuperTokenSubmissionDetails(
+      {
         ...params,
         links: params.links || {},
-      }, config);
-      
-      tokenUri = submissionDetails.tokenURI;
-      tokenAddress = submissionDetails.token.address;
-      enrichedParams = {
-        ...params,
-        merkleRoot: submissionDetails.merkleRoot ?? HashZero,
-        salt: submissionDetails.salt,
-      };
-    } catch (error) {
-      // Error is already formatted by the called function
-      throw error;
-    }
+      },
+      config
+    );
+    tokenUri = submissionDetails.tokenURI;
+    tokenAddress = submissionDetails.token.address;
+    enrichedParams = {
+      ...params,
+      merkleRoot: submissionDetails.merkleRoot ?? HashZero,
+      salt: submissionDetails.salt,
+    };
   } else {
     try {
-      const { salt } = await findValidSalt(factory, creator, params.name, params.symbol, HashZero, params.supply);
+      const { salt } = await findValidSalt(
+        factory,
+        creator,
+        params.name,
+        params.symbol,
+        HashZero,
+        params.supply
+      );
       enrichedParams = {
         ...params,
         merkleRoot: HashZero,
@@ -84,8 +98,8 @@ async function prepareTokenLaunch(
     } catch (error) {
       throwTokenLauncherError(
         TokenLauncherErrorCode.INVALID_SALT,
-        "Failed to find valid salt for token deployment",
-        { operation: "findValidSalt", originalError: error, source: "sdk" }
+        'Failed to find valid salt for token deployment',
+        { operation: 'findValidSalt', originalError: error, source: 'sdk' }
       );
     }
   }
@@ -95,7 +109,7 @@ async function prepareTokenLaunch(
     creator,
     enrichedParams,
     tokenUri,
-    tokenAddress
+    tokenAddress,
   };
 }
 
@@ -109,19 +123,20 @@ async function executeTransaction(
 ): Promise<any> {
   try {
     return await wallet.sendTransaction(payload);
-  } catch (error: any) {
+  } catch (error) {
     // Identify common wallet errors
-    if (error.code === 'INSUFFICIENT_FUNDS') {
+    const err = error as Error;
+    if ((error as any).code === 'INSUFFICIENT_FUNDS') {
       throwTokenLauncherError(
         TokenLauncherErrorCode.INSUFFICIENT_FUNDS,
-        "Insufficient funds to complete transaction",
-        { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
+        'Insufficient funds to complete transaction',
+        { operation, originalError: err, source: 'chain', params: payload }
       );
     } else {
       throwTokenLauncherError(
         TokenLauncherErrorCode.TRANSACTION_FAILED,
-        `Transaction failed: ${error.message || 'Unknown reason'}`,
-        { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
+        `Transaction failed: ${err.message || 'Unknown reason'}`,
+        { operation, originalError: err, source: 'chain', params: payload }
       );
     }
   }
@@ -130,10 +145,13 @@ async function executeTransaction(
 export const launchRainbowSuperToken = async (
   params: LaunchTokenParams,
   config: SDKConfig
-): Promise<LaunchTokenResponse | undefined> => { 
+): Promise<LaunchTokenResponse | undefined> => {
   try {
-    const { factory, creator, enrichedParams, tokenUri, tokenAddress } = 
-      await prepareTokenLaunch(params, config, 'launch');
+    const { factory, creator, enrichedParams, tokenUri, tokenAddress } = await prepareTokenLaunch(
+      params,
+      config,
+      'launch'
+    );
 
     // Populate transaction
     let populatedTx;
@@ -150,8 +168,13 @@ export const launchRainbowSuperToken = async (
     } catch (error) {
       throwTokenLauncherError(
         TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
-        "Failed to populate transaction for token launch",
-        { operation: "populateTransaction.launchRainbowSuperToken", originalError: error, source: "chain" }
+        'Failed to populate transaction for token launch',
+        {
+          operation: 'populateTransaction.launchRainbowSuperToken',
+          originalError: error,
+          source: 'chain',
+          params,
+        }
       );
     }
 
@@ -171,24 +194,24 @@ export const launchRainbowSuperToken = async (
     }
 
     // Execute transaction
-    const tx = await executeTransaction(params.wallet, payload, "launchRainbowSuperToken");
+    const tx = await executeTransaction(params.wallet, payload, 'launchRainbowSuperToken');
 
     return {
       transaction: tx,
       tokenUri,
       tokenAddress,
     };
-  } catch (error: any) {
+  } catch (error) {
     // If it's already our custom error, just re-throw it
     if (error instanceof TokenLauncherSDKError) {
       throw error;
     }
-    
+
     // Otherwise wrap it in our custom error
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNKNOWN_ERROR,
-      `Unexpected error in launchRainbowSuperToken: ${error.message || String(error)}`,
-      { operation: "launchRainbowSuperToken", originalError: error, source: "sdk" }
+      `Unexpected error in launchRainbowSuperToken: ${(error as Error).message || String(error)}`,
+      { operation: 'launchRainbowSuperToken', originalError: error, source: 'sdk', params }
     );
   }
 };
@@ -198,8 +221,11 @@ export const launchRainbowSuperTokenAndBuy = async (
   config: SDKConfig
 ): Promise<LaunchTokenResponse> => {
   try {
-    const { factory, creator, enrichedParams, tokenUri, tokenAddress } = 
-      await prepareTokenLaunch(params, config, 'launchAndBuy');
+    const { factory, creator, enrichedParams, tokenUri, tokenAddress } = await prepareTokenLaunch(
+      params,
+      config,
+      'launchAndBuy'
+    );
 
     // Populate transaction
     let populatedTx;
@@ -217,8 +243,13 @@ export const launchRainbowSuperTokenAndBuy = async (
     } catch (error) {
       throwTokenLauncherError(
         TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
-        "Failed to populate transaction for token launch and buy",
-        { operation: "populateTransaction.launchRainbowSuperTokenAndBuy", originalError: error, source: "chain" }
+        'Failed to populate transaction for token launch and buy',
+        {
+          operation: 'populateTransaction.launchRainbowSuperTokenAndBuy',
+          originalError: error,
+          source: 'chain',
+          params,
+        }
       );
     }
 
@@ -238,24 +269,25 @@ export const launchRainbowSuperTokenAndBuy = async (
     }
 
     // Execute transaction
-    const tx = await executeTransaction(params.wallet, payload, "launchRainbowSuperTokenAndBuy");
+    const tx = await executeTransaction(params.wallet, payload, 'launchRainbowSuperTokenAndBuy');
 
     return {
       transaction: tx,
       tokenUri,
       tokenAddress,
     };
-  } catch (error: any) {
+  } catch (error) {
     // If it's already our custom error, just re-throw it
     if (error instanceof TokenLauncherSDKError) {
       throw error;
     }
-    
+
     // Otherwise wrap it in our custom error
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNKNOWN_ERROR,
-      `Unexpected error in launchRainbowSuperTokenAndBuy: ${error.message || String(error)}`,
-      { operation: "launchRainbowSuperTokenAndBuy", originalError: error, source: "sdk" }
+      `Unexpected error in launchRainbowSuperTokenAndBuy: ${(error as Error).message ||
+        String(error)}`,
+      { operation: 'launchRainbowSuperTokenAndBuy', originalError: error, source: 'sdk', params }
     );
   }
 };
@@ -266,18 +298,18 @@ const getRainbowSuperTokenSubmissionDetails = async (
 ): Promise<DeployRainbowSuperTokenResponse['data']> => {
   try {
     const creator = params.creator || (await params.wallet.getAddress());
-    
+
     let chainId;
     try {
       chainId = await params.wallet.getChainId();
     } catch (error) {
       throwTokenLauncherError(
         TokenLauncherErrorCode.WALLET_CONNECTION_ERROR,
-        "Failed to get chain ID from wallet",
-        { operation: "wallet.getChainId", originalError: error, source: "chain" }
+        'Failed to get chain ID from wallet',
+        { operation: 'wallet.getChainId', originalError: error, source: 'chain', params }
       );
     }
-    
+
     const submissionDetailParams = {
       chainId,
       name: params.name,
@@ -293,11 +325,17 @@ const getRainbowSuperTokenSubmissionDetails = async (
     let submissionDetails;
     try {
       submissionDetails = await submitRainbowSuperToken(submissionDetailParams, config);
-    } catch (error: any) {
+    } catch (error) {
       throwTokenLauncherError(
         TokenLauncherErrorCode.API_REQUEST_FAILED,
-        `Failed to submit token details to API: ${error.message || 'Unknown reason'}`,
-        { operation: "submitRainbowSuperToken", params: submissionDetailParams, originalError: error, source: "api", chainId }
+        `Failed to submit token details to API: ${(error as Error).message || 'Unknown reason'}`,
+        {
+          operation: 'submitRainbowSuperToken',
+          params: submissionDetailParams,
+          originalError: error,
+          source: 'api',
+          chainId,
+        }
       );
     }
 
@@ -305,22 +343,33 @@ const getRainbowSuperTokenSubmissionDetails = async (
       throwTokenLauncherError(
         TokenLauncherErrorCode.SUBMISSION_DETAILS_MISSING,
         `No submission details returned for token: ${params.name} (${params.symbol})`,
-        { operation: "submitRainbowSuperToken", params: submissionDetailParams, source: "api", chainId }
+        {
+          operation: 'submitRainbowSuperToken',
+          params: submissionDetailParams,
+          source: 'api',
+          chainId,
+        }
       );
     }
-    
+
     return submissionDetails.data;
-  } catch (error: any) {
+  } catch (error) {
     // If it's already our custom error, just re-throw it
     if (error instanceof TokenLauncherSDKError) {
       throw error;
     }
-    
+
     // Otherwise wrap it in our custom error
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNKNOWN_ERROR,
-      `Unexpected error in getRainbowSuperTokenSubmissionDetails: ${error.message || String(error)}`,
-      { operation: "getRainbowSuperTokenSubmissionDetails", originalError: error, source: "sdk" }
+      `Unexpected error in getRainbowSuperTokenSubmissionDetails: ${(error as Error).message ||
+        String(error)}`,
+      {
+        operation: 'getRainbowSuperTokenSubmissionDetails',
+        originalError: error,
+        source: 'sdk',
+        params,
+      }
     );
   }
 };

@@ -1,17 +1,20 @@
-import { Wallet } from '@ethersproject/wallet'
-import { getRainbowSuperTokenFactory } from './getRainbowSuperTokenFactory'
-import { SDKConfig } from '../types'
+import { Wallet } from '@ethersproject/wallet';
+import { getRainbowSuperTokenFactory } from './getRainbowSuperTokenFactory';
+import { SDKConfig } from '../types';
 interface FeeConfig {
-  creatorLPFeeBps: number
-  protocolBaseBps: number
-  creatorBaseBps: number
-  airdropBps: number
-  hasAirdrop: boolean
-  feeToken: string
-  creator: string
+  creatorLPFeeBps: number;
+  protocolBaseBps: number;
+  creatorBaseBps: number;
+  airdropBps: number;
+  hasAirdrop: boolean;
+  feeToken: string;
+  creator: string;
 }
 
-export async function getTokenLauncherContractConfig(wallet: Wallet, config: SDKConfig): Promise<FeeConfig> {
+export async function getTokenLauncherContractConfig(
+  wallet: Wallet,
+  config: SDKConfig
+): Promise<FeeConfig> {
   const factory = await getRainbowSuperTokenFactory(wallet, config);
   const factoryConfig = await factory.defaultFeeConfig();
   return {
@@ -21,6 +24,6 @@ export async function getTokenLauncherContractConfig(wallet: Wallet, config: SDK
     airdropBps: factoryConfig.airdropBps,
     hasAirdrop: factoryConfig.hasAirdrop,
     feeToken: factoryConfig.feeToken,
-    creator: factoryConfig.creator
-  }
+    creator: factoryConfig.creator,
+  };
 }

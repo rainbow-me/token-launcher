@@ -62,7 +62,7 @@ export interface RainbowError extends Error {
 }
 
 // Re-export API types
-export type {
+export {
   TokenMetadata,
   AirdropMetadata,
   DeployRainbowSuperTokenRequest,
@@ -76,12 +76,8 @@ export type {
 } from './api';
 
 export class RainbowFetchError extends Error {
-  constructor(
-    message: string,
-    public status: number,
-    public details: string
-  ) {
-    super(message)
-    this.name = 'RainbowFetchError'
+  constructor(message: string, public status: number, public details: string) {
+    super(message);
+    this.name = 'RainbowFetchError';
   }
 }

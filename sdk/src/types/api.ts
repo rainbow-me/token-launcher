@@ -42,7 +42,7 @@ export interface DeployRainbowSuperTokenResponse {
       creatorAddress: string;
       tokenUri: string;
       merkleRoot: string;
-  };
+    };
   };
 }
 
@@ -82,7 +82,7 @@ export interface PersonalizedCohort {
 export interface GetAirdropSuggestionsResponse {
   meta: {
     maxUserAllocations: number;
-  },
+  };
   data: {
     personalizedCohorts: PersonalizedCohort[];
     predefinedCohorts: PredefinedCohort[];
@@ -108,4 +108,4 @@ export interface GetRainbowSuperTokenResponse {
 
 export interface GetRainbowSuperTokensResponse {
   data: GetRainbowSuperTokenResponse['data'][];
-} 
+}

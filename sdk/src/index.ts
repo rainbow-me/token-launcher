@@ -1,6 +1,14 @@
-import { GetAirdropSuggestionsResponse, GetRainbowSuperTokenResponse, GetRainbowSuperTokensResponse, LaunchTokenParams, SDKConfig, LaunchTokenResponse, LaunchTokenAndBuyParams } from './types'
-import { launchRainbowSuperToken, launchRainbowSuperTokenAndBuy } from './launchToken'
-import { getAirdropSuggestions, getRainbowSuperTokenByUri, getRainbowSuperTokens } from './api'
+import {
+  GetAirdropSuggestionsResponse,
+  GetRainbowSuperTokenResponse,
+  GetRainbowSuperTokensResponse,
+  LaunchTokenParams,
+  SDKConfig,
+  LaunchTokenResponse,
+  LaunchTokenAndBuyParams,
+} from './types';
+import { launchRainbowSuperToken, launchRainbowSuperTokenAndBuy } from './launchToken';
+import { getAirdropSuggestions, getRainbowSuperTokenByUri, getRainbowSuperTokens } from './api';
 import { BigNumber } from '@ethersproject/bignumber';
 import { getInitialTick } from './getInitialTick';
 
@@ -31,7 +39,9 @@ class TokenLauncherSDK {
     return launchRainbowSuperToken(params, this.config);
   }
 
-  public async launchTokenAndBuy(params: LaunchTokenAndBuyParams): Promise<LaunchTokenResponse | undefined> {
+  public async launchTokenAndBuy(
+    params: LaunchTokenAndBuyParams
+  ): Promise<LaunchTokenResponse | undefined> {
     return launchRainbowSuperTokenAndBuy(params, this.config);
   }
 
@@ -49,10 +59,10 @@ class TokenLauncherSDK {
 }
 
 // Export singleton instance
-export const TokenLauncher = TokenLauncherSDK.getInstance()
+export const TokenLauncher = TokenLauncherSDK.getInstance();
 
 // Export types
-export type {
+export {
   TokenMetadata,
   AirdropMetadata,
   GetAirdropSuggestionsResponse,
@@ -68,7 +78,4 @@ export type {
   SDKConfig,
 } from './types';
 
-export {
-  TokenLauncherErrorCode,
-  TokenLauncherSDKError,
-} from './errors';
+export { TokenLauncherErrorCode, TokenLauncherSDKError } from './errors';

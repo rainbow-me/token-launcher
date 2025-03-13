@@ -1,12 +1,16 @@
 import { rainbowFetch } from './utils/rainbowFetch';
-import { DeployRainbowSuperTokenRequest, DeployRainbowSuperTokenResponse, SDKConfig } from '../types';
+import {
+  DeployRainbowSuperTokenRequest,
+  DeployRainbowSuperTokenResponse,
+  SDKConfig,
+} from '../types';
 
 export const submitRainbowSuperToken = async (
   payload: DeployRainbowSuperTokenRequest,
   config: SDKConfig
 ): Promise<DeployRainbowSuperTokenResponse> => {
   let url;
-  let headers: HeadersInit = {
+  const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
   switch (config.MODE) {

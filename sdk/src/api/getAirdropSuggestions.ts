@@ -6,7 +6,7 @@ export const getAirdropSuggestions = async (
   config: SDKConfig
 ): Promise<GetAirdropSuggestionsResponse> => {
   let url;
-  let headers: HeadersInit = {
+  const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
   switch (config.MODE) {
@@ -20,10 +20,7 @@ export const getAirdropSuggestions = async (
     default:
       throw new Error('Invalid mode');
   }
-  return await rainbowFetch(
-    `${url}/v1/airdrop/${userAddress}/suggestions`,
-    {
-      headers,
-    }
-  );
-}; 
+  return await rainbowFetch(`${url}/v1/airdrop/${userAddress}/suggestions`, {
+    headers,
+  });
+};

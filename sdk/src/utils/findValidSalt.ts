@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import { Contract } from '@ethersproject/contracts';
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { hexZeroPad, hexlify } from '@ethersproject/bytes';
@@ -23,8 +24,8 @@ export async function findValidSalt(
   supply: BigNumberish
 ): Promise<{ salt: string; predictedAddress: string }> {
   const defaultPairToken = await factory.defaultPairToken();
-  
-  while (true) {
+  let ret;
+  while (!ret) {
     // Generate a random salt as proper hex
     const randomSalt = hexZeroPad(
       hexlify(randomBytes(32)), // Convert random bytes to hex properly
@@ -43,10 +44,11 @@ export async function findValidSalt(
 
     // Check if predicted address is less than WETH
     if (BigNumber.from(predicted).lt(BigNumber.from(defaultPairToken))) {
-      return {
+      ret = {
         salt: randomSalt,
-        predictedAddress: predicted
+        predictedAddress: predicted,
       };
     }
   }
+  return ret;
 }

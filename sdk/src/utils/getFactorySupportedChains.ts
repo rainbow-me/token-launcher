@@ -1,4 +1,4 @@
-import { SupportedNetwork } from "../types";
+import { SupportedNetwork } from '../types';
 export const getFactorySupportedChains = (): SupportedNetwork[] => {
   // This is a fallback used for testing
   return [

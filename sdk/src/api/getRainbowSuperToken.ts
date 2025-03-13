@@ -6,7 +6,7 @@ export const getRainbowSuperTokenByUri = async (
   config: SDKConfig
 ): Promise<GetRainbowSuperTokenResponse> => {
   let url;
-  let headers: HeadersInit = {
+  const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
   switch (config.MODE) {
