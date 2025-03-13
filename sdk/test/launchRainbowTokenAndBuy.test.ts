@@ -8,6 +8,8 @@ import { getInitialTick } from '../src/getInitialTick';
 import { formatUnits } from '@ethersproject/units';
 import { TokenLauncher } from '../src/index';
 import { getFactorySupportedChains } from '../src/utils/getFactorySupportedChains';
+import { getTokenLauncherContractConfig } from '../src/utils/getFactoryConfig';
+import { exec } from 'child_process';
 
 describe('Launch Rainbow Super Token and Buy', () => {
   let provider: JsonRpcProvider;
@@ -28,6 +30,12 @@ describe('Launch Rainbow Super Token and Buy', () => {
     const balance = await provider.getBalance(wallet.address);
     console.log('creator wallet balance: ', balance);
     expect(balance.gt(BigNumber.from('0'))).toBe(true);
+  });
+
+  it('should get factory config', async () => {
+    const config = await getTokenLauncherContractConfig(wallet, sdk.getConfig());
+    expect(config).toBeDefined();
+    console.log('factory config: ', config);
   });
 
   it('should predict token address', async () => {

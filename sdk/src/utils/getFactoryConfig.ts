@@ -11,9 +11,9 @@ interface FeeConfig {
   creator: string
 }
 
-export async function getFactoryConfig(wallet: Wallet, config: SDKConfig): Promise<FeeConfig> {
-  const factory = await getRainbowSuperTokenFactory(wallet, config)
-  const factoryConfig = await factory.defaultFeeConfig()
+export async function getTokenLauncherContractConfig(wallet: Wallet, config: SDKConfig): Promise<FeeConfig> {
+  const factory = await getRainbowSuperTokenFactory(wallet, config);
+  const factoryConfig = await factory.defaultFeeConfig();
   return {
     creatorLPFeeBps: factoryConfig.creatorLPFeeBps,
     protocolBaseBps: factoryConfig.protocolBaseBps,

@@ -1,7 +1,5 @@
 import { config } from 'dotenv';
 import { resolve } from 'path';
-import { JsonRpcProvider } from '@ethersproject/providers';
-import { spawn, execSync } from 'child_process';
 
 // Load environment variables from .env file
 config({ path: resolve(__dirname, '../../.env') });
