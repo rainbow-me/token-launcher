@@ -24,15 +24,16 @@ jobs:
         cache-dependency-path: './sdk/yarn.lock'
     
     - name: Install Foundry
-      uses: foundry-rs/foundry-toolchain@v1
-      with:
-        version: nightly
-    
-    - name: Add Foundry to PATH
       run: |
+        curl -L https://foundry.paradigm.xyz | bash
+        ~/.foundry/bin/foundryup
         echo "$HOME/.foundry/bin" >> $GITHUB_PATH
-        test -f "$HOME/.foundry/bin/anvil" && echo "Anvil found at $HOME/.foundry/bin/anvil" || echo "Anvil not found"
-        foundryup
+        
+    - name: Verify Foundry installation
+      run: |
+        ls -la ~/.foundry/bin/
+        echo "PATH=$PATH"
+        ~/.foundry/bin/anvil --version
     
     - name: Install dependencies
       run: yarn install
@@ -44,6 +45,10 @@ jobs:
       run: yarn build
       
     - name: Test
-      run: yarn test
+      run: |
+        export PATH="$HOME/.foundry/bin:$PATH"
+        which anvil
+        anvil --version
+        yarn test
       env:
         CI: true 
