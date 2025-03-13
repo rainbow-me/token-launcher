@@ -12,7 +12,7 @@ export const launchRainbowSuperToken = async (
 ): Promise<LaunchTokenResponse | undefined> => { 
   try {
     // Validate required parameters
-    if (!params.name || !params.symbol || !params.supply || !params.initialTick || !params.logoUrl || !params.description) {
+    if (!params.name || !params.symbol || !params.supply || !params.initialTick || !params.logoUrl) {
       throwTokenLauncherError(
         TokenLauncherErrorCode.MISSING_REQUIRED_PARAM,
         "Missing required parameters for token launch",

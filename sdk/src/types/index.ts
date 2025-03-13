@@ -33,7 +33,7 @@ export interface LaunchTokenParams {
   creator?: string;
   transactionOptions?: TransactionOptions;
   logoUrl: string;
-  description: string;
+  description?: string;
   links?: Record<string, string>;
   airdropMetadata?: AirdropMetadata;
 }

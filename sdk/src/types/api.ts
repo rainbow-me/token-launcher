@@ -9,7 +9,7 @@ export interface TokenMetadata {
   symbol: string;
   logoUrl: string;
   totalSupply: string;
-  description: string;
+  description?: string;
   links: Record<string, string>;
   creatorAddress: string;
 }
