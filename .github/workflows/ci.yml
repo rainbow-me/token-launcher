@@ -52,7 +52,10 @@ jobs:
         $HOME/.foundry/bin/anvil --version
     
     - name: Install dependencies
-      run: yarn install
+      run: |
+        yarn install
+        # Add tslib dependency which is required for JSON imports
+        yarn add tslib
     
     # Temporarily skip linting
     # - name: Lint
