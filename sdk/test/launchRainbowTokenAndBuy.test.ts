@@ -16,7 +16,7 @@ describe('Launch Rainbow Super Token and Buy', () => {
   let sdk: typeof TokenLauncher;
 
   beforeAll(async () => {
-    provider = new JsonRpcProvider('http://localhost:8545');
+    provider = new JsonRpcProvider('http://127.0.0.1:8545');
     wallet = new Wallet('0x34120324fbc54dfb9b92a0a12221fbd63e7bb825733d27ad09efaa617b393c73', provider);
     sdk = TokenLauncher;
     sdk.configure({
@@ -55,7 +55,7 @@ describe('Launch Rainbow Super Token and Buy', () => {
   it('calculates correct initial tick for common token prices', async () => {
     const testCases = [
       { 
-        tokenPrice: BigNumber.from(10).pow(18),  // 1 ETH (in fixed-point)
+        tokenPrice: BigNumber.from(10).pow(18),  // 1 ETH
         expectedPrice: 1 
       },
       { 
