@@ -23,17 +23,33 @@ jobs:
         cache: 'yarn'
         cache-dependency-path: './sdk/yarn.lock'
     
-    - name: Install Foundry
+    - name: Install Foundry (direct download)
       run: |
-        curl -L https://foundry.paradigm.xyz | bash
-        ~/.foundry/bin/foundryup
-        echo "$HOME/.foundry/bin" >> $GITHUB_PATH
+        # Create directories
+        mkdir -p $HOME/.foundry/bin
         
+        # Download latest foundry binaries directly
+        FOUNDRY_VERSION="nightly"
+        DOWNLOAD_URL="https://github.com/foundry-rs/foundry/releases/download/$FOUNDRY_VERSION/foundry_${FOUNDRY_VERSION}_linux_amd64.tar.gz"
+        
+        echo "Downloading from $DOWNLOAD_URL"
+        curl -L $DOWNLOAD_URL | tar xz -C $HOME/.foundry/bin
+        
+        # Set permissions
+        chmod +x $HOME/.foundry/bin/forge
+        chmod +x $HOME/.foundry/bin/cast
+        chmod +x $HOME/.foundry/bin/anvil
+        
+        # Add to PATH
+        echo "$HOME/.foundry/bin" >> $GITHUB_PATH
+        export PATH="$HOME/.foundry/bin:$PATH"
+    
     - name: Verify Foundry installation
       run: |
-        ls -la ~/.foundry/bin/
-        echo "PATH=$PATH"
-        ~/.foundry/bin/anvil --version
+        ls -la $HOME/.foundry/bin/
+        export PATH="$HOME/.foundry/bin:$PATH"
+        which anvil || echo "anvil not in PATH"
+        $HOME/.foundry/bin/anvil --version
     
     - name: Install dependencies
       run: yarn install
@@ -47,8 +63,10 @@ jobs:
     - name: Test
       run: |
         export PATH="$HOME/.foundry/bin:$PATH"
-        which anvil
-        anvil --version
+        # Create dummy .env if it doesn't exist
+        touch .env
+        echo "IS_TESTING=true" > .env
+        $HOME/.foundry/bin/anvil --version
         yarn test
       env:
         CI: true 
