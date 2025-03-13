@@ -38,6 +38,10 @@ export interface LaunchTokenParams {
   airdropMetadata?: AirdropMetadata;
 }
 
+export interface LaunchTokenAndBuyParams extends LaunchTokenParams {
+  amountIn: string;
+}
+
 export interface LaunchTokenResponse {
   transaction: TransactionResponse;
   tokenUri: string;

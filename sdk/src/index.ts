@@ -1,4 +1,4 @@
-import { GetAirdropSuggestionsResponse, GetRainbowSuperTokenResponse, GetRainbowSuperTokensResponse, LaunchTokenParams, SDKConfig, LaunchTokenResponse } from './types'
+import { GetAirdropSuggestionsResponse, GetRainbowSuperTokenResponse, GetRainbowSuperTokensResponse, LaunchTokenParams, SDKConfig, LaunchTokenResponse, LaunchTokenAndBuyParams } from './types'
 import { launchRainbowSuperToken, launchRainbowSuperTokenAndBuy } from './launchToken'
 import { getAirdropSuggestions, getRainbowSuperTokenByUri, getRainbowSuperTokens } from './api'
 import { BigNumber } from '@ethersproject/bignumber';
@@ -31,7 +31,7 @@ class TokenLauncherSDK {
     return launchRainbowSuperToken(params, this.config);
   }
 
-  public async launchTokenAndBuy(params: LaunchTokenParams): Promise<LaunchTokenResponse | undefined> {
+  public async launchTokenAndBuy(params: LaunchTokenAndBuyParams): Promise<LaunchTokenResponse | undefined> {
     return launchRainbowSuperTokenAndBuy(params, this.config);
   }
 

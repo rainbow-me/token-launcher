@@ -9,7 +9,6 @@ import { formatUnits } from '@ethersproject/units';
 import { TokenLauncher } from '../src/index';
 import { getFactorySupportedChains } from '../src/utils/getFactorySupportedChains';
 import { getTokenLauncherContractConfig } from '../src/utils/getFactoryConfig';
-import { exec } from 'child_process';
 
 describe('Launch Rainbow Super Token and Buy', () => {
   let provider: JsonRpcProvider;

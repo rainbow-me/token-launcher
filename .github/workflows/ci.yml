@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'yarn'
+    
+    - name: Install Foundry
+      uses: foundry-rs/foundry-toolchain@v1
+      with:
+        version: nightly
+    
+    - name: Add Foundry to PATH
+      run: |
+        echo "$HOME/.foundry/bin" >> $GITHUB_PATH
+        test -f "$HOME/.foundry/bin/anvil" && echo "Anvil found at $HOME/.foundry/bin/anvil" || echo "Anvil not found"
+        foundryup
+    
+    - name: Install dependencies
+      run: yarn install
+    
+    - name: Lint
+      run: yarn lint
+      
+    - name: Build
+      run: yarn build
+      
+    - name: Test
+      run: yarn test
+      env:
+        CI: true 

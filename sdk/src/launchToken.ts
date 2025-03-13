@@ -1,4 +1,4 @@
-import { DeployRainbowSuperTokenResponse, LaunchTokenParams, SDKConfig, LaunchTokenResponse } from './types';
+import { DeployRainbowSuperTokenResponse, LaunchTokenParams, SDKConfig, LaunchTokenResponse, LaunchTokenAndBuyParams } from './types';
 import { getRainbowSuperTokenFactory } from './utils/getRainbowSuperTokenFactory';
 import { TransactionRequest } from '@ethersproject/providers';
 import { HashZero } from '@ethersproject/constants';
@@ -6,69 +6,136 @@ import { submitRainbowSuperToken } from './api';
 import { findValidSalt } from './utils/findValidSalt';
 import { TokenLauncherSDKError, TokenLauncherErrorCode, throwTokenLauncherError } from './errors'; // Import the error utilities
 
+/**
+ * Core function to handle common functionality for token launch operations
+ */
+async function prepareTokenLaunch(
+  params: LaunchTokenParams,
+  config: SDKConfig,
+  operation: 'launch' | 'launchAndBuy'
+): Promise<{
+  factory: any;
+  creator: string;
+  enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string };
+  tokenUri: string;
+  tokenAddress: string;
+}> {
+  // Validate required parameters
+  const requiredParams = ['name', 'symbol', 'supply', 'initialTick', 'logoUrl'];
+  if (operation === 'launchAndBuy') {
+    requiredParams.push('amountIn');
+  }
+  
+  for (const param of requiredParams) {
+    if (!params[param as keyof LaunchTokenParams]) {
+      throwTokenLauncherError(
+        TokenLauncherErrorCode.MISSING_REQUIRED_PARAM,
+        `Missing required parameter: ${param}`,
+        { operation: operation === 'launch' ? 'launchRainbowSuperToken' : 'launchRainbowSuperTokenAndBuy', params }
+      );
+    }
+  }
+
+  // Get factory contract
+  let factory;
+  try {
+    factory = await getRainbowSuperTokenFactory(params.wallet, config);
+  } catch (error) {
+    throwTokenLauncherError(
+      TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
+      "Failed to get token factory contract",
+      { operation: "getRainbowSuperTokenFactory", originalError: error, source: "chain" }
+    );
+  }
+
+  const creator = params.creator || (await params.wallet.getAddress());
+  
+  let enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string } = params;
+  let tokenUri = '';
+  let tokenAddress = '';
+
+  // Get submission details or generate salt for testing
+  if (process.env.IS_TESTING !== 'true') {
+    try {
+      const submissionDetails = await getRainbowSuperTokenSubmissionDetails({
+        ...params,
+        links: params.links || {},
+      }, config);
+      
+      tokenUri = submissionDetails.tokenURI;
+      tokenAddress = submissionDetails.token.address;
+      enrichedParams = {
+        ...params,
+        merkleRoot: submissionDetails.merkleRoot ?? HashZero,
+        salt: submissionDetails.salt,
+      };
+    } catch (error) {
+      // Error is already formatted by the called function
+      throw error;
+    }
+  } else {
+    try {
+      const { salt } = await findValidSalt(factory, creator, params.name, params.symbol, HashZero, params.supply);
+      enrichedParams = {
+        ...params,
+        merkleRoot: HashZero,
+        salt,
+      };
+    } catch (error) {
+      throwTokenLauncherError(
+        TokenLauncherErrorCode.INVALID_SALT,
+        "Failed to find valid salt for token deployment",
+        { operation: "findValidSalt", originalError: error, source: "sdk" }
+      );
+    }
+  }
+
+  return {
+    factory,
+    creator,
+    enrichedParams,
+    tokenUri,
+    tokenAddress
+  };
+}
+
+/**
+ * Execute a token launch transaction
+ */
+async function executeTransaction(
+  wallet: any,
+  payload: TransactionRequest,
+  operation: string
+): Promise<any> {
+  try {
+    return await wallet.sendTransaction(payload);
+  } catch (error: any) {
+    // Identify common wallet errors
+    if (error.code === 'INSUFFICIENT_FUNDS') {
+      throwTokenLauncherError(
+        TokenLauncherErrorCode.INSUFFICIENT_FUNDS,
+        "Insufficient funds to complete transaction",
+        { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
+      );
+    } else {
+      throwTokenLauncherError(
+        TokenLauncherErrorCode.TRANSACTION_FAILED,
+        `Transaction failed: ${error.message || 'Unknown reason'}`,
+        { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
+      );
+    }
+  }
+}
+
 export const launchRainbowSuperToken = async (
   params: LaunchTokenParams,
   config: SDKConfig
 ): Promise<LaunchTokenResponse | undefined> => { 
   try {
-    // Validate required parameters
-    if (!params.name || !params.symbol || !params.supply || !params.initialTick || !params.logoUrl) {
-      throwTokenLauncherError(
-        TokenLauncherErrorCode.MISSING_REQUIRED_PARAM,
-        "Missing required parameters for token launch",
-        { operation: "launchRainbowSuperToken", params }
-      );
-    }
+    const { factory, creator, enrichedParams, tokenUri, tokenAddress } = 
+      await prepareTokenLaunch(params, config, 'launch');
 
-    let factory;
-    try {
-      factory = await getRainbowSuperTokenFactory(params.wallet, config);
-    } catch (error) {
-      throwTokenLauncherError(
-        TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
-        "Failed to get token factory contract",
-        { operation: "getRainbowSuperTokenFactory", originalError: error, source: "chain" }
-      );
-    }
-
-    const creator = params.creator || (await params.wallet.getAddress());
-    
-    let enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string } = params;
-    let tokenUri = '';
-    let tokenAddress = '';
-
-    if (process.env.IS_TESTING !== 'true') {
-      try {
-        const submissionDetails = await getRainbowSuperTokenSubmissionDetails(params, config);
-        
-        tokenUri = submissionDetails.tokenURI;
-        tokenAddress = submissionDetails.token.address;
-        enrichedParams = {
-          ...params,
-          merkleRoot: submissionDetails.merkleRoot ?? HashZero,
-          salt: submissionDetails.salt,
-        };
-      } catch (error) {
-        // Error is already formatted by the called function
-        throw error;
-      }
-    } else {
-      try {
-        const { salt } = await findValidSalt(factory, creator, params.name, params.symbol, HashZero, params.supply);
-        enrichedParams = {
-          ...params,
-          merkleRoot: HashZero,
-          salt,
-        };
-      } catch (error) {
-        throwTokenLauncherError(
-          TokenLauncherErrorCode.INVALID_SALT,
-          "Failed to find valid salt for token deployment",
-          { operation: "findValidSalt", originalError: error, source: "sdk" }
-        );
-      }
-    }
-
+    // Populate transaction
     let populatedTx;
     try {
       populatedTx = await factory.populateTransaction.launchRainbowSuperToken(
@@ -88,7 +155,7 @@ export const launchRainbowSuperToken = async (
       );
     }
 
-    // This function is non-payable so we send a value of 0.
+    // Prepare transaction payload
     const payload: TransactionRequest = {
       data: populatedTx.data,
       to: factory.address,
@@ -96,31 +163,15 @@ export const launchRainbowSuperToken = async (
       value: 0,
     };
 
+    // Add transaction options if specified
     if (params.transactionOptions && params.transactionOptions.gasLimit) {
       payload.gasLimit = params.transactionOptions.gasLimit;
       payload.maxFeePerGas = params.transactionOptions.maxFeePerGas;
       payload.maxPriorityFeePerGas = params.transactionOptions.maxPriorityFeePerGas;
     }
 
-    let tx;
-    try {
-      tx = await params.wallet.sendTransaction(payload);
-    } catch (error: any) {
-      // Identify common wallet errors
-      if (error.code === 'INSUFFICIENT_FUNDS') {
-        throwTokenLauncherError(
-          TokenLauncherErrorCode.INSUFFICIENT_FUNDS,
-          "Insufficient funds to complete transaction",
-          { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
-        );
-      } else {
-        throwTokenLauncherError(
-          TokenLauncherErrorCode.TRANSACTION_FAILED,
-          `Transaction failed: ${error.message || 'Unknown reason'}`,
-          { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
-        );
-      }
-    }
+    // Execute transaction
+    const tx = await executeTransaction(params.wallet, payload, "launchRainbowSuperToken");
 
     return {
       transaction: tx,
@@ -143,69 +194,14 @@ export const launchRainbowSuperToken = async (
 };
 
 export const launchRainbowSuperTokenAndBuy = async (
-  params: LaunchTokenParams,
+  params: LaunchTokenAndBuyParams,
   config: SDKConfig
 ): Promise<LaunchTokenResponse> => {
   try {
-    // Validate required parameters
-    if (!params.name || !params.symbol || !params.supply || !params.initialTick || !params.amountIn) {
-      throwTokenLauncherError(
-        TokenLauncherErrorCode.MISSING_REQUIRED_PARAM,
-        "Missing required parameters for token launch and buy",
-        { operation: "launchRainbowSuperTokenAndBuy", params }
-      );
-    }
+    const { factory, creator, enrichedParams, tokenUri, tokenAddress } = 
+      await prepareTokenLaunch(params, config, 'launchAndBuy');
 
-    let factory;
-    try {
-      factory = await getRainbowSuperTokenFactory(params.wallet, config);
-    } catch (error) {
-      throwTokenLauncherError(
-        TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
-        "Failed to get token factory contract",
-        { operation: "getRainbowSuperTokenFactory", originalError: error, source: "chain" }
-      );
-    }
-
-    const creator = params.creator || (await params.wallet.getAddress());
-    let enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string } = params;
-    let tokenUri = '';
-    let tokenAddress = '';
-
-    if (process.env.IS_TESTING !== 'true') {
-      try {
-        const submissionDetails = await getRainbowSuperTokenSubmissionDetails({
-          ...params,
-          links: params.links || {},
-        }, config);
-        tokenUri = submissionDetails.tokenURI;
-        tokenAddress = submissionDetails.token.address;
-        enrichedParams = {
-          ...params,
-          merkleRoot: submissionDetails.merkleRoot ?? HashZero,
-          salt: submissionDetails.salt,
-        };
-      } catch (error) {
-        // Error is already formatted by the called function
-        throw error;
-      }
-    } else {
-      try {
-        const { salt } = await findValidSalt(factory, creator, params.name, params.symbol, HashZero, params.supply);
-        enrichedParams = {
-          ...params,
-          merkleRoot: HashZero,
-          salt,
-        };
-      } catch (error) {
-        throwTokenLauncherError(
-          TokenLauncherErrorCode.INVALID_SALT,
-          "Failed to find valid salt for token deployment",
-          { operation: "findValidSalt", originalError: error, source: "sdk" }
-        );
-      }
-    }
-
+    // Populate transaction
     let populatedTx;
     try {
       populatedTx = await factory.populateTransaction.launchRainbowSuperTokenAndBuy(
@@ -226,6 +222,7 @@ export const launchRainbowSuperTokenAndBuy = async (
       );
     }
 
+    // Prepare transaction payload
     const payload: TransactionRequest = {
       data: populatedTx.data,
       to: factory.address,
@@ -233,31 +230,15 @@ export const launchRainbowSuperTokenAndBuy = async (
       value: params.amountIn,
     };
 
+    // Add transaction options if specified
     if (params.transactionOptions && params.transactionOptions.gasLimit) {
       payload.gasLimit = params.transactionOptions.gasLimit;
       payload.maxFeePerGas = params.transactionOptions.maxFeePerGas;
       payload.maxPriorityFeePerGas = params.transactionOptions.maxPriorityFeePerGas;
     }
 
-    let tx;
-    try {
-      tx = await params.wallet.sendTransaction(payload);
-    } catch (error: any) {
-      // Identify common wallet errors
-      if (error.code === 'INSUFFICIENT_FUNDS') {
-        throwTokenLauncherError(
-          TokenLauncherErrorCode.INSUFFICIENT_FUNDS,
-          "Insufficient funds to complete transaction",
-          { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
-        );
-      } else {
-        throwTokenLauncherError(
-          TokenLauncherErrorCode.TRANSACTION_FAILED,
-          `Transaction failed: ${error.message || 'Unknown reason'}`,
-          { operation: "wallet.sendTransaction", originalError: error, source: "chain" }
-        );
-      }
-    }
+    // Execute transaction
+    const tx = await executeTransaction(params.wallet, payload, "launchRainbowSuperTokenAndBuy");
 
     return {
       transaction: tx,
