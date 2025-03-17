@@ -4,7 +4,7 @@ export const getFactorySupportedChains = (): SupportedNetwork[] => {
   return [
     {
       chainId: 73571,
-      contractAddress: '0x3531899b26827ae0421b71b61dcd43aefa347849',
+      contractAddress: '0xb80a86E9c4Ac6e85a35178486A687dC9aa619235',
     },
   ];
 };

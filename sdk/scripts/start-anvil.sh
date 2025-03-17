@@ -3,7 +3,7 @@
 # Source .env but don't fail if variables aren't set
 source .env 2>/dev/null || true
 
-FORK_URL=${RPC_URL:-"https://virtual.mainnet.rpc.tenderly.co/4a300182-608c-491f-8dd0-3e7fe8d2ec52"}
+FORK_URL=${RPC_URL:-"https://virtual.mainnet.rpc.tenderly.co/b77d0217-59f5-4110-92df-dd41c6824a62"}
 
 echo "Starting anvil with fork-url: ${FORK_URL}"
 anvil --fork-url "$FORK_URL"
