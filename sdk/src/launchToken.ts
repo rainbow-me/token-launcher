@@ -262,8 +262,9 @@ export const launchRainbowSuperTokenAndBuy = async (
       value: params.amountIn,
     };
 
-    // Add transaction options if specified
-    if (params.transactionOptions && params.transactionOptions.gasLimit) {
+    if (params.transactionOptions && params.transactionOptions.gasPrice) {
+      payload.gasPrice = params.transactionOptions.gasPrice;
+    } else if (params.transactionOptions && params.transactionOptions.gasLimit) {
       payload.gasLimit = params.transactionOptions.gasLimit;
       payload.maxFeePerGas = params.transactionOptions.maxFeePerGas;
       payload.maxPriorityFeePerGas = params.transactionOptions.maxPriorityFeePerGas;
