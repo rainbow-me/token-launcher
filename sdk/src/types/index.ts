@@ -51,6 +51,7 @@ export interface LaunchTokenResponse {
 // Transaction options for gas customization
 export interface TransactionOptions {
   gasLimit?: string;
+  gasPrice?: string; // legacy gas price
   maxFeePerGas?: string;
   maxPriorityFeePerGas?: string;
 }
