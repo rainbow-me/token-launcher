@@ -186,10 +186,13 @@ export const launchRainbowSuperToken = async (
       value: 0,
     };
 
-    if (params.transactionOptions && params.transactionOptions.gasPrice) {
-      payload.gasPrice = params.transactionOptions.gasPrice;
-    } else if (params.transactionOptions && params.transactionOptions.gasLimit) {
+    if (params.transactionOptions?.gasLimit) {
       payload.gasLimit = params.transactionOptions.gasLimit;
+    }
+
+    if (params.transactionOptions?.gasPrice) {
+      payload.gasPrice = params.transactionOptions.gasPrice;
+    } else if (params.transactionOptions?.gasLimit) {
       payload.maxFeePerGas = params.transactionOptions.maxFeePerGas;
       payload.maxPriorityFeePerGas = params.transactionOptions.maxPriorityFeePerGas;
     }
@@ -262,10 +265,13 @@ export const launchRainbowSuperTokenAndBuy = async (
       value: params.amountIn,
     };
 
-    if (params.transactionOptions && params.transactionOptions.gasPrice) {
-      payload.gasPrice = params.transactionOptions.gasPrice;
-    } else if (params.transactionOptions && params.transactionOptions.gasLimit) {
+    if (params.transactionOptions?.gasLimit) {
       payload.gasLimit = params.transactionOptions.gasLimit;
+    }
+
+    if (params.transactionOptions?.gasPrice) {
+      payload.gasPrice = params.transactionOptions.gasPrice;
+    } else if (params.transactionOptions?.gasLimit) {
       payload.maxFeePerGas = params.transactionOptions.maxFeePerGas;
       payload.maxPriorityFeePerGas = params.transactionOptions.maxPriorityFeePerGas;
     }
