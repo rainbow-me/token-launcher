@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/@rainbow-me/token-launcher.svg)](https://www.npmjs.com/package/@rainbow-me/token-launcher)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-A TypeScript SDK for launching and interacting with Rainbow tokens on EVM-compatible blockchains.
+A TypeScript SDK for launching and interacting with Rainbow Super Tokens
 
 ## Installation
 
@@ -194,10 +194,6 @@ The SDK provides the following error codes for better error handling:
 - `MISSING_REQUIRED_PARAM`: Missing required parameter
 - `WALLET_CONNECTION_ERROR`: Wallet connection error
 - `UNKNOWN_ERROR`: Unknown error
-
-## Networks
-
-The Rainbow Token Launcher supports multiple EVM-compatible networks. By default, the SDK supports Ethereum Mainnet and several testnets, but you can configure additional networks in the SDK settings.
 
 ## License
 
