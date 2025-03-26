@@ -9,8 +9,10 @@ import {
 } from './types';
 import { launchRainbowSuperToken, launchRainbowSuperTokenAndBuy } from './launchToken';
 import { getAirdropSuggestions, getRainbowSuperTokenByUri, getRainbowSuperTokens } from './api';
+import { getTokenLauncherContractConfig, FeeConfig } from './utils/getFactoryConfig';
 import { BigNumber } from '@ethersproject/bignumber';
 import { getInitialTick } from './getInitialTick';
+import { Wallet } from '@ethersproject/wallet';
 
 class TokenLauncherSDK {
   private static instance: TokenLauncherSDK;
@@ -55,6 +57,10 @@ class TokenLauncherSDK {
 
   public async getRainbowSuperTokenByUri(uri: string): Promise<GetRainbowSuperTokenResponse> {
     return getRainbowSuperTokenByUri(uri, this.config);
+  }
+
+  public async getTokenLauncherContractConfig(wallet: Wallet): Promise<FeeConfig> {
+    return getTokenLauncherContractConfig(wallet, this.config);
   }
 }
 

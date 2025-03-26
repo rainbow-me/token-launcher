@@ -1,7 +1,7 @@
 import { Wallet } from '@ethersproject/wallet';
 import { getRainbowSuperTokenFactory } from './getRainbowSuperTokenFactory';
 import { SDKConfig } from '../types';
-interface FeeConfig {
+export interface FeeConfig {
   creatorLPFeeBps: number;
   protocolBaseBps: number;
   creatorBaseBps: number;
