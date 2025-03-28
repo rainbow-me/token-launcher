@@ -1,8 +1,7 @@
 /* eslint-disable no-await-in-loop */
-import { Contract } from '@ethersproject/contracts';
-import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
-import { hexZeroPad, hexlify } from '@ethersproject/bytes';
-import { randomBytes } from '@ethersproject/random';
+import { toHex, Address, Hex } from 'viem';
+import { randomBytes } from 'node:crypto';
+import { RainbowSuperTokenFactory } from './getRainbowSuperTokenFactory';
 
 /**
  * Iterates over candidate salts until a valid one is found.
@@ -11,39 +10,36 @@ import { randomBytes } from '@ethersproject/random';
  * @param creator - The creator's address.
  * @param name - The token name.
  * @param symbol - The token symbol.
- * @param merkleroot - The merkle root (as a hex string; use ethers.constants.HashZero if none).
+ * @param merkleroot - The merkle root (as a hex string; use Viem's `zeroHash` if none).
  * @param supply - The token's total supply.
  * @returns An object containing the valid salt (as a 32-byte hex string) and the predicted token address.
  */
 export async function findValidSalt(
-  factory: Contract,
-  creator: string,
+  factory: RainbowSuperTokenFactory,
+  creator: Address,
   name: string,
   symbol: string,
-  merkleroot: string,
-  supply: BigNumberish
-): Promise<{ salt: string; predictedAddress: string }> {
-  const defaultPairToken = await factory.defaultPairToken();
+  merkleroot: Hex,
+  supply: bigint
+): Promise<{ salt: Hex; predictedAddress: Address }> {
+  const defaultPairToken = await factory.read.defaultPairToken();
   let ret;
   while (!ret) {
     // Generate a random salt as proper hex
-    const randomSalt = hexZeroPad(
-      hexlify(randomBytes(32)), // Convert random bytes to hex properly
-      32
-    );
+    const randomSalt = toHex(randomBytes(32));
 
     // Use the contract's predictTokenAddress
-    const predicted = await factory.predictTokenAddress(
+    const predicted = await factory.read.predictTokenAddress([
       creator,
       name,
       symbol,
       merkleroot,
       supply,
-      randomSalt // Pass the original random salt, not the derived one
-    );
+      randomSalt, // Pass the original random salt, not the derived one
+    ]);
 
     // Check if predicted address is less than WETH
-    if (BigNumber.from(predicted).lt(BigNumber.from(defaultPairToken))) {
+    if (predicted < defaultPairToken) {
       ret = {
         salt: randomSalt,
         predictedAddress: predicted,

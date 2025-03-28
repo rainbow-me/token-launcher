@@ -1,6 +1,7 @@
-import { Wallet } from '@ethersproject/wallet';
-import { TransactionResponse } from '@ethersproject/providers';
+import { Transport, Chain, Client, Account, Address, Hex } from 'viem';
 import { AirdropMetadata } from './api';
+
+export type ViemClient = Client<Transport, Chain, Account>;
 
 export type SupportedNetwork = {
   chainId: number;
@@ -26,11 +27,11 @@ export interface SDKConfig {
 export interface LaunchTokenParams {
   name: string;
   symbol: string;
-  supply: string;
-  wallet: Wallet;
+  supply: bigint;
+  client: ViemClient;
   initialTick?: number;
-  amountIn?: string;
-  creator?: string;
+  amountIn?: bigint;
+  creator?: Address;
   transactionOptions?: TransactionOptions;
   logoUrl: string;
   description?: string;
@@ -39,21 +40,21 @@ export interface LaunchTokenParams {
 }
 
 export interface LaunchTokenAndBuyParams extends LaunchTokenParams {
-  amountIn: string;
+  amountIn: bigint;
 }
 
 export interface LaunchTokenResponse {
-  transaction: TransactionResponse;
+  hash: Hex;
   tokenUri: string;
   tokenAddress: string;
 }
 
 // Transaction options for gas customization
 export interface TransactionOptions {
-  gasLimit?: string;
-  gasPrice?: string; // legacy gas price
-  maxFeePerGas?: string;
-  maxPriorityFeePerGas?: string;
+  gas?: bigint;
+  gasPrice?: bigint; // legacy gas price
+  maxFeePerGas?: bigint;
+  maxPriorityFeePerGas?: bigint;
 }
 
 // Error types
@@ -77,7 +78,11 @@ export {
 } from './api';
 
 export class RainbowFetchError extends Error {
-  constructor(message: string, public status: number, public details: string) {
+  constructor(
+    message: string,
+    public status: number,
+    public details: string
+  ) {
     super(message);
     this.name = 'RainbowFetchError';
   }

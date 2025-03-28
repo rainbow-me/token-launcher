@@ -1,3 +1,5 @@
+import { Hex } from 'viem';
+
 export interface AirdropMetadata {
   cohortIds: string[];
   addresses: string[];
@@ -8,7 +10,7 @@ export interface TokenMetadata {
   name: string;
   symbol: string;
   logoUrl: string;
-  totalSupply: string;
+  totalSupply: bigint;
   description?: string;
   links: Record<string, string>;
   creatorAddress: string;
@@ -21,8 +23,8 @@ export interface DeployRainbowSuperTokenRequest extends TokenMetadata {
 export interface DeployRainbowSuperTokenResponse {
   data: {
     tokenURI: string;
-    salt: string;
-    merkleRoot: string;
+    salt: Hex;
+    merkleRoot: Hex;
     totalSupply: string;
     name: string;
     symbol: string;

@@ -1,6 +1,6 @@
-import { Wallet } from '@ethersproject/wallet';
 import { getRainbowSuperTokenFactory } from './getRainbowSuperTokenFactory';
-import { SDKConfig } from '../types';
+import { SDKConfig, ViemClient } from '../types';
+
 interface FeeConfig {
   creatorLPFeeBps: number;
   protocolBaseBps: number;
@@ -12,18 +12,18 @@ interface FeeConfig {
 }
 
 export async function getTokenLauncherContractConfig(
-  wallet: Wallet,
+  client: ViemClient,
   config: SDKConfig
 ): Promise<FeeConfig> {
-  const factory = await getRainbowSuperTokenFactory(wallet, config);
-  const factoryConfig = await factory.defaultFeeConfig();
+  const factory = await getRainbowSuperTokenFactory(client, config);
+  const result = await factory.read.defaultFeeConfig();
   return {
-    creatorLPFeeBps: factoryConfig.creatorLPFeeBps,
-    protocolBaseBps: factoryConfig.protocolBaseBps,
-    creatorBaseBps: factoryConfig.creatorBaseBps,
-    airdropBps: factoryConfig.airdropBps,
-    hasAirdrop: factoryConfig.hasAirdrop,
-    feeToken: factoryConfig.feeToken,
-    creator: factoryConfig.creator,
+    creatorLPFeeBps: result[0],
+    protocolBaseBps: result[1],
+    creatorBaseBps: result[2],
+    airdropBps: result[3],
+    hasAirdrop: result[4],
+    feeToken: result[5],
+    creator: result[6],
   };
 }

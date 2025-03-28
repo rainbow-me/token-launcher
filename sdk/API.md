@@ -89,7 +89,7 @@ interface LaunchTokenParams {
   name: string;                      // Token name
   symbol: string;                    // Token symbol
   supply: string;                    // Total supply (in wei format)
-  wallet: Wallet;                    // Ethers.js Wallet instance
+  client: Client;                    // Viem Client
   initialTick?: number;              // Initial tick (price setting)
   creator?: string;                  // Creator address (defaults to wallet address)
   transactionOptions?: {             // Optional gas parameters
@@ -109,7 +109,7 @@ interface LaunchTokenParams {
 
 ```typescript
 interface LaunchTokenResponse {
-  transaction: TransactionResponse;  // Ethers.js TransactionResponse
+  transaction: Transaction;          // Viem Transaction
   tokenUri: string;                  // Token URI
   tokenAddress: string;              // Deployed token contract address
 }
@@ -122,7 +122,7 @@ const result = await TokenLauncher.launchToken({
   name: 'My Token',
   symbol: 'MTK',
   supply: '1000000000000000000000000', // 1 million tokens (with 18 decimals)
-  wallet: wallet,
+  client: client,
   initialTick: 0,
   logoUrl: 'https://example.com/logo.png',
   description: 'My awesome community token',
@@ -154,7 +154,7 @@ const result = await TokenLauncher.launchTokenAndBuy({
   name: 'My Token',
   symbol: 'MTK',
   supply: '1000000000000000000000000',
-  wallet: wallet,
+  client: client,
   initialTick: 0,
   logoUrl: 'https://example.com/logo.png',
   amountIn: '100000000000000000', // 0.1 ETH
@@ -177,7 +177,7 @@ Calculates the initial tick value based on the desired token price.
 **Example:**
 
 ```typescript
-import { parseEther } from 'ethers/lib/utils';
+import { parseEther } from 'viem';
 
 // For a token price of 0.0001 ETH
 const tokenPrice = parseEther('0.0001');

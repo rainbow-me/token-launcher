@@ -36,11 +36,11 @@ TokenLauncher.configure({
   // For development environment
   API_URL_DEV: 'https://dev-api.example.com',
   API_KEY_DEV: 'your-dev-api-key',
-  
+
   // For production environment
   API_URL_PROD: 'https://api.example.com',
   API_KEY_PROD: 'your-production-api-key',
-  
+
   // Set environment mode
   MODE: 'production', // 'development' | 'production' | 'jest'
 });
@@ -50,18 +50,23 @@ TokenLauncher.configure({
 
 ```typescript
 import { TokenLauncher, LaunchTokenParams } from '@rainbow-me/token-launcher';
-import { Wallet, JsonRpcProvider } from 'ethers';
+import { createClient, privateKeyToAccount } from 'viem';
+import { mainnet } from 'viem/chains';
+import { http } from 'viem/transports';
 
-// Create a wallet instance
-const provider = new JsonRpcProvider('https://mainnet.infura.io/v3/YOUR_INFURA_KEY');
-const wallet = new Wallet('YOUR_PRIVATE_KEY', provider);
+// Create a Viem client
+const client = createClient({
+  account: privateKeyToAccount('YOUR_PRIVATE_KEY'),
+  chain: mainnet,
+  transport: http(),
+});
 
 // Define token parameters
 const launchParams: LaunchTokenParams = {
   name: 'My Token',
   symbol: 'MTK',
   supply: '1000000000000000000000000', // 1 million tokens with 18 decimals
-  wallet: wallet,
+  client: client,
   initialTick: 0, // Use getInitialTick for price-based ticks
   logoUrl: 'https://example.com/logo.png',
   description: 'My awesome token for my community',
@@ -88,20 +93,20 @@ try {
 
 ```typescript
 import { TokenLauncher, LaunchTokenAndBuyParams } from '@rainbow-me/token-launcher';
-import { parseEther } from 'ethers/lib/utils';
+import { parseEther } from 'viem';
 
 const launchAndBuyParams: LaunchTokenAndBuyParams = {
   // Include all parameters from LaunchTokenParams
   name: 'My Token',
   symbol: 'MTK',
   supply: '1000000000000000000000000', // 1 million tokens with 18 decimals
-  wallet: wallet,
+  client: client,
   initialTick: 0,
   logoUrl: 'https://example.com/logo.png',
-  
+
   // Add the amount of ETH to use for buying
   amountIn: parseEther('0.1').toString(), // 0.1 ETH
-  
+
   // Optional gas parameters
   transactionOptions: {
     gasLimit: '3000000',
@@ -126,7 +131,7 @@ try {
 
 ```typescript
 import { TokenLauncher } from '@rainbow-me/token-launcher';
-import { parseEther } from 'ethers/lib/utils';
+import { parseEther } from 'viem';
 
 // Calculate the initial tick based on desired token price
 const tokenPriceInETH = parseEther('0.0001'); // 0.0001 ETH per token

@@ -1,30 +1,29 @@
-import { Wallet } from '@ethersproject/wallet';
 import { getRainbowSuperTokenFactory } from './utils/getRainbowSuperTokenFactory';
-import { HashZero } from '@ethersproject/constants';
-import { SDKConfig } from './types';
+import { SDKConfig, ViemClient } from './types';
+import { Hex, Address, zeroHash } from 'viem';
 
 export const predictTokenAddress = async (
   params: {
-    merkleroot: string;
-    salt: string;
-    wallet: Wallet;
-    creator: string;
+    merkleroot: Hex;
+    salt: Hex;
+    client: ViemClient;
+    creator: Address;
     name: string;
     symbol: string;
-    supply: string;
+    supply: bigint;
   },
   config: SDKConfig
 ): Promise<string> => {
-  const factory = await getRainbowSuperTokenFactory(params.wallet, config);
-  const creator = params.creator || (await params.wallet.getAddress());
-  const merkleroot = params.merkleroot ?? HashZero;
+  const factory = await getRainbowSuperTokenFactory(params.client, config);
+  const creator = params.creator || params.client.account.address;
+  const merkleroot = params.merkleroot ?? zeroHash;
 
-  return factory.predictTokenAddress(
+  return factory.read.predictTokenAddress([
     creator,
     params.name,
     params.symbol,
     merkleroot,
     params.supply,
-    params.salt
-  );
+    params.salt,
+  ]);
 };

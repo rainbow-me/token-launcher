@@ -4,13 +4,17 @@ import {
   SDKConfig,
   LaunchTokenResponse,
   LaunchTokenAndBuyParams,
+  ViemClient,
 } from './types';
-import { getRainbowSuperTokenFactory } from './utils/getRainbowSuperTokenFactory';
-import { TransactionRequest } from '@ethersproject/providers';
-import { HashZero } from '@ethersproject/constants';
+import {
+  getRainbowSuperTokenFactory,
+  RainbowSuperTokenFactory,
+} from './utils/getRainbowSuperTokenFactory';
 import { submitRainbowSuperToken } from './api';
 import { findValidSalt } from './utils/findValidSalt';
 import { TokenLauncherSDKError, TokenLauncherErrorCode, throwTokenLauncherError } from './errors'; // Import the error utilities
+import { TransactionRequest, zeroHash, Hex, Address, encodeFunctionData } from 'viem';
+import { sendTransaction } from 'viem/actions';
 
 /**
  * Core function to handle common functionality for token launch operations
@@ -20,9 +24,9 @@ async function prepareTokenLaunch(
   config: SDKConfig,
   operation: 'launch' | 'launchAndBuy'
 ): Promise<{
-  factory: any;
-  creator: string;
-  enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string };
+  factory: RainbowSuperTokenFactory;
+  creator: Address;
+  enrichedParams: LaunchTokenParams & { merkleRoot?: Hex; salt?: Hex };
   tokenUri: string;
   tokenAddress: string;
 }> {
@@ -47,20 +51,17 @@ async function prepareTokenLaunch(
   }
 
   // Get factory contract
-  let factory;
-  try {
-    factory = await getRainbowSuperTokenFactory(params.wallet, config);
-  } catch (error) {
+  const factory = await getRainbowSuperTokenFactory(params.client, config).catch(error => {
     throwTokenLauncherError(
       TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
       'Failed to get token factory contract',
       { operation: 'getRainbowSuperTokenFactory', originalError: error, source: 'chain' }
     );
-  }
+  });
 
-  const creator = params.creator || (await params.wallet.getAddress());
+  const creator = params.creator || params.client.account.address;
 
-  let enrichedParams: LaunchTokenParams & { merkleRoot?: string; salt?: string } = params;
+  let enrichedParams: LaunchTokenParams & { merkleRoot?: Hex; salt?: Hex } = params;
   let tokenUri = '';
   let tokenAddress = '';
 
@@ -77,7 +78,7 @@ async function prepareTokenLaunch(
     tokenAddress = submissionDetails.token.address;
     enrichedParams = {
       ...params,
-      merkleRoot: submissionDetails.merkleRoot ?? HashZero,
+      merkleRoot: submissionDetails.merkleRoot ?? zeroHash,
       salt: submissionDetails.salt,
     };
   } else {
@@ -87,12 +88,12 @@ async function prepareTokenLaunch(
         creator,
         params.name,
         params.symbol,
-        HashZero,
+        zeroHash,
         params.supply
       );
       enrichedParams = {
         ...params,
-        merkleRoot: HashZero,
+        merkleRoot: zeroHash,
         salt,
       };
     } catch (error) {
@@ -117,12 +118,12 @@ async function prepareTokenLaunch(
  * Execute a token launch transaction
  */
 async function executeTransaction(
-  wallet: any,
+  client: ViemClient,
   payload: TransactionRequest,
   operation: string
-): Promise<any> {
+): Promise<Hex> {
   try {
-    return await wallet.sendTransaction(payload);
+    return await sendTransaction(client, payload);
   } catch (error) {
     // Identify common wallet errors
     const err = error as Error;
@@ -154,40 +155,30 @@ export const launchRainbowSuperToken = async (
     );
 
     // Populate transaction
-    let populatedTx;
-    try {
-      populatedTx = await factory.populateTransaction.launchRainbowSuperToken(
+    const data = encodeFunctionData({
+      ...factory,
+      functionName: 'launchRainbowSuperToken',
+      args: [
         enrichedParams.name,
         enrichedParams.symbol,
-        enrichedParams.merkleRoot ?? HashZero,
+        enrichedParams.merkleRoot ?? zeroHash,
         enrichedParams.supply,
-        enrichedParams.initialTick,
-        enrichedParams.salt,
-        creator
-      );
-    } catch (error) {
-      throwTokenLauncherError(
-        TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
-        'Failed to populate transaction for token launch',
-        {
-          operation: 'populateTransaction.launchRainbowSuperToken',
-          originalError: error,
-          source: 'chain',
-          params,
-        }
-      );
-    }
+        enrichedParams.initialTick ?? 0,
+        enrichedParams.salt ?? zeroHash,
+        creator,
+      ],
+    });
 
     // Prepare transaction payload
     const payload: TransactionRequest = {
-      data: populatedTx.data,
+      data,
       to: factory.address,
-      from: await params.wallet.getAddress(),
-      value: 0,
+      from: params.client.account.address,
+      value: 0n,
     };
 
-    if (params.transactionOptions?.gasLimit) {
-      payload.gasLimit = params.transactionOptions.gasLimit;
+    if (params.transactionOptions?.gas) {
+      payload.gas = params.transactionOptions.gas;
     }
 
     if (params.transactionOptions?.gasPrice) {
@@ -201,10 +192,10 @@ export const launchRainbowSuperToken = async (
     }
 
     // Execute transaction
-    const tx = await executeTransaction(params.wallet, payload, 'launchRainbowSuperToken');
+    const hash = await executeTransaction(params.client, payload, 'launchRainbowSuperToken');
 
     return {
-      transaction: tx,
+      hash,
       tokenUri,
       tokenAddress,
     };
@@ -235,41 +226,31 @@ export const launchRainbowSuperTokenAndBuy = async (
     );
 
     // Populate transaction
-    let populatedTx;
-    try {
-      populatedTx = await factory.populateTransaction.launchRainbowSuperTokenAndBuy(
+    const data = encodeFunctionData({
+      ...factory,
+      functionName: 'launchRainbowSuperTokenAndBuy',
+      args: [
         enrichedParams.name,
         enrichedParams.symbol,
-        enrichedParams.merkleRoot ?? HashZero,
+        enrichedParams.merkleRoot ?? zeroHash,
         enrichedParams.supply,
-        enrichedParams.initialTick,
-        enrichedParams.salt,
+        enrichedParams.initialTick ?? 0,
+        enrichedParams.salt ?? zeroHash,
         creator,
-        params.amountIn
-      );
-    } catch (error) {
-      throwTokenLauncherError(
-        TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
-        'Failed to populate transaction for token launch and buy',
-        {
-          operation: 'populateTransaction.launchRainbowSuperTokenAndBuy',
-          originalError: error,
-          source: 'chain',
-          params,
-        }
-      );
-    }
+        params.amountIn,
+      ],
+    });
 
     // Prepare transaction payload
     const payload: TransactionRequest = {
-      data: populatedTx.data,
+      data,
       to: factory.address,
-      from: await params.wallet.getAddress(),
+      from: params.client.account.address,
       value: params.amountIn,
     };
 
-    if (params.transactionOptions?.gasLimit) {
-      payload.gasLimit = params.transactionOptions.gasLimit;
+    if (params.transactionOptions?.gas) {
+      payload.gas = params.transactionOptions.gas;
     }
 
     if (params.transactionOptions?.gasPrice) {
@@ -283,10 +264,10 @@ export const launchRainbowSuperTokenAndBuy = async (
     }
 
     // Execute transaction
-    const tx = await executeTransaction(params.wallet, payload, 'launchRainbowSuperTokenAndBuy');
+    const hash = await executeTransaction(params.client, payload, 'launchRainbowSuperTokenAndBuy');
 
     return {
-      transaction: tx,
+      hash,
       tokenUri,
       tokenAddress,
     };
@@ -299,8 +280,9 @@ export const launchRainbowSuperTokenAndBuy = async (
     // Otherwise wrap it in our custom error
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNKNOWN_ERROR,
-      `Unexpected error in launchRainbowSuperTokenAndBuy: ${(error as Error).message ||
-        String(error)}`,
+      `Unexpected error in launchRainbowSuperTokenAndBuy: ${
+        (error as Error).message || String(error)
+      }`,
       { operation: 'launchRainbowSuperTokenAndBuy', originalError: error, source: 'sdk', params }
     );
   }
@@ -311,18 +293,8 @@ const getRainbowSuperTokenSubmissionDetails = async (
   config: SDKConfig
 ): Promise<DeployRainbowSuperTokenResponse['data']> => {
   try {
-    const creator = params.creator || (await params.wallet.getAddress());
-
-    let chainId;
-    try {
-      chainId = await params.wallet.getChainId();
-    } catch (error) {
-      throwTokenLauncherError(
-        TokenLauncherErrorCode.WALLET_CONNECTION_ERROR,
-        'Failed to get chain ID from wallet',
-        { operation: 'wallet.getChainId', originalError: error, source: 'chain', params }
-      );
-    }
+    const chainId = params.client.chain.id
+    const creator = params.creator || params.client.account.address;
 
     const submissionDetailParams = {
       chainId,
@@ -376,8 +348,9 @@ const getRainbowSuperTokenSubmissionDetails = async (
     // Otherwise wrap it in our custom error
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNKNOWN_ERROR,
-      `Unexpected error in getRainbowSuperTokenSubmissionDetails: ${(error as Error).message ||
-        String(error)}`,
+      `Unexpected error in getRainbowSuperTokenSubmissionDetails: ${
+        (error as Error).message || String(error)
+      }`,
       {
         operation: 'getRainbowSuperTokenSubmissionDetails',
         originalError: error,

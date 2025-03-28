@@ -9,7 +9,6 @@ import {
 } from './types';
 import { launchRainbowSuperToken, launchRainbowSuperTokenAndBuy } from './launchToken';
 import { getAirdropSuggestions, getRainbowSuperTokenByUri, getRainbowSuperTokens } from './api';
-import { BigNumber } from '@ethersproject/bignumber';
 import { getInitialTick } from './getInitialTick';
 
 class TokenLauncherSDK {
@@ -31,7 +30,7 @@ class TokenLauncherSDK {
     return { ...this.config };
   }
 
-  public getInitialTick(tokenPrice: BigNumber): number {
+  public getInitialTick(tokenPrice: bigint): number {
     return getInitialTick(tokenPrice);
   }
 

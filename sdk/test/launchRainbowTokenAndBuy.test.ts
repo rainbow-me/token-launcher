@@ -1,26 +1,26 @@
-import { JsonRpcProvider } from '@ethersproject/providers';
-import { Wallet } from '@ethersproject/wallet';
-import { BigNumber } from '@ethersproject/bignumber';
-import { HashZero } from '@ethersproject/constants';
+import { http, createClient, parseEther, zeroHash, isAddress, formatUnits } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { anvil } from 'viem/chains';
+import { getBalance } from 'viem/actions';
 import { predictTokenAddress } from '../src/predictAddress';
-import { isAddress } from '@ethersproject/address';
 import { getInitialTick } from '../src/getInitialTick';
-import { formatUnits } from '@ethersproject/units';
 import { TokenLauncher } from '../src/index';
 import { getFactorySupportedChains } from '../src/utils/getFactorySupportedChains';
 import { getTokenLauncherContractConfig } from '../src/utils/getFactoryConfig';
+import { ViemClient } from '../src/types';
 
 describe('Launch Rainbow Super Token and Buy', () => {
-  let provider: JsonRpcProvider;
-  let wallet: Wallet;
+  let client: ViemClient;
   let sdk: typeof TokenLauncher;
 
   beforeAll(async () => {
-    provider = new JsonRpcProvider('http://127.0.0.1:8545');
-    wallet = new Wallet(
-      '0x34120324fbc54dfb9b92a0a12221fbd63e7bb825733d27ad09efaa617b393c73',
-      provider
-    );
+    client = createClient({
+      account: privateKeyToAccount(
+        '0x34120324fbc54dfb9b92a0a12221fbd63e7bb825733d27ad09efaa617b393c73'
+      ),
+      chain: anvil,
+      transport: http(),
+    });
     sdk = TokenLauncher;
     sdk.configure({
       MODE: 'jest',
@@ -29,13 +29,13 @@ describe('Launch Rainbow Super Token and Buy', () => {
   }, 30000);
 
   it('should check that the creator wallet has funds', async () => {
-    const balance = await provider.getBalance(wallet.address);
+    const balance = await getBalance(client, { address: client.account.address });
     console.log('creator wallet balance: ', balance);
-    expect(balance.gt(BigNumber.from('0'))).toBe(true);
+    expect(balance > 0n).toBe(true);
   });
 
   it('should get factory config', async () => {
-    const config = await getTokenLauncherContractConfig(wallet, sdk.getConfig());
+    const config = await getTokenLauncherContractConfig(client, sdk.getConfig());
     expect(config).toBeDefined();
     console.log('factory config: ', config);
   });
@@ -45,11 +45,11 @@ describe('Launch Rainbow Super Token and Buy', () => {
       {
         name: 'Test Token',
         symbol: 'TEST',
-        supply: '1000000000000000000000',
-        wallet,
-        merkleroot: HashZero,
-        creator: wallet.address,
-        salt: HashZero,
+        supply: 1000000000000000000000n,
+        client,
+        merkleroot: zeroHash,
+        creator: client.account.address,
+        salt: zeroHash,
       },
       sdk.getConfig()
     );
@@ -61,17 +61,15 @@ describe('Launch Rainbow Super Token and Buy', () => {
   it('calculates correct initial tick for common token prices', async () => {
     const testCases = [
       {
-        tokenPrice: BigNumber.from(10).pow(18), // 1 ETH
+        tokenPrice: parseEther('1'), // 1 ETH
         expectedPrice: 1,
       },
       {
-        tokenPrice: BigNumber.from(2).mul(BigNumber.from(10).pow(18)), // 2 ETH
+        tokenPrice: parseEther('2'), // 2 ETH
         expectedPrice: 2,
       },
       {
-        tokenPrice: BigNumber.from(10)
-          .pow(18)
-          .div(2), // 0.5 ETH
+        tokenPrice: parseEther('0.5'), // 0.5 ETH
         expectedPrice: 0.5,
       },
     ];
@@ -120,23 +118,23 @@ describe('Launch Rainbow Super Token and Buy', () => {
     const txParams = {
       name: 'CANTHISBEPURCHASED',
       symbol: 'CBP',
-      supply: '1000000000000000000000000',
-      amountIn: '1000000000000000000',
+      supply: 1000000000000000000000000n,
+      amountIn: 1000000000000000000n,
       initialTick: 200,
       logoUrl: 'https://example.com/logo.png',
       description: 'This is a test token',
-      wallet,
-      creator: wallet.address,
+      client,
+      creator: client.account.address,
       transactionOptions: {
-        gasLimit: '8000000',
-        maxFeePerGas: '1500000000',
-        maxPriorityFeePerGas: '1500000000',
+        gas: 8000000n,
+        maxFeePerGas: 1500000000n,
+        maxPriorityFeePerGas: 1500000000n,
       },
     };
     try {
       const tx = await sdk.launchTokenAndBuy(txParams);
-      console.log('Transaction submitted with hash:', tx?.transaction.hash);
-      expect(tx?.transaction.hash).toBeTruthy();
+      console.log('Transaction submitted with hash:', tx?.hash);
+      expect(tx?.hash).toBeTruthy();
     } catch (error) {
       console.error('Failed to send transaction:', error);
       throw error;
@@ -147,23 +145,23 @@ describe('Launch Rainbow Super Token and Buy', () => {
     const txParams = {
       name: 'Api Test Submission Number 3',
       symbol: 'ATS3',
-      supply: '1000000000000000000000000',
-      amountIn: '1000000000000000000',
+      supply: 1000000000000000000000000n,
+      amountIn: 1000000000000000000n,
       initialTick: 200,
-      wallet,
-      creator: wallet.address,
+      client,
+      creator: client.account.address,
       links: {},
-      merkleroot: HashZero,
+      merkleroot: zeroHash,
       logoUrl: 'https://example.com/logo.png',
       description: 'This is a test token',
       transactionOptions: {
-        gasLimit: '8000000',
-        maxFeePerGas: '1500000000',
-        maxPriorityFeePerGas: '1500000000',
+        gas: 8000000n,
+        maxFeePerGas: 1500000000n,
+        maxPriorityFeePerGas: 1500000000n,
       },
     };
     const tx = await sdk.launchToken(txParams);
-    console.log('Transaction submitted with hash:', tx?.transaction.hash);
-    expect(tx?.transaction.hash).toBeTruthy();
+    console.log('Transaction submitted with hash:', tx?.hash);
+    expect(tx?.hash).toBeTruthy();
   }, 60000);
 });

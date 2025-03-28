@@ -1,26 +1,37 @@
-import { Contract } from '@ethersproject/contracts';
-import { Wallet } from '@ethersproject/wallet';
+import { Address, getContract, GetContractReturnType } from 'viem';
 import { getFactorySupportedChains } from './getFactorySupportedChains';
-import rainbowSuperTokenFactoryAbi from '../references/abi/RainbowSuperTokenFactory.json';
-import { SDKConfig } from '../types';
+import { rainbowSuperTokenFactoryAbi } from '../references/abi/RainbowSuperTokenFactory';
+import { SDKConfig, ViemClient } from '../types';
+
+export type RainbowSuperTokenFactory = GetContractReturnType<
+  typeof rainbowSuperTokenFactoryAbi,
+  ViemClient,
+  Address
+>;
 
 export const getRainbowSuperTokenFactory = async (
-  wallet: Wallet,
+  client: ViemClient,
   config: SDKConfig
-): Promise<Contract> => {
-  const chainId = await wallet.getChainId();
+): Promise<RainbowSuperTokenFactory> => {
+  const chainId = client.chain.id;
   let factoryAddress;
   if (config.MODE === 'jest') {
-    factoryAddress = getFactorySupportedChains().find(network => network.chainId === chainId)
-      ?.contractAddress;
+    factoryAddress = getFactorySupportedChains().find(
+      network => network.chainId === chainId
+    )?.contractAddress;
   } else {
-    factoryAddress = config.SUPPORTED_NETWORKS?.find(network => network.chainId === chainId)
-      ?.contractAddress;
+    factoryAddress = config.SUPPORTED_NETWORKS?.find(
+      network => network.chainId === chainId
+    )?.contractAddress;
   }
 
   if (!factoryAddress) {
     throw new Error(`No factory address found for chainId: ${chainId}`);
   }
 
-  return new Contract(factoryAddress, rainbowSuperTokenFactoryAbi.abi, wallet);
+  return getContract({
+    address: factoryAddress as Address,
+    abi: rainbowSuperTokenFactoryAbi,
+    client,
+  });
 };
