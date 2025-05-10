@@ -1,5 +1,6 @@
 # Rainbow Token Launcher
 
+[![npm version](https://img.shields.io/npm/v/@rainbow-me/token-launcher.svg)](https://www.npmjs.com/package/@rainbow-me/token-launcher)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 A toolkit for launching and interacting with Rainbow tokens on EVM-compatible blockchains. This project contains:
