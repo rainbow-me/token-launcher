@@ -16,6 +16,11 @@ export interface SDKConfig {
   API_KEY_DEV?: string;
   API_KEY_PROD?: string;
 
+  // launcher details
+  LAUNCHER_FEE_ADDRESS?: string;
+  LAUNCHER_CODE?: string;
+  LAUNCHER_PLATFORM?: string;
+
   // supported networks
   SUPPORTED_NETWORKS?: SupportedNetwork[];
 
