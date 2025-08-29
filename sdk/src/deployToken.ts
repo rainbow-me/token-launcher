@@ -103,7 +103,9 @@ const prepareTokenLaunchParameters = (
   allowedChain: AllowedChain,
 ): ClankerTokenV4 => {
   // Validate required parameters
-  const requiredParams = ['name', 'symbol', 'logoUrl'];
+  // const requiredParams = ['name', 'symbol', 'logoUrl'];
+  // TEMP: removing logoUrl req
+  const requiredParams = ['name', 'symbol'];
 
   for (const param of requiredParams) {
     if (!params[param as keyof LaunchTokenParams]) {

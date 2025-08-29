@@ -37,7 +37,7 @@ export interface LaunchTokenParams {
   amountIn?: string;
   creator?: string;
   transactionOptions?: TransactionOptions;
-  logoUrl: string;
+  logoUrl?: string;
   description?: string;
   links?: Record<string, string>;
   airdropMetadata?: AirdropMetadata;
@@ -49,7 +49,7 @@ export interface LaunchTokenAndBuyParams extends LaunchTokenParams {
 
 export interface LaunchTokenResponse {
   transaction: TransactionResponse;
-  tokenUri: string;
+  tokenUri?: string;
   tokenAddress: string;
 }
 

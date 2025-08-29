@@ -328,7 +328,7 @@ const getRainbowSuperTokenSubmissionDetails = async (
       chainId,
       name: params.name,
       symbol: params.symbol,
-      logoUrl: params.logoUrl,
+      logoUrl: params.logoUrl || '',
       totalSupply: params.supply,
       description: params.description,
       links: params.links || {},
