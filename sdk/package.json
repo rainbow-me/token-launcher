@@ -54,6 +54,7 @@
   "author": "Christopher Howard",
   "files": [
     "dist",
+    "src",
     "README.md"
   ],
   "scripts": {
@@ -68,9 +69,6 @@
     "format:check": "prettier --check '**/*.{js,ts,json,md}'",
     "format:fix": "prettier --write '**/*.{js,ts,json,md}'",
     "clean": "rm -rf dist"
-  },
-  "publishConfig": {
-    "access": "restricted"
   },
   "jest": {
     "moduleNameMapper": {
