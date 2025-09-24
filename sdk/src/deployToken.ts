@@ -61,7 +61,7 @@ const getRewardsDetails = (config: SDKConfig, creatorAddress: Address) => {
       recipient: interfaceRewardAddress,
       admin: interfaceRewardAddress,
       bps: 5_000, // 50% of reward
-      token: 'Both',
+      token: 'Paired',
     },
   ];
 
