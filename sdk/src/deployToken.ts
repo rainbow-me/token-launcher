@@ -1,5 +1,5 @@
 import { Clanker } from 'clanker-sdk/dist/v4/index.js';
-import { ClankerTokenV4, FEE_CONFIGS, POOL_POSITIONS } from 'clanker-sdk';
+import { ClankerTokenV4, POOL_POSITIONS } from 'clanker-sdk';
 import { Account, Address, Chain, Client, createWalletClient, createPublicClient, Hex, http, isHex, PublicClient, Transport, WalletClient } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { Wallet } from '@ethersproject/wallet';
@@ -150,7 +150,6 @@ const prepareTokenLaunchParameters = (
     name: params.name,
     chainId: allowedChain.id,
     context,
-    fees: FEE_CONFIGS.DynamicBasic,
     pool: {
       positions: POOL_POSITIONS.Project,
     },
