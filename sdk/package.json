@@ -1,6 +1,6 @@
 {
   "name": "@rainbow-me/token-launcher",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "GPL-3.0",
   "type": "module",
   "main": "dist/index.js",
@@ -78,18 +78,34 @@
     "rootDir": ".",
     "preset": "ts-jest/presets/default-esm",
     "testEnvironment": "node",
-    "extensionsToTreatAsEsm": [".ts", ".tsx"],
+    "extensionsToTreatAsEsm": [
+      ".ts",
+      ".tsx"
+    ],
     "transform": {
-      "^.+\\.(ts|tsx)$": ["ts-jest", { "useESM": true, "tsconfig": "tsconfig.json" }],
+      "^.+\\.(ts|tsx)$": [
+        "ts-jest",
+        {
+          "useESM": true,
+          "tsconfig": "tsconfig.json"
+        }
+      ],
       "^.+\\.(mjs|js)$": "babel-jest"
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!clanker-sdk|viem|@wagmi|abitype|@noble|@scure)/"
     ],
-    "moduleFileExtensions": ["ts", "tsx", "js", "mjs", "json"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "mjs",
+      "json"
+    ],
     "setupFilesAfterEnv": [
       "<rootDir>/test/helpers/setupTestEnv.ts"
     ]
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
