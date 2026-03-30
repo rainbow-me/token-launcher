@@ -1,0 +1,29 @@
+sdk/.nvmrc
+  f3e91f630b9a5d23 1
+sdk/package.json
+  f3e91f630b9a5d23 22,27,31,55,71,116
+.gitignore
+  f3e91f630b9a5d23 5-14
+sdk/.yarnrc.yml
+  f3e91f630b9a5d23 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "945557116386ccc7ed7ea4358dc8b8ab3ad088a8",
+  "prompts": {
+    "f3e91f630b9a5d23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4262dc66-106f-4c6a-bd5a-5cfd9e123ab7",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair <d@niel.nyc>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 7,
+      "accepted_lines": 124,
+      "overriden_lines": 0
+    }
+  }
+}
