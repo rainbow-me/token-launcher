@@ -1,0 +1,23 @@
+sdk/scripts/start-anvil.sh
+  f3e91f630b9a5d23 5-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "308a5fd6bd089a3c80e82e3515c9076b380c3f2f",
+  "prompts": {
+    "f3e91f630b9a5d23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4262dc66-106f-4c6a-bd5a-5cfd9e123ab7",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair <d@niel.nyc>",
+      "messages": [],
+      "total_additions": 134,
+      "total_deletions": 103,
+      "accepted_lines": 134,
+      "overriden_lines": 0
+    }
+  }
+}
