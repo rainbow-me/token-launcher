@@ -1,0 +1,25 @@
+sdk/src/index.ts
+  096fbf4ec2d26388 54
+sdk/src/types/index.ts
+  096fbf4ec2d26388 4-8,14-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "b7707441b0a53aa592b615008d828be8a680a42d",
+  "prompts": {
+    "096fbf4ec2d26388": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4f1da812-4159-40ef-9e27-6e0526fd9592",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 0,
+      "accepted_lines": 9,
+      "overriden_lines": 0
+    }
+  }
+}
