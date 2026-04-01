@@ -1,0 +1,43 @@
+sdk/src/protocols/clanker/index.ts
+  d6df2425342538f8 1-10,16,18-19,21-141,149-150,165-166,168-169,177,181,191,194,198
+sdk/src/utils/formatting.ts
+  d6df2425342538f8 1-11
+sdk/test/harness.ts
+  d6df2425342538f8 1-15
+sdk/src/index.ts
+  d6df2425342538f8 1,8,51,60
+sdk/test/index.test.ts
+  d6df2425342538f8 1-82
+sdk/src/types/index.ts
+  d6df2425342538f8 1-2,5-6
+sdk/src/protocols/types/index.ts
+  d6df2425342538f8 1-2,9
+sdk/src/protocols/README.md
+  d6df2425342538f8 3,9,19-21,23-24,29-33
+sdk/test/protocols/clanker/index.test.ts
+  d6df2425342538f8 4-7
+sdk/src/utils/validation.ts
+  d6df2425342538f8 1-27
+sdk/src/protocols/index.ts
+  d6df2425342538f8 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "d7f7f2cb016d1d2c28e1d6ef02e6a1e64f6a80ff",
+  "prompts": {
+    "d6df2425342538f8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "256cdfb2-e7a2-4e8a-8a26-30f1b603e2d2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 438,
+      "total_deletions": 65,
+      "accepted_lines": 311,
+      "overriden_lines": 0
+    }
+  }
+}
