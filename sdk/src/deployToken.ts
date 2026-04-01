@@ -103,8 +103,6 @@ const prepareTokenLaunchParameters = (
   allowedChain: AllowedChain,
 ): ClankerTokenV4 => {
   // Validate required parameters
-  // const requiredParams = ['name', 'symbol', 'logoUrl'];
-  // TEMP: removing logoUrl req
   const requiredParams = ['name', 'symbol'];
 
   for (const param of requiredParams) {
@@ -161,7 +159,6 @@ const prepareTokenLaunchParameters = (
     ...devBuy,
   };
 
-  console.log('token params sent to clanker', tokenParams);
   return tokenParams;
 };
 
@@ -212,7 +209,6 @@ export const launchV2TokenAndBuy = async (
 
     const { address: tokenAddress } = await waitForTransaction();
     const tx = await wallet.provider.getTransaction(txHash);
-    console.log('tx', tx);
 
     return {
       transaction: tx,
