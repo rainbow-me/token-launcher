@@ -17,6 +17,12 @@
     "sourceType": "module",
     "project": "./tsconfig.eslint.json"
   },
+  "settings": {
+    "import/resolver": {
+      "typescript": true,
+      "node": true
+    }
+  },
   "rules": {
     "no-console": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",

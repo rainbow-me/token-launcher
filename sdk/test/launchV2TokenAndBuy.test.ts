@@ -9,7 +9,6 @@ import { LaunchTokenParams, LaunchTokenAndBuyParams } from '../src/types/index';
 
 const SAMPLE_LOGO_URL =
   'https://rainbowme-res.cloudinary.com/image/upload/v1756412183/token-launcher/tokens/c0zvpu7k52lmdm2ubf2n.jpg';
-const SUPPLY_IS_IGNORED = '100000000000000000000000000000';
 
 describe('Launch Rainbow Super Token and Buy', () => {
   let provider: JsonRpcProvider;
@@ -23,9 +22,6 @@ describe('Launch Rainbow Super Token and Buy', () => {
       provider
     );
     sdk = TokenLauncher;
-    sdk.configure({
-      MODE: 'jest',
-    });
   }, 30000);
 
   it('should check that the creator wallet has funds', async () => {
@@ -38,20 +34,9 @@ describe('Launch Rainbow Super Token and Buy', () => {
     const txParams: LaunchTokenParams = {
       name: 'Api Test Submission Number 1',
       symbol: 'ATS1',
-      supply: SUPPLY_IS_IGNORED,
       wallet,
       logoUrl: SAMPLE_LOGO_URL,
       links: {},
-      airdropMetadata: {
-        addresses: [],
-        cohortIds: [],
-      },
-      transactionOptions: {
-        gasLimit: '8000000',
-        maxFeePerGas: '1570329',
-        maxPriorityFeePerGas: '1567498',
-      },
-      initialTick: -230200,
       amountIn: '0',
     };
     try {
@@ -84,21 +69,10 @@ describe('Launch Rainbow Super Token and Buy', () => {
     const txParams: LaunchTokenParams = {
       name: 'Api Test Submission Number 2',
       symbol: 'ATS2',
-      supply: SUPPLY_IS_IGNORED,
       wallet,
       logoUrl: SAMPLE_LOGO_URL,
       description: 'This is a test token',
       links: {},
-      airdropMetadata: {
-        addresses: [],
-        cohortIds: [],
-      },
-      transactionOptions: {
-        gasLimit: '8000000',
-        maxFeePerGas: '1570329',
-        maxPriorityFeePerGas: '1567498',
-      },
-      initialTick: -230200,
       amountIn: '0',
     };
     const launchResponse = await sdk.launchToken(txParams);
@@ -118,25 +92,15 @@ describe('Launch Rainbow Super Token and Buy', () => {
     const description = JSON.parse(metadata)?.description;
     expect(description).toBe(txParams.description);
   }, 60000);
+
   it('should launch v2 token with full metadata', async () => {
     const txParams: LaunchTokenParams = {
       name: 'Api Test Submission Number 3',
       symbol: 'ATS3',
-      supply: SUPPLY_IS_IGNORED,
       wallet,
       logoUrl: SAMPLE_LOGO_URL,
       description: 'This is another test token',
       links: { other: 'https://rainbow.me' },
-      airdropMetadata: {
-        addresses: [],
-        cohortIds: [],
-      },
-      transactionOptions: {
-        gasLimit: '8000000',
-        maxFeePerGas: '1570329',
-        maxPriorityFeePerGas: '1567498',
-      },
-      initialTick: -230200,
       amountIn: '0',
     };
     const launchResponse = await sdk.launchToken(txParams);
@@ -155,51 +119,31 @@ describe('Launch Rainbow Super Token and Buy', () => {
     expect(links?.[0]?.platform).toBe('other');
     expect(links?.[0]?.url).toBe(txParams.links?.other);
   }, 60000);
+
   it('should launch v2 token with dev buy', async () => {
     const amountIn = parseEther('0.1').toString();
     const txParams: LaunchTokenAndBuyParams = {
       name: 'Api Test Submission Number 4',
       symbol: 'ATS4',
-      supply: SUPPLY_IS_IGNORED,
       wallet,
       logoUrl: SAMPLE_LOGO_URL,
       description: 'This is yet another test token',
       links: { other: 'https://rainbow.me' },
-      airdropMetadata: {
-        addresses: [],
-        cohortIds: [],
-      },
-      transactionOptions: {
-        gasLimit: '8000000',
-        maxFeePerGas: '1570329',
-        maxPriorityFeePerGas: '1567498',
-      },
-      initialTick: -230200,
       amountIn,
     };
     const launchResponse = await sdk.launchTokenAndBuy(txParams);
     console.log('Transaction submitted with hash:', launchResponse?.transaction?.hash);
     expect(launchResponse?.transaction?.hash).toBeTruthy();
   }, 60000);
+
   it('should launch v2 token with invalid amountIn for dev buy', async () => {
     const txParams: LaunchTokenAndBuyParams = {
       name: 'Api Test Submission Number 5 with invalid dev buy',
       symbol: 'ATS5',
-      supply: SUPPLY_IS_IGNORED,
       wallet,
       logoUrl: SAMPLE_LOGO_URL,
       description: 'This is yet another test token',
       links: { other: 'https://rainbow.me' },
-      airdropMetadata: {
-        addresses: [],
-        cohortIds: [],
-      },
-      transactionOptions: {
-        gasLimit: '8000000',
-        maxFeePerGas: '1570329',
-        maxPriorityFeePerGas: '1567498',
-      },
-      initialTick: -230200,
       amountIn: 'NOT_A_VALID_ETH_VALUE',
     };
     // Await the expectation of the promise rejection and then use .toThrow()

@@ -1,3 +1,0 @@
-[submodule "smart-contracts/TokenLauncher"]
-	path = smart-contracts/TokenLauncher
-	url = git@github.com:rainbowfoundation/TokenLauncher.git

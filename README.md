@@ -11,9 +11,6 @@ A toolkit for launching and interacting with Rainbow tokens on EVM-compatible bl
 [View SDK Documentation →](./sdk/README.md)  
 [View API Reference →](./sdk/API.md)
 
-### Smart Contracts
-The [smart-contracts](./smart-contracts) directory contains the Solidity contracts that power the Rainbow Token ecosystem.
-
 ## Getting Started
 
 To get started with Rainbow Token Launcher, check out the [SDK documentation](./sdk/README.md) which includes installation instructions and usage examples.
