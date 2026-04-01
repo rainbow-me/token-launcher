@@ -3,10 +3,10 @@
 import JSBI from 'jsbi';
 import invariant from 'tiny-invariant';
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
-export const ZERO = JSBI.BigInt(0);
-export const ONE = JSBI.BigInt(1);
-export const TWO = JSBI.BigInt(2);
-export const MaxUint256 = JSBI.subtract(JSBI.exponentiate(TWO, JSBI.BigInt(256)), ONE);
+const ZERO = JSBI.BigInt(0);
+const ONE = JSBI.BigInt(1);
+const TWO = JSBI.BigInt(2);
+const MaxUint256 = JSBI.subtract(JSBI.exponentiate(TWO, JSBI.BigInt(256)), ONE);
 
 const Q32 = JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(32));
 
@@ -149,18 +149,6 @@ function mostSignificantBit(x: JSBI): number {
   return msb;
 }
 
-// ----- Tick Alignment Helper -----
-/**
- * Aligns a tick to the nearest valid multiple of the given tickSpacing.
- *
- * @param tick - The tick to align.
- * @param tickSpacing - The spacing value (e.g. 200).
- * @returns The tick aligned to tickSpacing.
- */
-export function alignTick(tick: number, tickSpacing: number): number {
-  return Math.round(tick / tickSpacing) * tickSpacing;
-}
-
 /**
  * Babylonian square root using BigInt.
  */
@@ -187,7 +175,7 @@ function sqrt(value: bigint): bigint {
  *
  *   sqrtPriceX96 = floor( sqrt(price * 2^192) / 1e9 )
  */
-export function encodePriceToX96(price: BigNumber): JSBI {
+function encodePriceToX96(price: BigNumber): JSBI {
   const P: bigint = price.toBigInt();
   const shifted: bigint = P * 2n ** 192n;
   const sqrtShifted: bigint = sqrt(shifted); // equals floor( sqrt(P)*2^96 )

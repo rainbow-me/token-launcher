@@ -1,18 +1,12 @@
 import {
-  GetAirdropSuggestionsResponse,
-  GetRainbowSuperTokenResponse,
-  GetRainbowSuperTokensResponse,
   LaunchTokenParams,
   SDKConfig,
   LaunchTokenResponse,
   LaunchTokenAndBuyParams,
 } from './types';
 import { launchV2TokenAndBuy } from './deployToken';
-import { getAirdropSuggestions, getRainbowSuperTokenByUri, getRainbowSuperTokens } from './api';
-import { getTokenLauncherContractConfig, FeeConfig } from './utils/getFactoryConfig';
 import { BigNumber } from '@ethersproject/bignumber';
 import { getInitialTick } from './getInitialTick';
-import { Wallet } from '@ethersproject/wallet';
 
 class TokenLauncherSDK {
   private static instance: TokenLauncherSDK;
@@ -46,22 +40,6 @@ class TokenLauncherSDK {
   ): Promise<LaunchTokenResponse | undefined> {
     return launchV2TokenAndBuy(params, this.config);
   }
-
-  public async getAirdropSuggestions(address: string): Promise<GetAirdropSuggestionsResponse> {
-    return getAirdropSuggestions(address, this.config);
-  }
-
-  public async getRainbowSuperTokens(): Promise<GetRainbowSuperTokensResponse> {
-    return getRainbowSuperTokens(this.config);
-  }
-
-  public async getRainbowSuperTokenByUri(uri: string): Promise<GetRainbowSuperTokenResponse> {
-    return getRainbowSuperTokenByUri(uri, this.config);
-  }
-
-  public async getTokenLauncherContractConfig(wallet: Wallet): Promise<FeeConfig> {
-    return getTokenLauncherContractConfig(wallet, this.config);
-  }
 }
 
 // Export singleton instance
@@ -69,19 +47,11 @@ export const TokenLauncher = TokenLauncherSDK.getInstance();
 
 // Export types
 export {
-  TokenMetadata,
-  AirdropMetadata,
-  GetAirdropSuggestionsResponse,
-  SuggestedUser,
-  PredefinedCohort,
-  PersonalizedCohort,
-  GetRainbowSuperTokensResponse,
-  GetRainbowSuperTokenResponse,
-  DeployRainbowSuperTokenRequest,
-  DeployRainbowSuperTokenResponse,
   LaunchTokenParams,
   LaunchTokenResponse,
+  LaunchTokenAndBuyParams,
   SDKConfig,
+  SupportedNetwork,
 } from './types';
 
 export { TokenLauncherErrorCode, TokenLauncherSDKError } from './errors';

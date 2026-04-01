@@ -1,20 +1,16 @@
 import { Clanker } from 'clanker-sdk/dist/v4/index.js';
 import { ClankerTokenV4, POOL_POSITIONS } from 'clanker-sdk';
-import { Account, Address, Chain, Client, createWalletClient, createPublicClient, Hex, http, isHex, PublicClient, Transport, WalletClient } from 'viem';
+import { Account, Address, Chain, createWalletClient, createPublicClient, Hex, http, isHex, PublicClient, Transport, WalletClient } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { Wallet } from '@ethersproject/wallet';
 import { base } from 'viem/chains';
 import {
-  DeployRainbowSuperTokenResponse,
   LaunchTokenParams,
   SDKConfig,
   LaunchTokenResponse,
 } from './types';
-import { JsonRpcProvider, TransactionRequest } from '@ethersproject/providers';
-import { HashZero } from '@ethersproject/constants';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import { formatEther } from "@ethersproject/units";
-import { submitRainbowSuperToken } from './api';
-import { findValidSalt } from './utils/findValidSalt';
 import { TokenLauncherSDKError, TokenLauncherErrorCode, throwTokenLauncherError } from './errors'; // Import the error utilities
 
 const allowedClankerChains = { [base.id]: base } as const;
