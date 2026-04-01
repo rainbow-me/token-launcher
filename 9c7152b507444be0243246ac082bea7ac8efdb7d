@@ -1,0 +1,31 @@
+sdk/src/utils/validation.ts
+  d6df2425342538f8 5,12,16,18,23,26
+sdk/test/fixtures.ts
+  d6df2425342538f8 4-24
+sdk/src/index.ts
+  d6df2425342538f8 12,49
+sdk/src/protocols/clanker/index.ts
+  d6df2425342538f8 5,19,32,118,184-185
+sdk/test/harness.ts
+  d6df2425342538f8 13,34,42,51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "9c7152b507444be0243246ac082bea7ac8efdb7d",
+  "prompts": {
+    "d6df2425342538f8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "256cdfb2-e7a2-4e8a-8a26-30f1b603e2d2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 122,
+      "total_deletions": 66,
+      "accepted_lines": 68,
+      "overriden_lines": 0
+    }
+  }
+}
