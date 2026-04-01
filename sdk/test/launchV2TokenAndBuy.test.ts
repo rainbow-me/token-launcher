@@ -19,7 +19,7 @@ describe('Launch Rainbow Super Token and Buy', () => {
   beforeAll(async () => {
     provider = new JsonRpcProvider('http://127.0.0.1:8545');
     wallet = new Wallet(
-      '0x34120324fbc54dfb9b92a0a12221fbd63e7bb825733d27ad09efaa617b393c73',
+      '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80',
       provider
     );
     sdk = TokenLauncher;
