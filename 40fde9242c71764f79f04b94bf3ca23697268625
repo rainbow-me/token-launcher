@@ -1,0 +1,23 @@
+sdk/test/launchV2TokenAndBuy.test.ts
+  096fbf4ec2d26388 20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "40fde9242c71764f79f04b94bf3ca23697268625",
+  "prompts": {
+    "096fbf4ec2d26388": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4f1da812-4159-40ef-9e27-6e0526fd9592",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 16,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
