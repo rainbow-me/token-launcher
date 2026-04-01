@@ -1,0 +1,49 @@
+sdk/test/references/abis/ClankerToken.ts
+  943feba2c9542daf 1-2
+sdk/src/types/index.ts
+  943feba2c9542daf 2,29-30,34-68,79-80
+sdk/test/references/abis/Clanker.ts
+  943feba2c9542daf 1-2
+sdk/test/launchToken.test.ts
+  943feba2c9542daf 1-182
+sdk/test/unit/tickMath.test.ts
+  943feba2c9542daf 2-5,7-10,13-15,18-20,23-26,30-33,36-38,41-44,46-48,52-58,60-62,64-65,68-73,75-77
+sdk/.gitignore
+  943feba2c9542daf 2
+sdk/ethers-viem-jin.md
+  943feba2c9542daf 1-202
+sdk/package.json
+  943feba2c9542daf 3,37,84
+sdk/src/deployToken.ts
+  943feba2c9542daf 2-7,9,33-34,38-49,52-66,72-75,79,82-88,90-94,96-100,103-114,119-121,124-140,142-143,145,150-151,153,156-158,168-169
+sdk/test/unit/getInitialTick.test.ts
+  943feba2c9542daf 1,3-5,9-10,14-16,19-22,24,26-29,32-34
+sdk/.changeset/migrate-to-liquid-protocol.md
+  943feba2c9542daf 1-15
+sdk/src/index.ts
+  943feba2c9542daf 10,12-15,36-37,40-41,44-45,50-51,87-112
+sdk/test/helpers/setupTestEnv.ts
+  943feba2c9542daf 2-6,11,21
+sdk/jest.unit.config.cjs
+  943feba2c9542daf 19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "49877fc90a0d93db0dc8bc19a413c3517bd6d112",
+  "prompts": {
+    "943feba2c9542daf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "46937458-6d9c-4b10-9d72-23fd878f3532",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 716,
+      "total_deletions": 1367,
+      "accepted_lines": 676,
+      "overriden_lines": 0
+    }
+  }
+}
