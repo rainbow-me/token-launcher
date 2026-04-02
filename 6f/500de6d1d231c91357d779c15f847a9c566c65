@@ -1,0 +1,25 @@
+src/protocols/liquid/index.ts
+  8a05855a332947bd 15,143
+src/protocols/liquid/index.test.ts
+  8a05855a332947bd 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "6f500de6d1d231c91357d779c15f847a9c566c65",
+  "prompts": {
+    "8a05855a332947bd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4cff-6900-73f0-8adf-947188e05717",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 142,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    }
+  }
+}
