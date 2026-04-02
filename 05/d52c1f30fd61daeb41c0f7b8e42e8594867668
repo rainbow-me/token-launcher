@@ -1,0 +1,58 @@
+src/protocols/clanker/types.ts
+  0668ccc699e7a08d 2,14-15
+src/protocols/clanker/index.ts
+  0668ccc699e7a08d 69,107,112,114-117,126-127,133
+src/protocols/index.ts
+  70c6a2a1d7774194 4,8,10-12
+src/index.ts
+  70c6a2a1d7774194 90
+src/getInitialTick.ts
+  0668ccc699e7a08d 10
+src/getInitialTick.test.ts
+  0668ccc699e7a08d 1-11
+test/sdk.test.ts
+  0668ccc699e7a08d 1
+package.json
+  70c6a2a1d7774194 32
+THEORY.MD
+  70c6a2a1d7774194 1-25
+README.md
+  70c6a2a1d7774194 73,107-118
+src/errors.ts
+  0668ccc699e7a08d 18,30,48
+src/types/protocol.ts
+  70c6a2a1d7774194 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "05d52c1f30fd61daeb41c0f7b8e42e8594867668",
+  "prompts": {
+    "0668ccc699e7a08d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4caa-3a0e-76f2-9d40-359ffa8868bc",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 29,
+      "overriden_lines": 0
+    },
+    "70c6a2a1d7774194": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4c51-cc08-7832-b869-5a3acc7e1885",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 46,
+      "total_deletions": 0,
+      "accepted_lines": 46,
+      "overriden_lines": 0
+    }
+  }
+}
