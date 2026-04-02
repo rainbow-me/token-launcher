@@ -1,0 +1,33 @@
+package.json
+  70c6a2a1d7774194 32
+src/index.ts
+  70c6a2a1d7774194 91
+THEORY.MD
+  70c6a2a1d7774194 1-25
+README.md
+  70c6a2a1d7774194 73,107-118
+src/protocols/index.ts
+  70c6a2a1d7774194 4,8,10-12
+src/types/protocol.ts
+  70c6a2a1d7774194 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "d3cd10887d6da025bcd412791d5b7a7e9f9af827",
+  "prompts": {
+    "70c6a2a1d7774194": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4c51-cc08-7832-b869-5a3acc7e1885",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 46,
+      "total_deletions": 0,
+      "accepted_lines": 46,
+      "overriden_lines": 0
+    }
+  }
+}
