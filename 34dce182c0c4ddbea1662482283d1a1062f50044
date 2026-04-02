@@ -1,0 +1,25 @@
+src/index.ts
+  9dc8207ec2ada5b9 2-3,7,9-46,72-73
+src/launchToken.ts
+  9dc8207ec2ada5b9 2,6,10,15-16,20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "34dce182c0c4ddbea1662482283d1a1062f50044",
+  "prompts": {
+    "9dc8207ec2ada5b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4c23-6adf-73d2-8433-4f24cee2f413",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 108,
+      "total_deletions": 162,
+      "accepted_lines": 51,
+      "overriden_lines": 0
+    }
+  }
+}
