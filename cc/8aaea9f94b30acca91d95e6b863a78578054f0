@@ -1,0 +1,45 @@
+package.json
+  f2bebb90b45aa3f9 82
+src/protocols/clanker/index.test.ts
+  36fc74577b632ecf 5,11
+test/sdk.test.ts
+  36fc74577b632ecf 5,11,20-21
+src/protocols/liquid/index.test.ts
+  36fc74577b632ecf 3,13
+  f2bebb90b45aa3f9 1-2,4-5,10-12,14-15,20-23,25-156
+README.md
+  f2bebb90b45aa3f9 38,55-58,82,95,99-140
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "cc8aaea9f94b30acca91d95e6b863a78578054f0",
+  "prompts": {
+    "36fc74577b632ecf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "08f9f2b1-b32e-499c-b7fd-f61296b662ff",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 8,
+      "total_deletions": 5,
+      "accepted_lines": 8,
+      "overriden_lines": 0
+    },
+    "f2bebb90b45aa3f9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b7ff52b0-3d13-4e09-83db-91e68749f0fb",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 210,
+      "total_deletions": 33,
+      "accepted_lines": 208,
+      "overriden_lines": 0
+    }
+  }
+}
