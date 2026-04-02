@@ -1,0 +1,47 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "59e506a68226ace0fd318469760c7f328becbe25",
+  "prompts": {
+    "096fbf4ec2d26388": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4f1da812-4159-40ef-9e27-6e0526fd9592",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 0,
+      "accepted_lines": 20,
+      "overriden_lines": 0
+    },
+    "943feba2c9542daf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "46937458-6d9c-4b10-9d72-23fd878f3532",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 716,
+      "total_deletions": 1367,
+      "accepted_lines": 479,
+      "overriden_lines": 0
+    },
+    "bdff035b62e768fd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ab8c14bf-61f4-4e1b-a441-21548a1d7d82",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair <d@niel.nyc>",
+      "messages": [],
+      "total_additions": 1535,
+      "total_deletions": 418,
+      "accepted_lines": 782,
+      "overriden_lines": 0
+    }
+  }
+}
