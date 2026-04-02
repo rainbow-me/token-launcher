@@ -7,7 +7,8 @@ import { ClankerToken_v4_abi } from './references/abis/ClankerToken';
 import { TokenLauncher } from '../src/index';
 import { LaunchTokenParams, LaunchTokenAndBuyParams } from '../src/types/index';
 
-const SAMPLE_LOGO_URL = 'https://rainbowme-res.cloudinary.com/image/upload/v1756412183/token-launcher/tokens/c0zvpu7k52lmdm2ubf2n.jpg';
+const SAMPLE_LOGO_URL =
+  'https://rainbowme-res.cloudinary.com/image/upload/v1756412183/token-launcher/tokens/c0zvpu7k52lmdm2ubf2n.jpg';
 
 describe('Launch Rainbow Super Token and Buy', () => {
   let provider: JsonRpcProvider;
@@ -45,7 +46,11 @@ describe('Launch Rainbow Super Token and Buy', () => {
       expect(launchResponse?.tokenAddress).toBeTruthy();
 
       // validate the onchain result
-      const deployedToken = new Contract(launchResponse?.tokenAddress || '', ClankerToken_v4_abi, provider);
+      const deployedToken = new Contract(
+        launchResponse?.tokenAddress || '',
+        ClankerToken_v4_abi,
+        provider
+      );
       const [name, symbol, admin] = await Promise.all([
         deployedToken.name(),
         deployedToken.symbol(),
@@ -74,7 +79,11 @@ describe('Launch Rainbow Super Token and Buy', () => {
     console.log('Transaction submitted with hash:', launchResponse?.transaction?.hash);
     expect(launchResponse?.transaction?.hash).toBeTruthy();
     // validate the onchain result
-    const deployedToken = new Contract(launchResponse?.tokenAddress || '', ClankerToken_v4_abi, provider);
+    const deployedToken = new Contract(
+      launchResponse?.tokenAddress || '',
+      ClankerToken_v4_abi,
+      provider
+    );
     const [imageUrl, metadata] = await Promise.all([
       deployedToken.imageUrl(),
       deployedToken.metadata(),
@@ -91,7 +100,7 @@ describe('Launch Rainbow Super Token and Buy', () => {
       wallet,
       logoUrl: SAMPLE_LOGO_URL,
       description: 'This is another test token',
-      links: {'other': 'https://rainbow.me'},
+      links: { other: 'https://rainbow.me' },
       amountIn: '0',
     };
     const launchResponse = await sdk.launchToken(txParams);
@@ -99,12 +108,14 @@ describe('Launch Rainbow Super Token and Buy', () => {
     expect(launchResponse?.transaction?.hash).toBeTruthy();
 
     // validate the onchain result
-    const deployedToken = new Contract(launchResponse?.tokenAddress || '', ClankerToken_v4_abi, provider);
-    const [metadata] = await Promise.all([
-      deployedToken.metadata(),
-    ]);
+    const deployedToken = new Contract(
+      launchResponse?.tokenAddress || '',
+      ClankerToken_v4_abi,
+      provider
+    );
+    const [metadata] = await Promise.all([deployedToken.metadata()]);
     const links = JSON.parse(metadata)?.socialMediaUrls;
-    links?.platform
+    links?.platform;
     expect(links?.[0]?.platform).toBe('other');
     expect(links?.[0]?.url).toBe(txParams.links?.other);
   }, 60000);
@@ -117,7 +128,7 @@ describe('Launch Rainbow Super Token and Buy', () => {
       wallet,
       logoUrl: SAMPLE_LOGO_URL,
       description: 'This is yet another test token',
-      links: {'other': 'https://rainbow.me'},
+      links: { other: 'https://rainbow.me' },
       amountIn,
     };
     const launchResponse = await sdk.launchTokenAndBuy(txParams);
@@ -132,7 +143,7 @@ describe('Launch Rainbow Super Token and Buy', () => {
       wallet,
       logoUrl: SAMPLE_LOGO_URL,
       description: 'This is yet another test token',
-      links: {'other': 'https://rainbow.me'},
+      links: { other: 'https://rainbow.me' },
       amountIn: 'NOT_A_VALID_ETH_VALUE',
     };
     // Await the expectation of the promise rejection and then use .toThrow()
