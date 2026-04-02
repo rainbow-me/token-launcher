@@ -1,0 +1,42 @@
+sdk/src/utils/validation.ts
+  1de9465e070eab88 2,5,11-12
+sdk/src/index.ts
+  1de9465e070eab88 11-13,15,17,42-55,60-82
+sdk/src/utils/withErrorBoundary.ts
+  1de9465e070eab88 1-17
+sdk/src/protocols/clanker/index.ts
+  1de9465e070eab88 18-19,32,106,155,162-163
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "8f056273eb5bc7d107414f8652bfc5a9a5afc101",
+  "prompts": {
+    "1de9465e070eab88": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f5244a6d-6690-4dfb-ab8e-9e36dd759aff",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 132,
+      "total_deletions": 125,
+      "accepted_lines": 70,
+      "overriden_lines": 0
+    },
+    "d6df2425342538f8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "256cdfb2-e7a2-4e8a-8a26-30f1b603e2d2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 7,
+      "overriden_lines": 0
+    }
+  }
+}
