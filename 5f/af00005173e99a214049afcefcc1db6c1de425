@@ -1,0 +1,36 @@
+test/harness/anvil.ts
+  36fc74577b632ecf 48,51-52,56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "5faf00005173e99a214049afcefcc1db6c1de425",
+  "prompts": {
+    "36fc74577b632ecf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "08f9f2b1-b32e-499c-b7fd-f61296b662ff",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 4,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    },
+    "8a05855a332947bd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4cff-6900-73f0-8adf-947188e05717",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 28,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    }
+  }
+}
