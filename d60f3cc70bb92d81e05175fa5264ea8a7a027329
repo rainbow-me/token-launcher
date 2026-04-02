@@ -1,0 +1,31 @@
+README.md
+  9dc8207ec2ada5b9 60-62
+test/harness/anvil.ts
+  9dc8207ec2ada5b9 70
+src/protocols/clanker/index.test.ts
+  9dc8207ec2ada5b9 12-15
+test/sdk.test.ts
+  9dc8207ec2ada5b9 10-13,54-87,89-90
+src/protocols/clanker/index.ts
+  9dc8207ec2ada5b9 12,102,106
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "d60f3cc70bb92d81e05175fa5264ea8a7a027329",
+  "prompts": {
+    "9dc8207ec2ada5b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4c23-6adf-73d2-8433-4f24cee2f413",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 99,
+      "total_deletions": 53,
+      "accepted_lines": 62,
+      "overriden_lines": 0
+    }
+  }
+}
