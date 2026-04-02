@@ -1,0 +1,31 @@
+src/protocols/clanker/index.ts
+  36fc74577b632ecf 3
+test/sdk.test.ts
+  36fc74577b632ecf 4
+package.json
+  36fc74577b632ecf 36
+src/protocols/clanker/index.test.ts
+  36fc74577b632ecf 2,4
+test/harness/anvil.ts
+  36fc74577b632ecf 3-8,48,52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "8fdf88d581bb1735775b50d88a4d625f3cebb257",
+  "prompts": {
+    "36fc74577b632ecf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "08f9f2b1-b32e-499c-b7fd-f61296b662ff",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 13,
+      "overriden_lines": 0
+    }
+  }
+}
