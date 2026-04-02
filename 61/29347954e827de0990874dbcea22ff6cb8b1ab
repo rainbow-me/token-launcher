@@ -1,0 +1,27 @@
+test/sdk.test.ts
+  36fc74577b632ecf 4
+src/protocols/clanker/index.test.ts
+  36fc74577b632ecf 2,4
+src/protocols/clanker/index.ts
+  36fc74577b632ecf 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "6129347954e827de0990874dbcea22ff6cb8b1ab",
+  "prompts": {
+    "36fc74577b632ecf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "08f9f2b1-b32e-499c-b7fd-f61296b662ff",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 8,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    }
+  }
+}
