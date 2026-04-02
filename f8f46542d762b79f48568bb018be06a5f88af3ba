@@ -1,0 +1,31 @@
+src/validation.ts
+  9dc8207ec2ada5b9 3,7-8,24,41,43
+test/sdk.test.ts
+  9dc8207ec2ada5b9 4,35,45
+src/protocols/clanker/index.ts
+  9dc8207ec2ada5b9 94,96,102
+README.md
+  9dc8207ec2ada5b9 81-82
+src/protocols/clanker/index.test.ts
+  9dc8207ec2ada5b9 5,91,102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "f8f46542d762b79f48568bb018be06a5f88af3ba",
+  "prompts": {
+    "9dc8207ec2ada5b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4c23-6adf-73d2-8433-4f24cee2f413",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 17,
+      "total_deletions": 39,
+      "accepted_lines": 17,
+      "overriden_lines": 0
+    }
+  }
+}
