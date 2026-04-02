@@ -1,0 +1,41 @@
+CHANGELOG.md
+  3dc1da510a1a7bc8 1-16
+tsconfig.eslint.json
+  3dc1da510a1a7bc8 1-5
+.prettierrc
+  3dc1da510a1a7bc8 1-9
+tsconfig.json
+  3dc1da510a1a7bc8 1-21
+.eslintrc.json
+  3dc1da510a1a7bc8 1-25
+.github/workflows/ci.yml
+  3dc1da510a1a7bc8 5,7,12,21,67
+babel.config.cjs
+  3dc1da510a1a7bc8 1-6
+README.md
+  3dc1da510a1a7bc8 1,6,8,10-12,14,16-18,20-21,23-108
+.prettierignore
+  3dc1da510a1a7bc8 1-3
+package.json
+  3dc1da510a1a7bc8 1-96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "749e7969024ea4075b99f62df77c9550b5bc5236",
+  "prompts": {
+    "3dc1da510a1a7bc8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4be4-7316-7821-aa3e-cb780271fd2d",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 386,
+      "total_deletions": 2571,
+      "accepted_lines": 284,
+      "overriden_lines": 0
+    }
+  }
+}
