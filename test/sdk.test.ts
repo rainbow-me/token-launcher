@@ -1,19 +1,19 @@
-import { BigNumber } from '@ethersproject/bignumber';
+import { jest } from '@jest/globals';
 import { TokenLauncherErrorCode } from '../src/errors';
 import { createTestHarness } from './harness/anvil';
-import { Protocol, type LaunchTokenParams } from '../src/types/index';
+import { type LaunchTokenParams, Protocol } from '../src/types/index';
 import { base } from 'viem/chains';
 
 describe('TokenLauncher SDK', () => {
-  const { provider, wallet, sdk, sampleLogoUrl } = createTestHarness();
+  const { publicClient, walletClient, account, sdk, sampleLogoUrl } = createTestHarness();
 
   beforeEach(() => {
     sdk.configure({ chains: [base.id] });
   });
 
   it('should check that the creator wallet has funds', async () => {
-    const balance = await provider.getBalance(wallet.address);
-    expect(balance.gt(BigNumber.from('0'))).toBe(true);
+    const balance = await publicClient.getBalance({ address: account.address });
+    expect(balance > 0n).toBe(true);
   });
 
   it('should store and return chains config', () => {
@@ -26,7 +26,8 @@ describe('TokenLauncher SDK', () => {
       protocol: Protocol.Clanker,
       name: 'SDK Integration Token',
       symbol: 'SIT',
-      wallet,
+      walletClient,
+      publicClient,
       logoUrl: sampleLogoUrl,
       links: {},
       amountIn: '0',
@@ -42,7 +43,8 @@ describe('TokenLauncher SDK', () => {
       protocol: Protocol.Clanker,
       name: 'SDK Invalid Amount Token',
       symbol: 'SIAT',
-      wallet,
+      walletClient,
+      publicClient,
       logoUrl: sampleLogoUrl,
       links: {},
       amountIn: 'NOT_A_VALID_ETH_VALUE',
@@ -60,7 +62,8 @@ describe('TokenLauncher SDK', () => {
       protocol: Protocol.Clanker,
       name: 'SDK Wrong Config Chain Token',
       symbol: 'SWCC',
-      wallet,
+      walletClient,
+      publicClient,
       logoUrl: sampleLogoUrl,
       links: {},
       amountIn: '0',
@@ -72,15 +75,14 @@ describe('TokenLauncher SDK', () => {
   });
 
   it('should reject chains unsupported by the protocol', async () => {
-    const getNetworkSpy = jest
-      .spyOn(provider, 'getNetwork')
-      .mockResolvedValue({ chainId: 1 } as any);
+    const getChainIdSpy = jest.spyOn(publicClient, 'getChainId').mockResolvedValue(1);
 
     const txParams: LaunchTokenParams = {
       protocol: Protocol.Clanker,
       name: 'SDK Wrong Protocol Chain Token',
       symbol: 'SWPC',
-      wallet,
+      walletClient,
+      publicClient,
       logoUrl: sampleLogoUrl,
       links: {},
       amountIn: '0',
@@ -90,6 +92,6 @@ describe('TokenLauncher SDK', () => {
       code: TokenLauncherErrorCode.UNSUPPORTED_CHAIN_ID,
     });
 
-    getNetworkSpy.mockRestore();
+    getChainIdSpy.mockRestore();
   });
 });

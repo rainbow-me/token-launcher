@@ -1,5 +1,11 @@
-import type { TransactionResponse } from '@ethersproject/providers';
-import type { Wallet } from '@ethersproject/wallet';
+import type {
+  Account,
+  Chain,
+  GetTransactionReturnType,
+  PublicClient,
+  Transport,
+  WalletClient,
+} from 'viem';
 import type { SDKConfig, SupportedChain } from './config';
 import type { Protocol } from './protocol';
 
@@ -7,7 +13,8 @@ export interface LaunchTokenParams {
   protocol: Protocol;
   name: string;
   symbol: string;
-  wallet: Wallet;
+  walletClient: WalletClient<Transport, Chain, Account>;
+  publicClient: PublicClient<Transport, Chain>;
   amountIn?: string;
   logoUrl?: string;
   description?: string;
@@ -15,7 +22,7 @@ export interface LaunchTokenParams {
 }
 
 export interface LaunchTokenResponse {
-  transaction: TransactionResponse;
+  transaction: GetTransactionReturnType;
   tokenUri?: string;
   tokenAddress: string;
 }

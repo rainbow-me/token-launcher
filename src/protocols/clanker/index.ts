@@ -1,19 +1,14 @@
-import type { JsonRpcProvider } from '@ethersproject/providers';
-import { formatEther } from '@ethersproject/units';
-import type { Wallet } from '@ethersproject/wallet';
-import { POOL_POSITIONS, type ClankerTokenV4 } from 'clanker-sdk';
+import { ClankerTokenV4, POOL_POSITIONS } from 'clanker-sdk';
 import { Clanker } from 'clanker-sdk/v4';
 import {
-  createPublicClient,
-  createWalletClient,
+  BaseError,
+  ContractFunctionRevertedError,
   EstimateGasExecutionError,
-  http,
-  type Account,
+  InsufficientFundsError,
+  UserRejectedRequestError,
   type Address,
-  type Chain,
-  type PublicClient,
+  formatEther,
 } from 'viem';
-import { privateKeyToAccount } from 'viem/accounts';
 import { base } from 'viem/chains';
 import {
   TokenLauncherErrorCode,
@@ -27,10 +22,25 @@ import type {
   SDKConfig,
 } from '../../types/index';
 import { INTERFACE, INTERFACE_REWARD_ADDRESS } from '../constants';
-import { validateToHexStrict } from '../utils';
 import type { ClankerClientTypes, RewardRecipient, Social } from './types';
 
 const supportedChains = [base.id] as const;
+
+function assertWalletClientAccount(
+  walletClient: LaunchTokenParams['walletClient'],
+  operation: string
+): Address {
+  const accountAddress = walletClient.account?.address;
+  if (!accountAddress) {
+    throwTokenLauncherError(
+      TokenLauncherErrorCode.UNKNOWN_ERROR,
+      'walletClient must be created with a local account',
+      { operation, source: 'sdk' }
+    );
+  }
+
+  return accountAddress;
+}
 
 const formatSocialMediaUrls = (links: Record<string, string>): Social[] => {
   return Object.entries(links).map(([platform, url]) => ({
@@ -71,6 +81,11 @@ const prepareTokenLaunchParameters = (
     socialMediaUrls,
   };
   const rewards = getRewardsDetails(accountAddress);
+  const devBuy =
+    params.amountIn && params.amountIn !== '0'
+      ? { devBuy: { ethAmount: Number(formatEther(BigInt(params.amountIn))) } }
+      : {};
+
   const tokenParams = {
     name: params.name,
     chainId: chainId as NonNullable<ClankerTokenV4['chainId']>,
@@ -86,93 +101,75 @@ const prepareTokenLaunchParameters = (
     tokenAdmin: accountAddress,
     image: params.logoUrl,
     metadata,
-  };
+    ...devBuy,
+  } satisfies ClankerTokenV4;
 
   return tokenParams;
 };
 
-const getClankerClient = async (
-  wallet: Wallet,
-  chain: Chain,
-  operation: string
-): Promise<ClankerClientTypes> => {
-  const jsonRpcProvider = wallet.provider as JsonRpcProvider;
-  const providerUrl = jsonRpcProvider.connection.url;
-  const transport = http(providerUrl);
-
-  const client: PublicClient = createPublicClient({ chain, transport });
-
-  const privateKeyHex = validateToHexStrict('wallet key', wallet.privateKey, operation);
-  const account: Account = privateKeyToAccount(privateKeyHex);
-  const walletClient = createWalletClient({
-    account,
-    chain,
-    transport,
-  });
-
-  const clankerClient = new Clanker({
-    wallet: walletClient,
-    publicClient: client,
-  });
+const getClankerClient = (params: LaunchTokenParams, operation: string): ClankerClientTypes => {
+  const accountAddress = assertWalletClientAccount(params.walletClient, operation);
 
   return {
-    chainId: chain.id,
-    accountAddress: account.address,
-    clankerClient,
+    chainId: base.id,
+    accountAddress,
+    clankerClient: new Clanker({
+      wallet: params.walletClient as any,
+      publicClient: params.publicClient as any,
+    }),
   };
 };
 
 async function launch(params: LaunchTokenParams, operation: string): Promise<LaunchTokenResponse> {
   try {
-    const wallet = params.wallet;
-    const { accountAddress, chainId, clankerClient } = await getClankerClient(
-      wallet,
-      base,
-      operation
-    );
+    const { accountAddress, chainId, clankerClient } = getClankerClient(params, operation);
     const tokenParams = prepareTokenLaunchParameters(params, accountAddress, chainId);
-
-    if (params.amountIn && params.amountIn !== '0') {
-      tokenParams.devBuy = { ethAmount: Number(formatEther(params.amountIn)) };
-    }
 
     const { txHash, waitForTransaction, error } = await clankerClient.deploy(tokenParams);
     if (error) throw error;
 
-    const { address: tokenAddress } = await waitForTransaction();
-    const tx = await wallet.provider.getTransaction(txHash);
+    const { address: tokenAddress, error: waitError } = await waitForTransaction();
+    if (waitError) throw waitError;
+    if (!tokenAddress) {
+      throwTokenLauncherError(
+        TokenLauncherErrorCode.TRANSACTION_FAILED,
+        'Deploy succeeded but no token address was returned',
+        { operation, source: 'chain' }
+      );
+    }
+    const tx = await params.publicClient.getTransaction({ hash: txHash });
 
     return {
       transaction: tx,
       tokenUri: params.logoUrl,
-      tokenAddress: tokenAddress!,
+      tokenAddress,
     };
   } catch (error) {
     if (error instanceof TokenLauncherSDKError) throw error;
 
+    const context = (source: 'chain' | 'sdk') => ({
+      operation,
+      originalError: error,
+      source,
+      params: {
+        protocol: params.protocol,
+        name: params.name,
+        symbol: params.symbol,
+        amountIn: params.amountIn,
+        logoUrl: params.logoUrl,
+        description: params.description,
+        links: params.links,
+      },
+    });
+
     // ClankerError wraps viem errors with classified .data
     const clankerError = error as { data?: { rawName?: string; label?: string }; error?: Error };
     if (clankerError.data?.rawName) {
-      const context = {
-        operation,
-        originalError: error,
-        source: 'chain' as const,
-        params: {
-          protocol: params.protocol,
-          name: params.name,
-          symbol: params.symbol,
-          amountIn: params.amountIn,
-          logoUrl: params.logoUrl,
-          description: params.description,
-          links: params.links,
-        },
-      };
-
       if (clankerError.data.rawName === 'InsufficientFundsError')
         throwTokenLauncherError(
           TokenLauncherErrorCode.INSUFFICIENT_FUNDS,
           clankerError.data.label || 'Insufficient funds',
-          context
+          context('chain')
         );
       if (
         clankerError.data.rawName === 'unknown' &&
@@ -181,17 +178,53 @@ async function launch(params: LaunchTokenParams, operation: string): Promise<Lau
         throwTokenLauncherError(
           TokenLauncherErrorCode.GAS_ESTIMATION_FAILED,
           clankerError.data.label || 'Gas estimation failed',
-          context
+          context('chain')
         );
       throwTokenLauncherError(
         TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
         clankerError.data.label || 'Contract interaction failed',
-        context
+        context('chain')
       );
     }
 
-    // Raw viem errors propagate to launchToken for shared classification
-    throw error;
+    // Raw viem errors (from waitForTransaction — not wrapped by Clanker SDK)
+    if (error instanceof BaseError) {
+      if (error.walk(e => e instanceof InsufficientFundsError))
+        throwTokenLauncherError(
+          TokenLauncherErrorCode.INSUFFICIENT_FUNDS,
+          error.shortMessage,
+          context('chain')
+        );
+      if (error.walk(e => e instanceof ContractFunctionRevertedError))
+        throwTokenLauncherError(
+          TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
+          error.shortMessage,
+          context('chain')
+        );
+      if (error.walk(e => e instanceof UserRejectedRequestError))
+        throwTokenLauncherError(
+          TokenLauncherErrorCode.WALLET_CONNECTION_ERROR,
+          error.shortMessage,
+          context('sdk')
+        );
+      if (error.walk(e => e instanceof EstimateGasExecutionError))
+        throwTokenLauncherError(
+          TokenLauncherErrorCode.GAS_ESTIMATION_FAILED,
+          error.shortMessage,
+          context('chain')
+        );
+      throwTokenLauncherError(
+        TokenLauncherErrorCode.TRANSACTION_FAILED,
+        error.shortMessage,
+        context('chain')
+      );
+    }
+
+    throwTokenLauncherError(
+      TokenLauncherErrorCode.UNKNOWN_ERROR,
+      `Unexpected error in ${operation}: ${(error as Error).message || String(error)}`,
+      context('sdk')
+    );
   }
 }
 

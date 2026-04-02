@@ -8,17 +8,27 @@ A TypeScript SDK for launching tokens through protocol adapters.
 ## Installation
 
 ```bash
-npm install @rainbow-me/token-launcher
+npm install @rainbow-me/token-launcher viem
 ```
 
 ## Usage
 
 ```typescript
 import { TokenLauncher, Protocol } from '@rainbow-me/token-launcher';
-import { Wallet, JsonRpcProvider } from 'ethers';
+import { createPublicClient, createWalletClient, http } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { base } from 'viem/chains';
 
-const provider = new JsonRpcProvider('https://mainnet.base.org');
-const wallet = new Wallet('YOUR_PRIVATE_KEY', provider);
+const account = privateKeyToAccount('0x...');
+const publicClient = createPublicClient({
+  chain: base,
+  transport: http('https://mainnet.base.org'),
+});
+const walletClient = createWalletClient({
+  account,
+  chain: base,
+  transport: http('https://mainnet.base.org'),
+});
 
 TokenLauncher.configure({
   chains: [base.id],
@@ -28,7 +38,8 @@ const result = await TokenLauncher.launchToken({
   protocol: Protocol.Clanker,
   name: 'My Token',
   symbol: 'MTK',
-  wallet,
+  walletClient,
+  publicClient,
   logoUrl: 'https://example.com/logo.png',
   description: 'My token',
   links: {
@@ -63,7 +74,8 @@ interface LaunchTokenParams {
   protocol: Protocol;
   name: string;
   symbol: string;
-  wallet: Wallet;
+  walletClient: WalletClient;
+  publicClient: PublicClient;
   amountIn?: string;
   logoUrl?: string;
   description?: string;
@@ -71,7 +83,7 @@ interface LaunchTokenParams {
 }
 
 interface LaunchTokenResponse {
-  transaction: TransactionResponse;
+  transaction: Transaction;
   tokenUri?: string;
   tokenAddress: string;
 }

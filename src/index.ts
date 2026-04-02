@@ -1,13 +1,11 @@
-import type { BigNumber } from '@ethersproject/bignumber';
-import { formatEther } from '@ethersproject/units';
+import type { LaunchTokenParams, LaunchTokenResponse, SDKConfig } from './types';
 import { TokenLauncherErrorCode, throwTokenLauncherError } from './errors';
 import { getInitialTick } from './getInitialTick';
 import { launchToken } from './launchToken';
-import { type LaunchTokenParams, type LaunchTokenResponse, type SDKConfig } from './types/index';
 
 function validateAmountIn(amountIn: string, operation: string): void {
   try {
-    Number(formatEther(amountIn));
+    BigInt(amountIn);
   } catch (error) {
     throwTokenLauncherError(
       TokenLauncherErrorCode.INVALID_AMOUNT_IN_PARAM,
@@ -21,13 +19,14 @@ function validateLaunchTokenParams(
   params: LaunchTokenParams,
   operation: string
 ): LaunchTokenParams {
-  for (const field of ['name', 'symbol', 'protocol', 'wallet'] as const) {
+  for (const field of ['walletClient', 'publicClient', 'name', 'symbol', 'protocol'] as const) {
     if (!params[field]) {
       throwTokenLauncherError(
         TokenLauncherErrorCode.MISSING_REQUIRED_PARAM,
         `Missing required parameter: ${field}`,
         {
           operation,
+          source: 'sdk',
           params: { protocol: params.protocol, name: params.name, symbol: params.symbol },
         }
       );
@@ -60,7 +59,7 @@ class TokenLauncherSDK {
     return { ...this.config };
   }
 
-  public getInitialTick(tokenPrice: BigNumber): number {
+  public getInitialTick(tokenPrice: bigint): number {
     return getInitialTick(tokenPrice);
   }
 
@@ -78,6 +77,6 @@ export {
   Protocol,
   SDKConfig,
   SupportedChain,
-} from './types/index';
+} from './types';
 
 export { TokenLauncherErrorCode, TokenLauncherSDKError } from './errors';
