@@ -1,0 +1,31 @@
+src/protocols/clanker/types.ts
+  0668ccc699e7a08d 15
+test/sdk.test.ts
+  0668ccc699e7a08d 1
+src/getInitialTick.ts
+  0668ccc699e7a08d 10
+src/errors.ts
+  0668ccc699e7a08d 18,30,48
+src/protocols/clanker/index.ts
+  0668ccc699e7a08d 107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "d008e2b09a0a32ddbe41050cac077f84134e5ded",
+  "prompts": {
+    "0668ccc699e7a08d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4caa-3a0e-76f2-9d40-359ffa8868bc",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 14,
+      "accepted_lines": 7,
+      "overriden_lines": 0
+    }
+  }
+}
