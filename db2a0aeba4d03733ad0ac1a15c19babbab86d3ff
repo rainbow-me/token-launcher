@@ -1,0 +1,21 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "db2a0aeba4d03733ad0ac1a15c19babbab86d3ff",
+  "prompts": {
+    "eca5b509c3811e99": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8aca2ea9-50aa-4146-a6da-3a86c94005ae",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 72,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    }
+  }
+}
