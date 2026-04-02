@@ -1,0 +1,25 @@
+README.md
+  f2bebb90b45aa3f9 6,8,14,23-24,26,28-29,35,39,41,43-46,48,50,52,54-56,58,60,62,64
+src/protocols/liquid/index.test.ts
+  f2bebb90b45aa3f9 1-2,9-21,23-38,102,125,138
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "84d96ed5794d08700da7aa1399a084b650e50f62",
+  "prompts": {
+    "f2bebb90b45aa3f9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b7ff52b0-3d13-4e09-83db-91e68749f0fb",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 62,
+      "overriden_lines": 0
+    }
+  }
+}
