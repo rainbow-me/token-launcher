@@ -1,5 +1,5 @@
 import { priceToInitialTick } from './utils/tickMath';
-import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
+import { BigNumber, type BigNumberish } from '@ethersproject/bignumber';
 import { parseUnits } from '@ethersproject/units';
 
 const TICK_SPACING = 200;

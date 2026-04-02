@@ -1,5 +1,6 @@
 export enum TokenLauncherErrorCode {
   // Parameter errors
+  INVALID_PROTOCOL = 'INVALID_PROTOCOL',
   INVALID_ADDRESS = 'INVALID_ADDRESS',
   UNSUPPORTED_CHAIN_ID = 'UNSUPPORTED_CHAIN_ID',
   INVALID_AMOUNT_IN_PARAM = 'INVALID_AMOUNT_IN_PARAM',
@@ -14,7 +15,7 @@ export class TokenLauncherSDKError extends Error {
   readonly context: {
     operation: string;
     params?: any;
-    source: 'api' | 'chain' | 'sdk';
+    source: 'chain' | 'sdk';
     chainId?: number;
     transactionHash?: string;
     originalError?: any;
@@ -26,7 +27,7 @@ export class TokenLauncherSDKError extends Error {
     context: {
       operation: string;
       params?: any;
-      source: 'api' | 'chain' | 'sdk';
+      source: 'chain' | 'sdk';
       chainId?: number;
       transactionHash?: string;
       originalError?: any;
@@ -37,16 +38,14 @@ export class TokenLauncherSDKError extends Error {
     this.code = code;
     this.context = context;
 
-    // Maintain proper stack trace in V8 engines
     Object.setPrototypeOf(this, TokenLauncherSDKError.prototype);
   }
 }
 
-// Helper function to format and throw errors
 export function throwTokenLauncherError(
   code: TokenLauncherErrorCode,
   message: string,
-  context: Omit<TokenLauncherSDKError['context'], 'source'> & { source?: 'api' | 'chain' | 'sdk' }
+  context: Omit<TokenLauncherSDKError['context'], 'source'> & { source?: 'chain' | 'sdk' }
 ): never {
   throw new TokenLauncherSDKError(code, message, {
     ...context,

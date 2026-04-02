@@ -2,17 +2,14 @@ name: CI
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master, develop ]
+    branches: [ main ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./sdk
-    
+
     steps:
     - uses: actions/checkout@v3
     
@@ -21,7 +18,7 @@ jobs:
       with:
         node-version: '18.x'
         cache: 'yarn'
-        cache-dependency-path: './sdk/yarn.lock'
+        cache-dependency-path: './yarn.lock'
     
     - name: Install Foundry (direct download)
       run: |
@@ -67,13 +64,9 @@ jobs:
     - name: Test
       run: |
         export PATH="$HOME/.foundry/bin:$PATH"
-        # Create .env with secrets for CI
+        # Create .env with fork config for CI
         cat > .env << EOF
-        IS_TESTING=true
         RPC_URL=${{ secrets.RPC_URL }}
-        API_KEY_DEV=${{ secrets.API_KEY_DEV }}
-        API_KEY_PROD=${{ secrets.API_KEY_PROD }}
-        API_URL_DEV=${{ secrets.API_URL_DEV }}
         LAUNCHER_CODE=${{ secrets.LAUNCHER_CODE }}
         LAUNCHER_PLATFORM=${{ secrets.LAUNCHER_PLATFORM }}
         LAUNCHER_FEE_ADDRESS=${{ secrets.LAUNCHER_FEE_ADDRESS }}
@@ -92,10 +85,3 @@ jobs:
         else
           echo "✅ RPC_URL is available"
         fi
-        
-        if [ -z "${{ secrets.API_URL_DEV }}" ]; then
-          echo "⚠️ API_URL_DEV is not set or empty"
-        else
-          echo "✅ API_URL_DEV is available"
-        fi
-        # Similar checks for other secrets 

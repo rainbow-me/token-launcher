@@ -20,7 +20,8 @@
   "settings": {
     "import/resolver": {
       "typescript": true,
-      "node": true
+      "node": true,
+      "babel-module": false
     }
   },
   "rules": {

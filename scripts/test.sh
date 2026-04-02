@@ -14,7 +14,7 @@ echo "Anvil is running with PID $ANVIL_PID"
 
 # Run tests
 echo "Running tests..."
-yarn jest
+yarn jest --runInBand
 TEST_EXIT_CODE=$?
 
 # Kill Anvil more forcefully

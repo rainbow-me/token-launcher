@@ -3,12 +3,12 @@
   "version": "0.2.0",
   "license": "GPL-3.0",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js"
     }
   },
   "devDependencies": {
@@ -44,7 +44,6 @@
   "author": "Christopher Howard",
   "files": [
     "dist",
-    "src",
     "README.md"
   ],
   "scripts": {
@@ -91,9 +90,6 @@
       "js",
       "mjs",
       "json"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/test/helpers/setupTestEnv.ts"
     ]
   },
   "sideEffects": false,
