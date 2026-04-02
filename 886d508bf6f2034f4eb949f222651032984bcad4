@@ -1,0 +1,23 @@
+README.md
+  9dc8207ec2ada5b9 24,54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "886d508bf6f2034f4eb949f222651032984bcad4",
+  "prompts": {
+    "9dc8207ec2ada5b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4c23-6adf-73d2-8433-4f24cee2f413",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 78,
+      "total_deletions": 78,
+      "accepted_lines": 37,
+      "overriden_lines": 1
+    }
+  }
+}
