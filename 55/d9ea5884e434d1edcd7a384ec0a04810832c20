@@ -1,55 +1,55 @@
-src/protocols/utils.ts
-  9dc8207ec2ada5b9 1-2
-tsconfig.eslint.json
-  3dc1da510a1a7bc8 1-5
-.eslintrc.json
-  3dc1da510a1a7bc8 1-25
-.prettierignore
-  3dc1da510a1a7bc8 1-3
-package.json
-  3dc1da510a1a7bc8 1-15,17-19,21-23,25-27,29-30,37,40,43-54,57-97
-src/protocols/index.ts
-  9dc8207ec2ada5b9 1-2
 src/errors.ts
   9dc8207ec2ada5b9 2-3,9-10,19,31,49
   0668ccc699e7a08d 18,30,48
-src/index.ts
-  9dc8207ec2ada5b9 3-4,9-10,12-46,72-73
 CHANGELOG.md
   3dc1da510a1a7bc8 1-16
-src/protocols/constants.ts
-  9dc8207ec2ada5b9 1-2
-src/launchToken.ts
-  9dc8207ec2ada5b9 2,4,6,8-11,15-16,20
-  d0ec5e01f53e9216 24-36
-src/types/index.ts
-  9dc8207ec2ada5b9 3-4,24-29
-tsconfig.json
-  3dc1da510a1a7bc8 1-21
-.prettierrc
-  3dc1da510a1a7bc8 1-9
-src/getInitialTick.test.ts
-  0668ccc699e7a08d 1-4,6-15,17-22
-test/sdk.test.ts
-  9dc8207ec2ada5b9 4-5,10-13,35,45,54-61,63-73,75-79,81-87,89
-src/protocols/clanker/index.test.ts
-  9dc8207ec2ada5b9 5-6,12-15,91,102
-babel.config.cjs
-  3dc1da510a1a7bc8 1,6
-src/protocols/clanker/index.ts
-  9dc8207ec2ada5b9 14,16-21,33-35,39,58,63-64,72,90,96,127-128,151,166,169-170,172
-  d0ec5e01f53e9216 23
-  0668ccc699e7a08d 66,121-123,141-142,148
-src/getInitialTick.ts
-  0668ccc699e7a08d 13
-.github/workflows/ci.yml
-  3dc1da510a1a7bc8 5,7,12,18,21,64,67
 src/protocols/clanker/types.ts
   0668ccc699e7a08d 1,13
   9dc8207ec2ada5b9 2
+.eslintrc.json
+  3dc1da510a1a7bc8 1-25
+.github/workflows/ci.yml
+  3dc1da510a1a7bc8 5,7,12,18,21,64,67
+src/launchToken.ts
+  d0ec5e01f53e9216 2,24-39
+  9dc8207ec2ada5b9 3-12,15-17,20
+tsconfig.json
+  3dc1da510a1a7bc8 1-21
+tsconfig.eslint.json
+  3dc1da510a1a7bc8 1-5
 README.md
-  3dc1da510a1a7bc8 1,6,8,10,12,14,16-17,23,25-30,32-53,55-59,63-67,69-75,77-80,83-97,99-106
-  9dc8207ec2ada5b9 24,54,60-62,81-82,98
+  3dc1da510a1a7bc8 1,6,8,10,12,14,16-17,19,23-30,32-42,44-48,52-67,70-75,77-84,86-93,106
+  9dc8207ec2ada5b9 43,49-51,69,85
+src/protocols/clanker/index.ts
+  9dc8207ec2ada5b9 14,16-21,23-27,29-31,33-35,39,54,58-60,63-64,68,72,81,84-87,89-90,92,96,127-128,143-144,146-147,151,165-166,169-170,172
+  0668ccc699e7a08d 66,111,121-123,141-142,148
+src/getInitialTick.ts
+  9dc8207ec2ada5b9 5-6
+  0668ccc699e7a08d 13
+src/index.ts
+  9dc8207ec2ada5b9 3-5,8-10,12-46,70-73
+src/protocols/clanker/index.test.ts
+  9dc8207ec2ada5b9 5-6,12-16,78,91,102
+.prettierignore
+  3dc1da510a1a7bc8 1-3
+src/types/index.ts
+  9dc8207ec2ada5b9 3-5,24-29
+.prettierrc
+  3dc1da510a1a7bc8 1-9
+test/sdk.test.ts
+  9dc8207ec2ada5b9 4-5,10-13,34-35,45,52-61,63-73,75-79,81-87,89
+babel.config.cjs
+  3dc1da510a1a7bc8 1,6
+src/protocols/utils.ts
+  9dc8207ec2ada5b9 1-2
+src/getInitialTick.test.ts
+  0668ccc699e7a08d 1-4,6-15,17-22
+package.json
+  3dc1da510a1a7bc8 1-15,17-19,21-23,25-27,29-30,37,40,43-54,57-97
+src/protocols/constants.ts
+  9dc8207ec2ada5b9 1-2
+src/protocols/index.ts
+  9dc8207ec2ada5b9 1-2,7
 ---
 {
   "schema_version": "authorship/3.0.0",
@@ -66,7 +66,7 @@ README.md
       "messages": [],
       "total_additions": 68,
       "total_deletions": 36,
-      "accepted_lines": 33,
+      "accepted_lines": 34,
       "overriden_lines": 0
     },
     "3dc1da510a1a7bc8": {
@@ -79,7 +79,7 @@ README.md
       "messages": [],
       "total_additions": 0,
       "total_deletions": 0,
-      "accepted_lines": 250,
+      "accepted_lines": 241,
       "overriden_lines": 0
     },
     "50e6277bef93e86f": {
@@ -118,7 +118,7 @@ README.md
       "messages": [],
       "total_additions": 0,
       "total_deletions": 0,
-      "accepted_lines": 153,
+      "accepted_lines": 192,
       "overriden_lines": 0
     },
     "ad6164a6b7b1125e": {
@@ -144,7 +144,7 @@ README.md
       "messages": [],
       "total_additions": 0,
       "total_deletions": 0,
-      "accepted_lines": 14,
+      "accepted_lines": 17,
       "overriden_lines": 0
     },
     "e46b0f66803bff14": {
