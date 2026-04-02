@@ -1,0 +1,49 @@
+src/protocols/clanker/index.test.ts
+  5c518bbbf05ef189 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "f15d50b42cf3c29bf738a450f50861f1007d7882",
+  "prompts": {
+    "0668ccc699e7a08d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4caa-3a0e-76f2-9d40-359ffa8868bc",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    },
+    "5c518bbbf05ef189": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "534a9c3b-419a-40f0-96ee-85601ad887bb",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 21,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    },
+    "ad6164a6b7b1125e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1df20a64-55c4-4e92-aed7-2ba7631171cb",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 1,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    }
+  }
+}
