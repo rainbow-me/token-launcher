@@ -1,0 +1,23 @@
+src/protocols/liquid/index.ts
+  422cfc20f2f9b684 9-13,131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "674336a09e133810a1f63130a4b0c70d3aa5d7c2",
+  "prompts": {
+    "422cfc20f2f9b684": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b407d52d-aaa9-4c65-9365-77d83e990b7d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 7,
+      "total_deletions": 9,
+      "accepted_lines": 6,
+      "overriden_lines": 0
+    }
+  }
+}
