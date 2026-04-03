@@ -11,11 +11,13 @@ export const getRainbowSuperTokenFactory = async (
   const chainId = await wallet.getChainId();
   let factoryAddress;
   if (config.MODE === 'jest') {
-    factoryAddress = getFactorySupportedChains().find(network => network.chainId === chainId)
-      ?.contractAddress;
+    factoryAddress = getFactorySupportedChains().find(
+      network => network.chainId === chainId
+    )?.contractAddress;
   } else {
-    factoryAddress = config.SUPPORTED_NETWORKS?.find(network => network.chainId === chainId)
-      ?.contractAddress;
+    factoryAddress = config.SUPPORTED_NETWORKS?.find(
+      network => network.chainId === chainId
+    )?.contractAddress;
   }
 
   if (!factoryAddress) {

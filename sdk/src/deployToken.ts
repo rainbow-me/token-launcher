@@ -1,25 +1,29 @@
 import { Clanker } from 'clanker-sdk/dist/v4/index.js';
 import { ClankerTokenV4, POOL_POSITIONS } from 'clanker-sdk';
-import { Account, Address, Chain, Client, createWalletClient, createPublicClient, Hex, http, isHex, PublicClient, Transport, WalletClient } from 'viem';
+import {
+  Account,
+  Address,
+  Chain,
+  createWalletClient,
+  createPublicClient,
+  Hex,
+  http,
+  isHex,
+  PublicClient,
+  Transport,
+  WalletClient,
+} from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { Wallet } from '@ethersproject/wallet';
 import { base } from 'viem/chains';
-import {
-  DeployRainbowSuperTokenResponse,
-  LaunchTokenParams,
-  SDKConfig,
-  LaunchTokenResponse,
-} from './types';
-import { JsonRpcProvider, TransactionRequest } from '@ethersproject/providers';
-import { HashZero } from '@ethersproject/constants';
-import { formatEther } from "@ethersproject/units";
-import { submitRainbowSuperToken } from './api';
-import { findValidSalt } from './utils/findValidSalt';
+import { LaunchTokenParams, SDKConfig, LaunchTokenResponse } from './types';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import { formatEther } from '@ethersproject/units';
 import { TokenLauncherSDKError, TokenLauncherErrorCode, throwTokenLauncherError } from './errors'; // Import the error utilities
 
 const allowedClankerChains = { [base.id]: base } as const;
 type AllowedChainId = keyof typeof allowedClankerChains;
-type AllowedChain = typeof allowedClankerChains[keyof typeof allowedClankerChains];
+type AllowedChain = (typeof allowedClankerChains)[keyof typeof allowedClankerChains];
 
 type Social = { platform: string; url: string };
 
@@ -34,7 +38,7 @@ type ClankerClientTypes = {
   allowedChain: AllowedChain;
   accountAddress: Address;
   clankerClient: Clanker;
-}
+};
 
 function validateToHexStrict(errorTag: string, s: string | undefined): Hex {
   if (s && isHex(s)) {
@@ -45,10 +49,13 @@ function validateToHexStrict(errorTag: string, s: string | undefined): Hex {
     `Expected 0x-prefixed hex string for address in launchV2TokenAndBuy`,
     { operation: 'launchV2TokenAndBuy', source: 'sdk', params: { errorTag } }
   );
-};
+}
 
 const getRewardsDetails = (config: SDKConfig, creatorAddress: Address) => {
-  const interfaceRewardAddress = validateToHexStrict('LAUNCHER_FEE_ADDRESS', config.LAUNCHER_FEE_ADDRESS || process.env.LAUNCHER_FEE_ADDRESS);
+  const interfaceRewardAddress = validateToHexStrict(
+    'LAUNCHER_FEE_ADDRESS',
+    config.LAUNCHER_FEE_ADDRESS || process.env.LAUNCHER_FEE_ADDRESS
+  );
 
   const recipients: RewardRecipient[] = [
     {
@@ -100,7 +107,7 @@ const prepareTokenLaunchParameters = (
   params: LaunchTokenParams,
   config: SDKConfig,
   accountAddress: Address,
-  allowedChain: AllowedChain,
+  allowedChain: AllowedChain
 ): ClankerTokenV4 => {
   // Validate required parameters
   const requiredParams = ['name', 'symbol'];
@@ -128,12 +135,19 @@ const prepareTokenLaunchParameters = (
   } catch (error) {
     throwTokenLauncherError(
       TokenLauncherErrorCode.INVALID_AMOUNT_IN_PARAM,
-      `Error with parsing amountIn param in prepareTokenLaunchParameters : ${(error as Error).message ||
-        String(error)}`,
-      { operation: 'launchV2TokenAndBuy', originalError: error, source: 'sdk', params: params.amountIn }
+      `Error with parsing amountIn param in prepareTokenLaunchParameters : ${
+        (error as Error).message || String(error)
+      }`,
+      {
+        operation: 'launchV2TokenAndBuy',
+        originalError: error,
+        source: 'sdk',
+        params: params.amountIn,
+      }
     );
   }
-  const description = (params.description?.length || 0) > 0 ? { description: params.description } : {};
+  const description =
+    (params.description?.length || 0) > 0 ? { description: params.description } : {};
   const socialMediaUrls = formatSocialMediaUrls(params.links || {});
   const metadata = {
     ...description,
@@ -174,9 +188,13 @@ const getClankerClient = async (wallet: Wallet): Promise<ClankerClientTypes> => 
 
   const client: PublicClient = createPublicClient({ chain, transport });
 
-  const privateKeyHex = validateToHexStrict('wallet key', wallet.privateKey)
+  const privateKeyHex = validateToHexStrict('wallet key', wallet.privateKey);
   const account: Account = privateKeyToAccount(privateKeyHex);
-  const walletClient: WalletClient<Transport, Chain, Account> = createWalletClient({ account, chain, transport });
+  const walletClient: WalletClient<Transport, Chain, Account> = createWalletClient({
+    account,
+    chain,
+    transport,
+  });
 
   const clankerClient = new Clanker({
     wallet: walletClient,
@@ -197,12 +215,7 @@ export const launchV2TokenAndBuy = async (
   try {
     const wallet = params.wallet;
     const { accountAddress, allowedChain, clankerClient } = await getClankerClient(wallet);
-    const tokenParams = prepareTokenLaunchParameters(
-      params,
-      config,
-      accountAddress,
-      allowedChain,
-    );
+    const tokenParams = prepareTokenLaunchParameters(params, config, accountAddress, allowedChain);
 
     const { txHash, waitForTransaction, error } = await clankerClient.deploy(tokenParams);
     if (error) throw error;
@@ -224,8 +237,7 @@ export const launchV2TokenAndBuy = async (
     // Otherwise wrap it in our custom error
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNKNOWN_ERROR,
-      `Unexpected error in launchV2TokenAndBuy: ${(error as Error).message ||
-        String(error)}`,
+      `Unexpected error in launchV2TokenAndBuy: ${(error as Error).message || String(error)}`,
       { operation: 'launchV2TokenAndBuy', originalError: error, source: 'sdk', params }
     );
   }

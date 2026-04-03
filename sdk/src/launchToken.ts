@@ -299,8 +299,9 @@ export const launchRainbowSuperTokenAndBuy = async (
     // Otherwise wrap it in our custom error
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNKNOWN_ERROR,
-      `Unexpected error in launchRainbowSuperTokenAndBuy: ${(error as Error).message ||
-        String(error)}`,
+      `Unexpected error in launchRainbowSuperTokenAndBuy: ${
+        (error as Error).message || String(error)
+      }`,
       { operation: 'launchRainbowSuperTokenAndBuy', originalError: error, source: 'sdk', params }
     );
   }
@@ -376,8 +377,9 @@ const getRainbowSuperTokenSubmissionDetails = async (
     // Otherwise wrap it in our custom error
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNKNOWN_ERROR,
-      `Unexpected error in getRainbowSuperTokenSubmissionDetails: ${(error as Error).message ||
-        String(error)}`,
+      `Unexpected error in getRainbowSuperTokenSubmissionDetails: ${
+        (error as Error).message || String(error)
+      }`,
       {
         operation: 'getRainbowSuperTokenSubmissionDetails',
         originalError: error,
