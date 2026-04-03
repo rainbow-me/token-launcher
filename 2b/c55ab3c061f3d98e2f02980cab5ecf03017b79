@@ -44,8 +44,8 @@ src/protocols/index.ts
   7ef401341c61e5f0 1
   9dc8207ec2ada5b9 2,6,8
 README.md
-  3dc1da510a1a7bc8 1,10,12,16-17,19,22,32,36,39,41-43,48-50,52,54,69,93,97,108,112
-  9dc8207ec2ada5b9 110
+  3dc1da510a1a7bc8 1,10,12,16-17,19,22,25,27,30,32-34,36-38,40,49,59,63
+  9dc8207ec2ada5b9 61
 .env.example
   422cfc20f2f9b684 1
 .github/workflows/ci.yml
@@ -59,22 +59,22 @@ src/protocols/liquid/index.ts
 tsconfig.eslint.json
   3dc1da510a1a7bc8 1-10
 .changeset/viem-migration.md
-  4080ee459684f876 1-75
+  4080ee459684f876 1-15
 test/harness/anvil.ts
   36fc74577b632ecf 3-7,48,51-52,56
   7ef401341c61e5f0 8,17
   422cfc20f2f9b684 21,24
 package.json
-  3dc1da510a1a7bc8 1-2,4-16,18-23,27-28,31-34,36-37,39-43,45,49-58,60-64,70-92,94-105
-  4080ee459684f876 17,24-26,29-30,44,59,65-69
+  3dc1da510a1a7bc8 1-2,4-16,18-23,27-28,31-34,36-37,39,41-44,46,50-59,61-65,71-93,95-106
+  4080ee459684f876 17,24-26,29-30,45,60,66-70
 .prettierrc
   3dc1da510a1a7bc8 1-18
 tsconfig.json
   3dc1da510a1a7bc8 1-42
 src/protocols/clanker/index.test.ts
-  9dc8207ec2ada5b9 2-3,5-7,9,11-17,73-74,77-78,80-81,85-86,101-103,107-110,113-114,121-122
+  9dc8207ec2ada5b9 2-3,6-8,10,12-18,74-75,78-79,81-82,86-87,102-104,108-111,114-115,122-123
   36fc74577b632ecf 4
-  7ef401341c61e5f0 34-38,62,64-68,88-91,93-97
+  7ef401341c61e5f0 35-39,63,65-69,89-92,94-98
 src/protocols/constants.ts
   9dc8207ec2ada5b9 1-4
 .changeset/README.md
@@ -83,12 +83,12 @@ src/launchToken.ts
   d0ec5e01f53e9216 1-2,21-38
   9dc8207ec2ada5b9 3-20
 test/sdk.test.ts
-  9dc8207ec2ada5b9 4-5,8-9,11-13,31-36,43-44,46-92
+  9dc8207ec2ada5b9 4,6,9-10,12-14,32-37,44-45,47-93
 ---
 {
   "schema_version": "authorship/3.0.0",
   "git_ai_version": "1.2.5",
-  "base_commit_sha": "9188efbb6f2fbd07c2cb9ae1347230d52679bd6e",
+  "base_commit_sha": "2bc55ab3c061f3d98e2f02980cab5ecf03017b79",
   "prompts": {
     "0668ccc699e7a08d": {
       "agent_id": {
@@ -165,7 +165,7 @@ test/sdk.test.ts
       "messages": [],
       "total_additions": 0,
       "total_deletions": 0,
-      "accepted_lines": 241,
+      "accepted_lines": 238,
       "overriden_lines": 0
     },
     "4080ee459684f876": {
@@ -178,7 +178,7 @@ test/sdk.test.ts
       "messages": [],
       "total_additions": 27,
       "total_deletions": 5,
-      "accepted_lines": 233,
+      "accepted_lines": 173,
       "overriden_lines": 0
     },
     "422cfc20f2f9b684": {
