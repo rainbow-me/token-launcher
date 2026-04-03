@@ -74,6 +74,9 @@ jobs:
         API_KEY_DEV=${{ secrets.API_KEY_DEV }}
         API_KEY_PROD=${{ secrets.API_KEY_PROD }}
         API_URL_DEV=${{ secrets.API_URL_DEV }}
+        LAUNCHER_CODE=${{ secrets.LAUNCHER_CODE }}
+        LAUNCHER_PLATFORM=${{ secrets.LAUNCHER_PLATFORM }}
+        LAUNCHER_FEE_ADDRESS=${{ secrets.LAUNCHER_FEE_ADDRESS }}
         EOF
         
         $HOME/.foundry/bin/anvil --version
