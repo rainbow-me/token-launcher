@@ -1,0 +1,46 @@
+.changeset/README.md
+  4080ee459684f876 1-13
+.github/workflows/ci.yml
+  4080ee459684f876 5,12-36,38-42
+.changeset/config.json
+  4080ee459684f876 1-11
+.github/workflows/release.yml
+  4080ee459684f876 1-34
+package.json
+  4080ee459684f876 17,24-26,29-30,45,60,66-70
+.gitignore
+  4080ee459684f876 4-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "b01b3c65135c273abcb34b12763084ef059829a8",
+  "prompts": {
+    "3dc1da510a1a7bc8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4be4-7316-7821-aa3e-cb780271fd2d",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 180,
+      "overriden_lines": 0
+    },
+    "4080ee459684f876": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2782bcee-66b6-4bd7-908a-5b3853eae159",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 119,
+      "total_deletions": 79,
+      "accepted_lines": 119,
+      "overriden_lines": 0
+    }
+  }
+}
