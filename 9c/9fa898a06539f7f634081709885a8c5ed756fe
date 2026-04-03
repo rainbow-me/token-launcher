@@ -1,0 +1,25 @@
+.changeset/remove-rainbow-super-token.md
+  4080ee459684f876 1-13
+.changeset/protocol-adapter-refactor.md
+  4080ee459684f876 19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "9c9fa898a06539f7f634081709885a8c5ed756fe",
+  "prompts": {
+    "4080ee459684f876": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2782bcee-66b6-4bd7-908a-5b3853eae159",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 15,
+      "total_deletions": 3,
+      "accepted_lines": 32,
+      "overriden_lines": 0
+    }
+  }
+}
