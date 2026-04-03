@@ -6,8 +6,6 @@ src/index.ts
   9dc8207ec2ada5b9 2-46,63,65-73,86-127,147,149-154
 .eslintrc.json
   3dc1da510a1a7bc8 1-50
-CHANGELOG.md
-  3dc1da510a1a7bc8 1-16
 .prettierignore
   3dc1da510a1a7bc8 1-6
 src/protocols/clanker/types.ts
@@ -23,8 +21,7 @@ test/sdk.test.ts
 src/protocols/liquid/index.test.ts
   8a05855a332947bd 3,184
 README.md
-  9dc8207ec2ada5b9 61
-  3dc1da510a1a7bc8 1,10,12,16-17,19,25,27,30,32-34,36-38,40,49,59,63
+  3dc1da510a1a7bc8 19
 src/getInitialTick.ts
   0668ccc699e7a08d 10,13,23,26
   9dc8207ec2ada5b9 2-6,15-19
@@ -68,7 +65,7 @@ src/protocols/utils.ts
 {
   "schema_version": "authorship/3.0.0",
   "git_ai_version": "1.2.5",
-  "base_commit_sha": "eea4f898dfe5a20220804625450ac073c2df5d67",
+  "base_commit_sha": "4c9e0cc8a5630c76e78348b07473577c8d6a394d",
   "prompts": {
     "0668ccc699e7a08d": {
       "agent_id": {
@@ -132,7 +129,7 @@ src/protocols/utils.ts
       "messages": [],
       "total_additions": 0,
       "total_deletions": 0,
-      "accepted_lines": 344,
+      "accepted_lines": 310,
       "overriden_lines": 0
     },
     "50e6277bef93e86f": {
@@ -223,7 +220,7 @@ src/protocols/utils.ts
       "messages": [],
       "total_additions": 0,
       "total_deletions": 0,
-      "accepted_lines": 504,
+      "accepted_lines": 503,
       "overriden_lines": 0
     },
     "ad6164a6b7b1125e": {
