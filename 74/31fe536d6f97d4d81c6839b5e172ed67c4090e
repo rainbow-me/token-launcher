@@ -1,0 +1,23 @@
+.changeset/viem-migration.md
+  4080ee459684f876 1-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "7431fe536d6f97d4d81c6839b5e172ed67c4090e",
+  "prompts": {
+    "4080ee459684f876": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2782bcee-66b6-4bd7-908a-5b3853eae159",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 35,
+      "total_deletions": 13,
+      "accepted_lines": 10,
+      "overriden_lines": 0
+    }
+  }
+}
