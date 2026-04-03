@@ -1,56 +1,56 @@
+src/protocols/clanker/types.ts
+  9dc8207ec2ada5b9 1-2
+tsconfig.json
+  3dc1da510a1a7bc8 1-21
+src/protocols/index.ts
+  9dc8207ec2ada5b9 1-2
 test/sdk.test.ts
   9dc8207ec2ada5b9 4-5,10-13,35,45,54-87,89-90
-src/protocols/constants.ts
-  9dc8207ec2ada5b9 1-2
 src/index.ts
   9dc8207ec2ada5b9 1-4,7,9-46,72-73
+src/protocols/clanker/index.ts
+  9dc8207ec2ada5b9 1,3-5,12,14-21,33-35,39,58,63-64,72,90,93-97,99,102,106-107,110,116,118,127-134,151,166,169-170,172
+  d0ec5e01f53e9216 23
+babel.config.cjs
+  3dc1da510a1a7bc8 1-6
+README.md
+  3dc1da510a1a7bc8 1,6,8,10-12,14,16-18,20-21,23,25-53,55-59,63-80,83-97,99-106
+  9dc8207ec2ada5b9 24,54,60-62,81-82,98
+src/protocols/utils.ts
+  9dc8207ec2ada5b9 1-2
+.prettierrc
+  3dc1da510a1a7bc8 1-9
+.eslintrc.json
+  3dc1da510a1a7bc8 1-25
+package.json
+  3dc1da510a1a7bc8 1-96
+CHANGELOG.md
+  3dc1da510a1a7bc8 1-16
+src/getInitialTick.ts
+  9dc8207ec2ada5b9 2-3
+src/protocols/constants.ts
+  9dc8207ec2ada5b9 1-2
+test/harness/anvil.ts
+  9dc8207ec2ada5b9 3-4,16,37,45,54,70
 tsconfig.eslint.json
   3dc1da510a1a7bc8 1-5
 src/errors.ts
   9dc8207ec2ada5b9 2-3,9-10,19,31,49
-src/protocols/index.ts
-  9dc8207ec2ada5b9 1-2
-src/types/index.ts
-  9dc8207ec2ada5b9 1-4,24-29
-src/getInitialTick.ts
-  9dc8207ec2ada5b9 2-3
-src/protocols/clanker/types.ts
-  9dc8207ec2ada5b9 1-2
-.eslintrc.json
-  3dc1da510a1a7bc8 1-25
-babel.config.cjs
-  3dc1da510a1a7bc8 1-6
-.prettierignore
-  3dc1da510a1a7bc8 1-3
-test/harness/anvil.ts
-  9dc8207ec2ada5b9 3-4,16,37,45,54,70
-src/protocols/utils.ts
-  9dc8207ec2ada5b9 1-2
 src/launchToken.ts
   d0ec5e01f53e9216 1,21-36
   9dc8207ec2ada5b9 2,4,6,8-11,15-16,20
-README.md
-  3dc1da510a1a7bc8 1,6,8,10-12,14,16-18,20-21,23,25-53,55-59,63-80,83-97,99-106
-  9dc8207ec2ada5b9 24,54,60-62,81-82,98
-src/protocols/clanker/index.test.ts
-  9dc8207ec2ada5b9 5-6,12-15,91,102
 .github/workflows/ci.yml
   3dc1da510a1a7bc8 5,7,12,21,67
-.prettierrc
-  3dc1da510a1a7bc8 1-9
-CHANGELOG.md
-  3dc1da510a1a7bc8 1-16
-package.json
-  3dc1da510a1a7bc8 1-96
-tsconfig.json
-  3dc1da510a1a7bc8 1-21
-src/protocols/clanker/index.ts
-  9dc8207ec2ada5b9 1,3-5,12,14-21,33-35,39,58,63-64,72,90,93-97,99,102,106-107,110,116,118,127-134,151,166,169-170,172
-  d0ec5e01f53e9216 23
+src/protocols/clanker/index.test.ts
+  9dc8207ec2ada5b9 5-6,12-15,91,102
+src/types/index.ts
+  9dc8207ec2ada5b9 1-4,24-29
+.prettierignore
+  3dc1da510a1a7bc8 1-3
 ---
 {
   "schema_version": "authorship/3.0.0",
-  "git_ai_version": "1.2.3",
+  "git_ai_version": "1.2.5",
   "base_commit_sha": "6447834482003968fea6de87009512398fac163b",
   "prompts": {
     "3dc1da510a1a7bc8": {
