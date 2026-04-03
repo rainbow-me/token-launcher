@@ -1,0 +1,65 @@
+src/protocols/liquid/index.ts
+  422cfc20f2f9b684 10,37,61-63,68,99
+src/protocols/liquid/index.test.ts
+  eb59e0979fcbb254 10-11
+  422cfc20f2f9b684 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "be59b000941c158c96dc2295e31bd2786d674619",
+  "prompts": {
+    "34224102ab3fa675": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2db70490-d93c-40d1-9315-e1e171c13d9c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 6,
+      "overriden_lines": 0
+    },
+    "422cfc20f2f9b684": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b407d52d-aaa9-4c65-9365-77d83e990b7d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 8,
+      "overriden_lines": 0
+    },
+    "8a05855a332947bd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4cff-6900-73f0-8adf-947188e05717",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    },
+    "eb59e0979fcbb254": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33f1ca06-b5cf-4d64-8e2c-439aaa3625ec",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}
