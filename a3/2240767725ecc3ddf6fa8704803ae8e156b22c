@@ -1,25 +1,25 @@
-src/errors.ts
-  9dc8207ec2ada5b9 2-3,9-10
-README.md
-  9dc8207ec2ada5b9 81-82,98
-src/launchToken.ts
-  9dc8207ec2ada5b9 15
-test/sdk.test.ts
-  9dc8207ec2ada5b9 4,35,45
+src/protocols/clanker/index.ts
+  9dc8207ec2ada5b9 14-15,17-18,21,33-34,58,90,94,96-97,102,110,116,151
 src/protocols/constants.ts
   9dc8207ec2ada5b9 1-2
+src/launchToken.ts
+  9dc8207ec2ada5b9 15
+src/errors.ts
+  9dc8207ec2ada5b9 2-3,9-10
+src/protocols/clanker/index.test.ts
+  9dc8207ec2ada5b9 5,91,102
+README.md
+  9dc8207ec2ada5b9 81-82,98
 src/validation.ts
   9dc8207ec2ada5b9 3,7-8,24,41,43
 src/types/index.ts
   9dc8207ec2ada5b9 3,24
-src/protocols/clanker/index.ts
-  9dc8207ec2ada5b9 14-15,17-18,21,33-34,58,90,94,96-97,102,110,116,151
-src/protocols/clanker/index.test.ts
-  9dc8207ec2ada5b9 5,91,102
+test/sdk.test.ts
+  9dc8207ec2ada5b9 4,35,45
 ---
 {
   "schema_version": "authorship/3.0.0",
-  "git_ai_version": "1.2.3",
+  "git_ai_version": "1.2.5",
   "base_commit_sha": "a32240767725ecc3ddf6fa8704803ae8e156b22c",
   "prompts": {
     "50e6277bef93e86f": {
