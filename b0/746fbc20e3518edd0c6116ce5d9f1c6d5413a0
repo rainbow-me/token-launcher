@@ -1,0 +1,38 @@
+.env.example
+  422cfc20f2f9b684 1
+test/harness/anvil.ts
+  422cfc20f2f9b684 21,24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "b0746fbc20e3518edd0c6116ce5d9f1c6d5413a0",
+  "prompts": {
+    "422cfc20f2f9b684": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b407d52d-aaa9-4c65-9365-77d83e990b7d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 5,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    },
+    "7ef401341c61e5f0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e6cf7af-3ca7-4f87-9189-6f092690a9ff",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 51,
+      "total_deletions": 90,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
