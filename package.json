@@ -14,14 +14,20 @@
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",
     "@babel/preset-typescript": "^7.27.1",
+    "@changesets/cli": "^2.27.1",
     "@types/jest": "^29.5.14",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "dotenv": "^16.4.7",
     "eslint": "^8.57.0",
     "eslint-config-rainbow": "4.3.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jest": "^27.9.0",
     "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "jest": "^29.7.0",
     "prettier": "^3.3.3",
     "ts-jest": "^29.2.5",
@@ -36,6 +42,7 @@
     "clanker-sdk": "4.1.19",
     "jsbi": "^4.3.0",
     "tiny-invariant": "^1.3.3",
+    "tslib": "^2.6.0",
     "viem": "2.34.0"
   },
   "resolutions": {
@@ -50,14 +57,17 @@
     "build": "tsc",
     "prebuild": "rm -rf dist",
     "build:clean": "yarn clean && yarn build",
-    "prepublishOnly": "yarn build:clean",
-    "prepare": "yarn build",
-    "pretest": "grep -v '^IS_TESTING=' .env > .env.tmp 2>/dev/null || true; echo 'IS_TESTING=true' >> .env.tmp; mv .env.tmp .env",
+    "prepack": "yarn build:clean",
     "test": "./scripts/test.sh",
     "lint": "eslint 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
     "format:check": "prettier --check '**/*.{js,ts,json,md}'",
     "format:fix": "prettier --write '**/*.{js,ts,json,md}'",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "changeset": "changeset",
+    "release": "yarn release:verify-git && yarn release:publish && yarn release:github",
+    "release:verify-git": "git diff --exit-code && git rev-parse --abbrev-ref HEAD | grep -q main",
+    "release:publish": "yarn build && changeset publish --tag latest && git push --follow-tags",
+    "release:github": "TAG=$(git describe --tags --abbrev=0) && awk '/^## /{if(p++)exit;next}p' CHANGELOG.md | gh release create \"$TAG\" --notes-file -"
   },
   "jest": {
     "moduleNameMapper": {
@@ -93,5 +103,5 @@
     ]
   },
   "sideEffects": false,
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "yarn@4.2.2"
 }

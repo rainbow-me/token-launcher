@@ -2,86 +2,44 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18.x'
-        cache: 'yarn'
-        cache-dependency-path: './yarn.lock'
-    
-    - name: Install Foundry (direct download)
-      run: |
-        # Create directories
-        mkdir -p $HOME/.foundry/bin
-        
-        # Download latest foundry binaries directly
-        FOUNDRY_VERSION="nightly"
-        DOWNLOAD_URL="https://github.com/foundry-rs/foundry/releases/download/$FOUNDRY_VERSION/foundry_${FOUNDRY_VERSION}_linux_amd64.tar.gz"
-        
-        echo "Downloading from $DOWNLOAD_URL"
-        curl -L $DOWNLOAD_URL | tar xz -C $HOME/.foundry/bin
-        
-        # Set permissions
-        chmod +x $HOME/.foundry/bin/forge
-        chmod +x $HOME/.foundry/bin/cast
-        chmod +x $HOME/.foundry/bin/anvil
-        
-        # Add to PATH
-        echo "$HOME/.foundry/bin" >> $GITHUB_PATH
-        export PATH="$HOME/.foundry/bin:$PATH"
-    
-    - name: Verify Foundry installation
-      run: |
-        ls -la $HOME/.foundry/bin/
-        export PATH="$HOME/.foundry/bin:$PATH"
-        which anvil || echo "anvil not in PATH"
-        $HOME/.foundry/bin/anvil --version
-    
-    - name: Install dependencies
-      run: |
-        yarn install
-        # Add tslib dependency which is required for JSON imports
-        yarn add tslib
-    
-    # Temporarily skip linting
-    # - name: Lint
-    #   run: yarn lint
-      
-    - name: Build
-      run: yarn build
-      
-    - name: Test
-      run: |
-        export PATH="$HOME/.foundry/bin:$PATH"
-        # Create .env with fork config for CI
-        cat > .env << EOF
-        RPC_URL=${{ secrets.RPC_URL }}
-        LAUNCHER_CODE=${{ secrets.LAUNCHER_CODE }}
-        LAUNCHER_PLATFORM=${{ secrets.LAUNCHER_PLATFORM }}
-        LAUNCHER_FEE_ADDRESS=${{ secrets.LAUNCHER_FEE_ADDRESS }}
-        EOF
-        
-        $HOME/.foundry/bin/anvil --version
-        yarn test
-      env:
-        CI: true
+      - uses: actions/checkout@v4
 
-    - name: Check secrets availability
-      run: |
-        echo "Checking for required secrets..."
-        if [ -z "${{ secrets.RPC_URL }}" ]; then
-          echo "⚠️ RPC_URL is not set or empty"
-        else
-          echo "✅ RPC_URL is available"
-        fi
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: stable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Build
+        run: yarn build
+
+      - name: Test
+        run: yarn test
+        env:
+          CI: true
+          RPC_URL: ${{ secrets.RPC_URL }}
+          LAUNCHER_CODE: ${{ secrets.LAUNCHER_CODE }}
+          LAUNCHER_PLATFORM: ${{ secrets.LAUNCHER_PLATFORM }}
+          LAUNCHER_FEE_ADDRESS: ${{ secrets.LAUNCHER_FEE_ADDRESS }}
