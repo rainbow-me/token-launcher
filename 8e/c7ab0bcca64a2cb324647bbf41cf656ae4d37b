@@ -1,0 +1,29 @@
+.changeset/protocol-adapter-refactor.md
+  4080ee459684f876 1-14
+.changeset/remove-rainbow-super-token.md
+  4080ee459684f876 1-12
+.changeset/viem-migration.md
+  4080ee459684f876 1-30
+CHANGELOG.md
+  4080ee459684f876 1,3,5,7-9,11-13,16-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "8ec7ab0bcca64a2cb324647bbf41cf656ae4d37b",
+  "prompts": {
+    "4080ee459684f876": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2782bcee-66b6-4bd7-908a-5b3853eae159",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 27,
+      "total_deletions": 5,
+      "accepted_lines": 70,
+      "overriden_lines": 0
+    }
+  }
+}
