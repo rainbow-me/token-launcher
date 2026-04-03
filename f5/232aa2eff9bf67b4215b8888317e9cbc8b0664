@@ -1,0 +1,23 @@
+.changeset/liquid-protocol.md
+  4080ee459684f876 1-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "f5232aa2eff9bf67b4215b8888317e9cbc8b0664",
+  "prompts": {
+    "4080ee459684f876": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2782bcee-66b6-4bd7-908a-5b3853eae159",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 0,
+      "accepted_lines": 11,
+      "overriden_lines": 0
+    }
+  }
+}
