@@ -1,0 +1,39 @@
+src/protocols/liquid/index.test.ts
+  422cfc20f2f9b684 2,23-30,97-100,120-122
+  eb59e0979fcbb254 10-11
+src/protocols/liquid/index.ts
+  422cfc20f2f9b684 1-12,14-19,28,31,37-66,68-110,112-128
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "2621e3bbd9413d6130fd3be5a0e4116a049e6d73",
+  "prompts": {
+    "422cfc20f2f9b684": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b407d52d-aaa9-4c65-9365-77d83e990b7d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 140,
+      "total_deletions": 112,
+      "accepted_lines": 126,
+      "overriden_lines": 0
+    },
+    "eb59e0979fcbb254": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33f1ca06-b5cf-4d64-8e2c-439aaa3625ec",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 22,
+      "total_deletions": 4,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}
