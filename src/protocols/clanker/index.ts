@@ -6,6 +6,7 @@ import { Clanker } from 'clanker-sdk/v4';
 import {
   createPublicClient,
   createWalletClient,
+  EstimateGasExecutionError,
   http,
   type Account,
   type Address,
@@ -147,17 +148,15 @@ async function launch(params: LaunchTokenParams, operation: string): Promise<Lau
       tokenAddress: tokenAddress!,
     };
   } catch (error) {
-    if (error instanceof TokenLauncherSDKError) {
-      throw error;
-    }
+    if (error instanceof TokenLauncherSDKError) throw error;
 
-    throwTokenLauncherError(
-      TokenLauncherErrorCode.UNKNOWN_ERROR,
-      `Unexpected error in launchToken: ${(error as Error).message || String(error)}`,
-      {
+    // ClankerError wraps viem errors with classified .data
+    const clankerError = error as { data?: { rawName?: string; label?: string }; error?: Error };
+    if (clankerError.data?.rawName) {
+      const context = {
         operation,
         originalError: error,
-        source: 'sdk',
+        source: 'chain' as const,
         params: {
           protocol: params.protocol,
           name: params.name,
@@ -167,8 +166,32 @@ async function launch(params: LaunchTokenParams, operation: string): Promise<Lau
           description: params.description,
           links: params.links,
         },
-      }
-    );
+      };
+
+      if (clankerError.data.rawName === 'InsufficientFundsError')
+        throwTokenLauncherError(
+          TokenLauncherErrorCode.INSUFFICIENT_FUNDS,
+          clankerError.data.label || 'Insufficient funds',
+          context
+        );
+      if (
+        clankerError.data.rawName === 'unknown' &&
+        clankerError.error instanceof EstimateGasExecutionError
+      )
+        throwTokenLauncherError(
+          TokenLauncherErrorCode.GAS_ESTIMATION_FAILED,
+          clankerError.data.label || 'Gas estimation failed',
+          context
+        );
+      throwTokenLauncherError(
+        TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
+        clankerError.data.label || 'Contract interaction failed',
+        context
+      );
+    }
+
+    // Raw viem errors propagate to launchToken for shared classification
+    throw error;
   }
 }
 
