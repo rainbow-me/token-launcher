@@ -1,0 +1,40 @@
+src/protocols/clanker/types.ts
+  aca25c77a830770f 1,15
+src/protocols/clanker/index.ts
+  aca25c77a830770f 41,50-51,63,118,127,132
+src/protocols/constants.ts
+  aca25c77a830770f 1-2,4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "dc50afdd20fe532fa3f92f453e92cbc1bd497d67",
+  "prompts": {
+    "0668ccc699e7a08d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4caa-3a0e-76f2-9d40-359ffa8868bc",
+        "model": "gpt-5.4"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 10,
+      "overriden_lines": 0
+    },
+    "aca25c77a830770f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffb8d337-d32b-4fec-b3d7-e4010f2b8c9f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 16,
+      "total_deletions": 20,
+      "accepted_lines": 12,
+      "overriden_lines": 0
+    }
+  }
+}
