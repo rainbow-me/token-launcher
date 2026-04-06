@@ -16,6 +16,11 @@ export interface SDKConfig {
   API_KEY_DEV?: string;
   API_KEY_PROD?: string;
 
+  // launcher details
+  LAUNCHER_FEE_ADDRESS?: string;
+  LAUNCHER_CODE?: string;
+  LAUNCHER_PLATFORM?: string;
+
   // supported networks
   SUPPORTED_NETWORKS?: SupportedNetwork[];
 
@@ -32,7 +37,7 @@ export interface LaunchTokenParams {
   amountIn?: string;
   creator?: string;
   transactionOptions?: TransactionOptions;
-  logoUrl: string;
+  logoUrl?: string;
   description?: string;
   links?: Record<string, string>;
   airdropMetadata?: AirdropMetadata;
@@ -44,7 +49,7 @@ export interface LaunchTokenAndBuyParams extends LaunchTokenParams {
 
 export interface LaunchTokenResponse {
   transaction: TransactionResponse;
-  tokenUri: string;
+  tokenUri?: string;
   tokenAddress: string;
 }
 
