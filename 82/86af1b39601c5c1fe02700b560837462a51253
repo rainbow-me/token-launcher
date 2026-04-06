@@ -1,0 +1,29 @@
+src/launchToken.ts
+  b0dc6ceb2dd11105 17,28,36
+src/protocols/utils.ts
+  b0dc6ceb2dd11105 16
+src/index.ts
+  b0dc6ceb2dd11105 20
+src/errors.ts
+  b0dc6ceb2dd11105 1-2,50-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "8286af1b39601c5c1fe02700b560837462a51253",
+  "prompts": {
+    "b0dc6ceb2dd11105": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4fb103eb-fd76-4300-b73f-f8bb4681f3b1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 15,
+      "total_deletions": 6,
+      "accepted_lines": 15,
+      "overriden_lines": 0
+    }
+  }
+}
