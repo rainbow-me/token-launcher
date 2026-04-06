@@ -1,0 +1,37 @@
+src/protocols/clanker/index.ts
+  aca25c77a830770f 5,7-10,36-56,186-202,204,207,217-229
+  9dc8207ec2ada5b9 179
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "026d3f594a4feffe0aebd1a3bbcd04e7509e0537",
+  "prompts": {
+    "9dc8207ec2ada5b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4c23-6adf-73d2-8433-4f24cee2f413",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 1
+    },
+    "aca25c77a830770f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffb8d337-d32b-4fec-b3d7-e4010f2b8c9f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 27,
+      "total_deletions": 22,
+      "accepted_lines": 71,
+      "overriden_lines": 0
+    }
+  }
+}
