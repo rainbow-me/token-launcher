@@ -1,0 +1,115 @@
+.changeset/protocol-adapter-refactor.md
+  b0dc6ceb2dd11105 7
+src/errors.ts
+  aca25c77a830770f 7
+src/launchToken.ts
+  b0dc6ceb2dd11105 9,119
+src/types/index.ts
+  b0dc6ceb2dd11105 7
+README.md
+  b0dc6ceb2dd11105 63
+src/index.ts
+  b0dc6ceb2dd11105 6,23,41
+src/protocols/clanker/index.ts
+  b0dc6ceb2dd11105 172-183
+test/sdk.test.ts
+  aea97fc203e28653 24,26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "70a9bfc9a24eaab329b818640df626ce850c592d",
+  "prompts": {
+    "0668ccc699e7a08d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4caa-3a0e-76f2-9d40-359ffa8868bc",
+        "model": "gpt-5.4"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    },
+    "7ef401341c61e5f0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e6cf7af-3ca7-4f87-9189-6f092690a9ff",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 51,
+      "total_deletions": 90,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    },
+    "9dc8207ec2ada5b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4c23-6adf-73d2-8433-4f24cee2f413",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    },
+    "aca25c77a830770f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffb8d337-d32b-4fec-b3d7-e4010f2b8c9f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    },
+    "aea97fc203e28653": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4ef2cfe9-6e6a-44c2-b05c-13384ad8532b",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 1,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    },
+    "b0dc6ceb2dd11105": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4fb103eb-fd76-4300-b73f-f8bb4681f3b1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 42,
+      "total_deletions": 41,
+      "accepted_lines": 20,
+      "overriden_lines": 0
+    },
+    "dbecbfb54abcd30e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2ac34147-7942-4efe-a4a4-f187c784ebf7",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    }
+  }
+}
