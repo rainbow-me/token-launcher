@@ -1,73 +1,78 @@
-test/harness/anvil.ts
-  7ef401341c61e5f0 17
-test/sdk.test.ts
-  9dc8207ec2ada5b9 5-6,9-14,31-37,43-44,47-63,66-76,78-82,85-93
-tsconfig.eslint.json
-  3dc1da510a1a7bc8 1-5
-src/errors.ts
-  9dc8207ec2ada5b9 2-3,9-10,19,31,49
-  0668ccc699e7a08d 18,30,48
-src/getInitialTick.test.ts
-  0668ccc699e7a08d 1-4,6-11
+src/protocols/clanker/types.ts
+  9dc8207ec2ada5b9 2-3
+  0668ccc699e7a08d 11-14,18
+src/protocols/clanker/index.ts
+  7ef401341c61e5f0 4,13,16,65,69,73,148
+  9dc8207ec2ada5b9 5,7-12,14-15,17-20,38-39,43,46,50-52,54-56,58-60,63-64,67-68,72,76-77,79-83,89-96,98-102,106,120,122,128,130-131,133,137,143,147,149-150,152-156,160-161
+  0668ccc699e7a08d 62,66,70,112,121,123,127,129,134,141-142,144-145,151,158-159,162
 .eslintrc.json
   3dc1da510a1a7bc8 1-22,25-32
   4080ee459684f876 23-24
-src/protocols/clanker/index.test.ts
-  9dc8207ec2ada5b9 3,5-7,9-14,17-20,74,77-87,107-111,113-116,121-123
-  7ef401341c61e5f0 62-65,90-97
-src/protocols/utils.ts
-  9dc8207ec2ada5b9 1-2
-src/protocols/index.ts
-  7ef401341c61e5f0 1
-  9dc8207ec2ada5b9 2,6
 babel.config.cjs
   3dc1da510a1a7bc8 1,3
-package.json
-  3dc1da510a1a7bc8 1-2,4-15,18-19,21-22,27,31,33,36-37,39-40,42,45-54,57-59,67-100,102
-  4080ee459684f876 17,26,30,66
-.prettierrc
-  3dc1da510a1a7bc8 1-9
-.github/workflows/ci.yml
-  3dc1da510a1a7bc8 7-8
-.prettierignore
-  3dc1da510a1a7bc8 1-3
-.github/workflows/release.yml
-  4080ee459684f876 1-34
 .changeset/protocol-adapter-refactor.md
   4080ee459684f876 1-14
-tsconfig.json
-  3dc1da510a1a7bc8 1-21
-.changeset/README.md
-  4080ee459684f876 1-13
+.changeset/viem-migration.md
+  4080ee459684f876 1-90
+.changeset/config.json
+  4080ee459684f876 1-11
 src/getInitialTick.ts
   9dc8207ec2ada5b9 2-7,9
   0668ccc699e7a08d 10,13
 src/protocols/constants.ts
   9dc8207ec2ada5b9 1-2
-.changeset/config.json
-  4080ee459684f876 1-11
-src/protocols/clanker/index.ts
-  7ef401341c61e5f0 4,13,16,65,69,73,148
-  9dc8207ec2ada5b9 5,7-12,14-15,17-21,38-39,43,46,50-52,54-56,58-60,63-64,67-68,72,76-77,79-83,89-96,98-102,106,120,122,128,130-131,133,137,143,147,149-150,152-156,160-161
-  0668ccc699e7a08d 62,66,70,112,121,123,127,129,134,141-142,144-145,151,158-159,162
-CHANGELOG.md
-  3dc1da510a1a7bc8 2,4
-src/index.ts
-  9dc8207ec2ada5b9 2-7,9-60,63,65-81,83-84
-.changeset/viem-migration.md
-  4080ee459684f876 1-90
-.env.example
-  422cfc20f2f9b684 1
-src/protocols/clanker/types.ts
-  9dc8207ec2ada5b9 2-3
-  0668ccc699e7a08d 11-14
-src/types/index.ts
-  9dc8207ec2ada5b9 2-7,24-29
 src/launchToken.ts
   d0ec5e01f53e9216 1-2,21-38
   9dc8207ec2ada5b9 3-19
+test/harness/anvil.ts
+  36fc74577b632ecf 15
+  7ef401341c61e5f0 17
+.prettierignore
+  3dc1da510a1a7bc8 1-3
+src/index.ts
+  9dc8207ec2ada5b9 2-7,9-60,63,65-81,83-84
+package.json
+  3dc1da510a1a7bc8 1-2,4-15,17-19,21-22,26-27,30-31,33,36-37,39,42,45-54,57-59,66-89,91-100,102
+tsconfig.eslint.json
+  3dc1da510a1a7bc8 1-5
+src/protocols/liquid/index.ts
+  422cfc20f2f9b684 9-13,131
+src/protocols/liquid/index.test.ts
+  cf01c8af64b57890 141-187
 .changeset/remove-rainbow-super-token.md
   4080ee459684f876 1-12
+src/getInitialTick.test.ts
+  0668ccc699e7a08d 1-4,6-11
+src/protocols/index.ts
+  7ef401341c61e5f0 1
+  9dc8207ec2ada5b9 2,5-6
+src/protocols/utils.ts
+  9dc8207ec2ada5b9 1-2
+.github/workflows/release.yml
+  4080ee459684f876 1-34
+.changeset/README.md
+  4080ee459684f876 1-13
+CHANGELOG.md
+  4080ee459684f876 2,4
+.github/workflows/ci.yml
+  3dc1da510a1a7bc8 7-8
+src/types/index.ts
+  9dc8207ec2ada5b9 2-7,24-29
+.env.example
+  422cfc20f2f9b684 1
+tsconfig.json
+  3dc1da510a1a7bc8 1-21
+test/sdk.test.ts
+  9dc8207ec2ada5b9 5-6,9-14,31-37,43-44,47-63,66-76,78-82,85-93
+.prettierrc
+  3dc1da510a1a7bc8 1-9
+src/errors.ts
+  9dc8207ec2ada5b9 2-3,9-10,19,31,49
+  0668ccc699e7a08d 18,30,48
+src/protocols/clanker/index.test.ts
+  9dc8207ec2ada5b9 3,6-7,9-10,12-14,17-20,74,78-79,81-84,86-87,108-111,114-116,122
+  7ef401341c61e5f0 62-65,90-97
+  cf01c8af64b57890 123-128
 ---
 {
   "schema_version": "authorship/3.0.0",
@@ -84,7 +89,7 @@ src/launchToken.ts
       "messages": [],
       "total_additions": 68,
       "total_deletions": 36,
-      "accepted_lines": 36,
+      "accepted_lines": 37,
       "overriden_lines": 0
     },
     "096fbf4ec2d26388": {
@@ -136,7 +141,7 @@ src/launchToken.ts
       "messages": [],
       "total_additions": 0,
       "total_deletions": 0,
-      "accepted_lines": 0,
+      "accepted_lines": 1,
       "overriden_lines": 0
     },
     "3dc1da510a1a7bc8": {
@@ -162,7 +167,7 @@ src/launchToken.ts
       "messages": [],
       "total_additions": 27,
       "total_deletions": 5,
-      "accepted_lines": 180,
+      "accepted_lines": 178,
       "overriden_lines": 0
     },
     "422cfc20f2f9b684": {
@@ -173,9 +178,9 @@ src/launchToken.ts
       },
       "human_author": "Daniel Sinclair",
       "messages": [],
-      "total_additions": 1,
-      "total_deletions": 1,
-      "accepted_lines": 1,
+      "total_additions": 7,
+      "total_deletions": 9,
+      "accepted_lines": 7,
       "overriden_lines": 0
     },
     "422ed102e1b2a80f": {
@@ -292,7 +297,7 @@ src/launchToken.ts
       "messages": [],
       "total_additions": 0,
       "total_deletions": 0,
-      "accepted_lines": 297,
+      "accepted_lines": 288,
       "overriden_lines": 0
     },
     "ad6164a6b7b1125e": {
@@ -319,6 +324,19 @@ src/launchToken.ts
       "total_additions": 1535,
       "total_deletions": 418,
       "accepted_lines": 513,
+      "overriden_lines": 0
+    },
+    "cf01c8af64b57890": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e3ee7c9f-8b51-448a-8e73-1f88b72b5819",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 88,
+      "total_deletions": 0,
+      "accepted_lines": 53,
       "overriden_lines": 0
     },
     "d0ec5e01f53e9216": {
