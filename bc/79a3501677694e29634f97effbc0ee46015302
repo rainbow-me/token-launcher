@@ -1,0 +1,23 @@
+src/errors.ts
+  b0dc6ceb2dd11105 9-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "bc79a3501677694e29634f97effbc0ee46015302",
+  "prompts": {
+    "b0dc6ceb2dd11105": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4fb103eb-fd76-4300-b73f-f8bb4681f3b1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 0,
+      "accepted_lines": 9,
+      "overriden_lines": 0
+    }
+  }
+}
