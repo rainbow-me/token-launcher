@@ -1,0 +1,38 @@
+src/protocols/clanker/index.ts
+  b0dc6ceb2dd11105 132,165
+src/index.ts
+  b0dc6ceb2dd11105 29-30,38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "acbb1ed33f6406b538a4ce0c13dccdc915b5014a",
+  "prompts": {
+    "b0dc6ceb2dd11105": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4fb103eb-fd76-4300-b73f-f8bb4681f3b1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 2,
+      "accepted_lines": 5,
+      "overriden_lines": 0
+    },
+    "f565987d7b65acf5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "636d7af4-2a0f-49cd-95a5-c831a068097d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 1536,
+      "total_deletions": 358,
+      "accepted_lines": 1177,
+      "overriden_lines": 1
+    }
+  }
+}
