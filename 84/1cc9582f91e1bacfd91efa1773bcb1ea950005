@@ -1,0 +1,38 @@
+src/errors.ts
+  aca25c77a830770f 7
+README.md
+  aca25c77a830770f 103,105-109
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "841cc9582f91e1bacfd91efa1773bcb1ea950005",
+  "prompts": {
+    "aca25c77a830770f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffb8d337-d32b-4fec-b3d7-e4010f2b8c9f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 144,
+      "overriden_lines": 0
+    },
+    "b0dc6ceb2dd11105": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4fb103eb-fd76-4300-b73f-f8bb4681f3b1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 8,
+      "overriden_lines": 0
+    }
+  }
+}
