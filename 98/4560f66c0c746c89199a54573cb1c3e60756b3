@@ -1,0 +1,85 @@
+src/protocols/clanker/index.ts
+  7ef401341c61e5f0 16,25,28,61,65,69
+  0668ccc699e7a08d 58,62,66,123,129,131,144,146,151,159,181,188-189,192
+  aca25c77a830770f 154,157-158,164-180,182
+  9dc8207ec2ada5b9 17-19,21-24,26-27,29-32,34-35,39,42,46-48,50-52,54-56,59-60,63-64,68,72-73,75-87,89-93,96,128,130,145,147-148,150,160,183-186,190-191
+README.md
+  b0dc6ceb2dd11105 65
+  aca25c77a830770f 105,107-111
+src/errors.ts
+  aca25c77a830770f 7
+  9dc8207ec2ada5b9 3
+  0668ccc699e7a08d 6,28,40,58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "984560f66c0c746c89199a54573cb1c3e60756b3",
+  "prompts": {
+    "0668ccc699e7a08d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4caa-3a0e-76f2-9d40-359ffa8868bc",
+        "model": "gpt-5.4"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 18,
+      "overriden_lines": 0
+    },
+    "7ef401341c61e5f0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e6cf7af-3ca7-4f87-9189-6f092690a9ff",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 51,
+      "total_deletions": 90,
+      "accepted_lines": 6,
+      "overriden_lines": 0
+    },
+    "9dc8207ec2ada5b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4c23-6adf-73d2-8433-4f24cee2f413",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 66,
+      "overriden_lines": 0
+    },
+    "aca25c77a830770f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffb8d337-d32b-4fec-b3d7-e4010f2b8c9f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 45,
+      "total_deletions": 20,
+      "accepted_lines": 28,
+      "overriden_lines": 0
+    },
+    "b0dc6ceb2dd11105": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4fb103eb-fd76-4300-b73f-f8bb4681f3b1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
