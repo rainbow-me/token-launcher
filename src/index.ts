@@ -3,12 +3,7 @@ import { formatEther } from '@ethersproject/units';
 import { TokenLauncherErrorCode, throwTokenLauncherError } from './errors';
 import { getInitialTick } from './getInitialTick';
 import { launchToken } from './launchToken';
-import {
-  Protocol,
-  type LaunchTokenParams,
-  type LaunchTokenResponse,
-  type SDKConfig,
-} from './types/index';
+import { type LaunchTokenParams, type LaunchTokenResponse, type SDKConfig } from './types/index';
 
 function validateAmountIn(amountIn: string, operation: string): void {
   try {
@@ -25,7 +20,7 @@ function validateAmountIn(amountIn: string, operation: string): void {
 function validateLaunchTokenParams(
   params: LaunchTokenParams,
   operation: string
-): LaunchTokenParams & { protocol: Protocol } {
+): LaunchTokenParams {
   for (const field of ['name', 'symbol'] as const) {
     if (!params[field]) {
       throwTokenLauncherError(
@@ -43,10 +38,7 @@ function validateLaunchTokenParams(
     validateAmountIn(params.amountIn, operation);
   }
 
-  return {
-    ...params,
-    protocol: params.protocol ?? Protocol.Clanker,
-  };
+  return params;
 }
 
 class TokenLauncherSDK {

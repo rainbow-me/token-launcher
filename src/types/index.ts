@@ -4,7 +4,7 @@ import type { SDKConfig, SupportedChain } from './config';
 import type { Protocol } from './protocol';
 
 export interface LaunchTokenParams {
-  protocol?: Protocol;
+  protocol: Protocol;
   name: string;
   symbol: string;
   wallet: Wallet;

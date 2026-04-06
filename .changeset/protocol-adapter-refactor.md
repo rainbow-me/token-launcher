@@ -4,7 +4,7 @@
 
 Add multi-protocol support with `protocol` field on `LaunchTokenParams`
 
-- Add optional `protocol` field to `LaunchTokenParams` (`Protocol` enum, defaults to `Protocol.Clanker`, Base only)
+- Add required `protocol` field to `LaunchTokenParams` (`Protocol` enum, Base only)
 - `launchToken()` now always returns `LaunchTokenResponse` (previously `LaunchTokenResponse | undefined`)
 - `SDKConfig` is now `{ chains?: readonly number[] }` (replaces `API_URL_*`, `API_KEY_*`, `SUPPORTED_NETWORKS`, `MODE`)
 - `LaunchTokenParams.logoUrl` is now optional

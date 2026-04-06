@@ -37,8 +37,6 @@ const result = await TokenLauncher.launchToken({
 });
 ```
 
-If `protocol` is omitted, the SDK defaults to `clanker`.
-
 ## Public API
 
 - `TokenLauncher.configure(config)`
@@ -62,7 +60,7 @@ enum Protocol {
 }
 
 interface LaunchTokenParams {
-  protocol?: Protocol;
+  protocol: Protocol;
   name: string;
   symbol: string;
   wallet: Wallet;

@@ -21,8 +21,9 @@ describe('TokenLauncher SDK', () => {
     expect(sdk.getConfig()).toEqual({ chains: [base.id] });
   });
 
-  it('should launch a token through the top-level SDK API using the default protocol', async () => {
+  it('should launch a token through the top-level SDK API', async () => {
     const txParams: LaunchTokenParams = {
+      protocol: Protocol.Clanker,
       name: 'SDK Integration Token',
       symbol: 'SIT',
       wallet,

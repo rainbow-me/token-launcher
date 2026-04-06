@@ -1,10 +1,10 @@
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import { protocols } from './protocols';
-import type { LaunchTokenParams, LaunchTokenResponse, Protocol, SDKConfig } from './types/index';
+import type { LaunchTokenParams, LaunchTokenResponse, SDKConfig } from './types/index';
 import { TokenLauncherErrorCode, throwTokenLauncherError } from './errors';
 
 export async function launchToken(
-  params: LaunchTokenParams & { protocol: Protocol },
+  params: LaunchTokenParams,
   config: SDKConfig,
   operation: string
 ): Promise<LaunchTokenResponse> {
