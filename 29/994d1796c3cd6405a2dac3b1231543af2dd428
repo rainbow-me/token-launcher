@@ -1,0 +1,23 @@
+src/protocols/clanker/index.ts
+  aca25c77a830770f 157,159-180,182-199,202-203
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "29994d1796c3cd6405a2dac3b1231543af2dd428",
+  "prompts": {
+    "aca25c77a830770f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffb8d337-d32b-4fec-b3d7-e4010f2b8c9f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 45,
+      "total_deletions": 20,
+      "accepted_lines": 45,
+      "overriden_lines": 0
+    }
+  }
+}
