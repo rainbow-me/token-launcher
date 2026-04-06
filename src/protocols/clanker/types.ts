@@ -11,7 +11,7 @@ export type RewardRecipient = {
 };
 
 export type ClankerClientTypes = {
-  chain: any;
+  chainId: number;
   accountAddress: Address;
   clankerClient: Clanker;
 };

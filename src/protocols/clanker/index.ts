@@ -60,7 +60,7 @@ const getRewardsDetails = (creatorAddress: Address) => {
 const prepareTokenLaunchParameters = (
   params: LaunchTokenParams,
   accountAddress: Address,
-  chainId: NonNullable<ClankerTokenV4['chainId']>
+  chainId: number
 ): ClankerTokenV4 => {
   const description =
     (params.description?.length || 0) > 0 ? { description: params.description } : {};
@@ -72,7 +72,7 @@ const prepareTokenLaunchParameters = (
   const rewards = getRewardsDetails(accountAddress);
   const tokenParams = {
     name: params.name,
-    chainId,
+    chainId: chainId as NonNullable<ClankerTokenV4['chainId']>,
     context: {
       interface: INTERFACE,
       platform: 'clanker',
@@ -115,7 +115,7 @@ const getClankerClient = async (
   });
 
   return {
-    chain: chain.id,
+    chainId: chain.id,
     accountAddress: account.address,
     clankerClient,
   };
@@ -124,12 +124,12 @@ const getClankerClient = async (
 async function launch(params: LaunchTokenParams, operation: string): Promise<LaunchTokenResponse> {
   try {
     const wallet = params.wallet;
-    const { accountAddress, chain, clankerClient } = await getClankerClient(
+    const { accountAddress, chainId, clankerClient } = await getClankerClient(
       wallet,
       base,
       operation
     );
-    const tokenParams = prepareTokenLaunchParameters(params, accountAddress, chain);
+    const tokenParams = prepareTokenLaunchParameters(params, accountAddress, chainId);
 
     if (params.amountIn && params.amountIn !== '0') {
       tokenParams.devBuy = { ethAmount: Number(formatEther(params.amountIn)) };
