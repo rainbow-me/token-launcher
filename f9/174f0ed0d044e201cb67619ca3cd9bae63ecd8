@@ -1,0 +1,25 @@
+src/protocols/clanker/index.ts
+  46e1cfeb7e44d61a 9,176-193
+src/launchToken.ts
+  46e1cfeb7e44d61a 5,82-101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "f9174f0ed0d044e201cb67619ca3cd9bae63ecd8",
+  "prompts": {
+    "46e1cfeb7e44d61a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cbc7881c-ccb5-449e-98c8-6527cf96506f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 45,
+      "total_deletions": 0,
+      "accepted_lines": 45,
+      "overriden_lines": 0
+    }
+  }
+}
