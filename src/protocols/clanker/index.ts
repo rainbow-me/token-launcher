@@ -15,9 +15,9 @@ import {
 import { privateKeyToAccount } from 'viem/accounts';
 import { base } from 'viem/chains';
 import {
+  TokenLauncherErrorCode,
   TokenLauncherSDKError,
   throwTokenLauncherError,
-  TokenLauncherErrorCode,
 } from '../../errors';
 import type {
   LaunchTokenParams,
@@ -38,13 +38,7 @@ const formatSocialMediaUrls = (links: Record<string, string>): Social[] => {
   }));
 };
 
-const getRewardsDetails = (creatorAddress: Address, operation: string) => {
-  const interfaceRewardAddress = validateToHexStrict(
-    'clanker interface reward address',
-    INTERFACE_REWARD_ADDRESS,
-    operation
-  );
-
+const getRewardsDetails = (creatorAddress: Address) => {
   const recipients: RewardRecipient[] = [
     {
       recipient: creatorAddress,
@@ -53,8 +47,8 @@ const getRewardsDetails = (creatorAddress: Address, operation: string) => {
       token: 'Both',
     },
     {
-      recipient: interfaceRewardAddress,
-      admin: interfaceRewardAddress,
+      recipient: INTERFACE_REWARD_ADDRESS,
+      admin: INTERFACE_REWARD_ADDRESS,
       bps: 5_000,
       token: 'Paired',
     },
@@ -66,8 +60,7 @@ const getRewardsDetails = (creatorAddress: Address, operation: string) => {
 const prepareTokenLaunchParameters = (
   params: LaunchTokenParams,
   accountAddress: Address,
-  chainId: NonNullable<ClankerTokenV4['chainId']>,
-  operation: string
+  chainId: NonNullable<ClankerTokenV4['chainId']>
 ): ClankerTokenV4 => {
   const description =
     (params.description?.length || 0) > 0 ? { description: params.description } : {};
@@ -76,7 +69,7 @@ const prepareTokenLaunchParameters = (
     ...description,
     socialMediaUrls,
   };
-  const rewards = getRewardsDetails(accountAddress, operation);
+  const rewards = getRewardsDetails(accountAddress);
   const tokenParams = {
     name: params.name,
     chainId,
@@ -136,7 +129,7 @@ async function launch(params: LaunchTokenParams, operation: string): Promise<Lau
       base,
       operation
     );
-    const tokenParams = prepareTokenLaunchParameters(params, accountAddress, chain, operation);
+    const tokenParams = prepareTokenLaunchParameters(params, accountAddress, chain);
 
     if (params.amountIn && params.amountIn !== '0') {
       tokenParams.devBuy = { ethAmount: Number(formatEther(params.amountIn)) };
