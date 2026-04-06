@@ -21,7 +21,7 @@ function validateLaunchTokenParams(
   params: LaunchTokenParams,
   operation: string
 ): LaunchTokenParams {
-  for (const field of ['name', 'symbol'] as const) {
+  for (const field of ['name', 'symbol', 'protocol', 'wallet'] as const) {
     if (!params[field]) {
       throwTokenLauncherError(
         TokenLauncherErrorCode.MISSING_REQUIRED_PARAM,
