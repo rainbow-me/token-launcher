@@ -161,7 +161,20 @@ async function launch(params: LaunchTokenParams, operation: string): Promise<Lau
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNKNOWN_ERROR,
       `Unexpected error in launchToken: ${(error as Error).message || String(error)}`,
-      { operation, originalError: error, source: 'sdk', params }
+      {
+        operation,
+        originalError: error,
+        source: 'sdk',
+        params: {
+          protocol: params.protocol,
+          name: params.name,
+          symbol: params.symbol,
+          amountIn: params.amountIn,
+          logoUrl: params.logoUrl,
+          description: params.description,
+          links: params.links,
+        },
+      }
     );
   }
 }

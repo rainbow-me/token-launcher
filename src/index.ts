@@ -12,7 +12,7 @@ function validateAmountIn(amountIn: string, operation: string): void {
     throwTokenLauncherError(
       TokenLauncherErrorCode.INVALID_AMOUNT_IN_PARAM,
       `Error with parsing amountIn param in ${operation}: ${(error as Error).message || String(error)}`,
-      { operation, originalError: error, source: 'sdk', params: amountIn }
+      { operation, originalError: error, source: 'sdk', params: { amountIn } }
     );
   }
 }
@@ -28,7 +28,7 @@ function validateLaunchTokenParams(
         `Missing required parameter: ${field}`,
         {
           operation,
-          params,
+          params: { protocol: params.protocol, name: params.name, symbol: params.symbol },
         }
       );
     }
