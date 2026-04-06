@@ -1,0 +1,68 @@
+src/index.ts
+  9dc8207ec2ada5b9 3-5,7,12-14,16-19,21-27,30-35,37-45,50-67,70,72-88,90-91
+  b0dc6ceb2dd11105 6,8-11,28,46-47,49
+src/protocols/clanker/index.ts
+  7ef401341c61e5f0 16,25,28,61,65,69,178
+  9dc8207ec2ada5b9 17-19,21-24,26-27,29-32,34-35,39,42,46-48,50-52,54-56,59-60,63-64,68,72-73,75-87,89-93,96,128,130,145,147-148,150,154,160,179-180,182-186,190-191
+  0668ccc699e7a08d 58,62,66,123,129,131,144,146,151,158-159,161-162,181,188-189,192
+  b0dc6ceb2dd11105 164-177
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "80a7090906a8cd132241337544d142eb03e00cf2",
+  "prompts": {
+    "0668ccc699e7a08d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4caa-3a0e-76f2-9d40-359ffa8868bc",
+        "model": "gpt-5.4"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 17,
+      "overriden_lines": 0
+    },
+    "7ef401341c61e5f0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e6cf7af-3ca7-4f87-9189-6f092690a9ff",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 51,
+      "total_deletions": 90,
+      "accepted_lines": 7,
+      "overriden_lines": 0
+    },
+    "9dc8207ec2ada5b9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4c23-6adf-73d2-8433-4f24cee2f413",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 140,
+      "overriden_lines": 0
+    },
+    "b0dc6ceb2dd11105": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4fb103eb-fd76-4300-b73f-f8bb4681f3b1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 23,
+      "overriden_lines": 0
+    }
+  }
+}
