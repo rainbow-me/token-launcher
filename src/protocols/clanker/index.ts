@@ -151,7 +151,7 @@ async function launch(params: LaunchTokenParams, operation: string): Promise<Lau
     return {
       transaction: tx,
       tokenUri: params.logoUrl,
-      tokenAddress: tokenAddress || '',
+      tokenAddress: tokenAddress!,
     };
   } catch (error) {
     if (error instanceof TokenLauncherSDKError) {
