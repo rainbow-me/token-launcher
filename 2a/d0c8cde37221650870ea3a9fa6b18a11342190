@@ -1,0 +1,23 @@
+src/protocols/liquid/index.ts
+  a38e9a27177193a1 124,127,137,144,150,156,162,167,174
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "2ad0c8cde37221650870ea3a9fa6b18a11342190",
+  "prompts": {
+    "a38e9a27177193a1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a32affc1-abd6-4611-be50-3bb8d5f0f3ca",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 9,
+      "accepted_lines": 9,
+      "overriden_lines": 0
+    }
+  }
+}
