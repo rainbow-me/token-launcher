@@ -237,7 +237,7 @@ describe('Liquid protocol', () => {
       logoUrl: sampleLogoUrl,
       links: {},
       amountIn: '0',
-    } as LaunchTokenParams;
+    } as unknown as LaunchTokenParams;
 
     await expect(sdk.launchToken(txParams)).rejects.toMatchObject({
       code: 'MISSING_REQUIRED_PARAM',
