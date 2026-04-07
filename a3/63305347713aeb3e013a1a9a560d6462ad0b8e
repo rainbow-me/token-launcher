@@ -1,0 +1,23 @@
+src/launchToken.ts
+  ed97c8c58a3b2202 20-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "a363305347713aeb3e013a1a9a560d6462ad0b8e",
+  "prompts": {
+    "ed97c8c58a3b2202": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1be11877-9657-4c84-9a64-806b32b7c14f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 13,
+      "overriden_lines": 0
+    }
+  }
+}
