@@ -1,0 +1,25 @@
+tsconfig.json
+  77873f030b0b52b1 12
+package.json
+  77873f030b0b52b1 6-7,10-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "2c46f97bb83f0f7af1ed727d325d9998887e4a7b",
+  "prompts": {
+    "77873f030b0b52b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8c345866-5846-44b1-bff0-705371765d1e",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 10,
+      "total_deletions": 10,
+      "accepted_lines": 6,
+      "overriden_lines": 0
+    }
+  }
+}
