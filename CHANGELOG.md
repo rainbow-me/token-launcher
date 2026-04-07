@@ -21,8 +21,6 @@
   - `viem` is now a peer dependency (`^2.38.0`) — consumers must install it directly
   - Remove all `@ethersproject/*` packages from your dependencies
 
-### Patch Changes
-
 - 2fc1f60: Add multi-protocol support with `protocol` field on `LaunchTokenParams`
   - Add required `protocol` field to `LaunchTokenParams` (`Protocol` enum, Base only)
   - `launchToken()` now always returns `LaunchTokenResponse` (previously `LaunchTokenResponse | undefined`)
