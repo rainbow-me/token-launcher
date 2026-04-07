@@ -1,5 +1,13 @@
 import { ERC20Abi, LiquidFactoryAbi, LiquidSDK } from 'liquid-sdk';
-import { type Address, decodeFunctionData, getContract, parseEther, zeroAddress } from 'viem';
+import {
+  type Address,
+  createWalletClient,
+  decodeFunctionData,
+  getContract,
+  http,
+  parseEther,
+  zeroAddress,
+} from 'viem';
 import { base } from 'viem/chains';
 import { createTestHarness } from '../../../test/harness/anvil';
 import { type LaunchTokenParams, Protocol } from '../../types/index';
@@ -213,4 +221,60 @@ describe('Liquid protocol', () => {
     expect(deployment.hook).not.toBe(zeroAddress);
     expect(deployment.locker).not.toBe(zeroAddress);
   }, 60000);
+
+  it('should throw MISSING_REQUIRED_PARAM when walletClient has no account', async () => {
+    const noAccountClient = createWalletClient({
+      chain: base,
+      transport: http(),
+    });
+
+    const txParams = {
+      protocol: Protocol.Liquid,
+      name: 'Error Test Token',
+      symbol: 'ERR',
+      walletClient: noAccountClient,
+      publicClient,
+      logoUrl: sampleLogoUrl,
+      links: {},
+      amountIn: '0',
+    } as LaunchTokenParams;
+
+    await expect(sdk.launchToken(txParams)).rejects.toMatchObject({
+      code: 'MISSING_REQUIRED_PARAM',
+    });
+  });
+
+  it('should throw MISSING_REQUIRED_PARAM for missing name', async () => {
+    const txParams = {
+      protocol: Protocol.Liquid,
+      name: '',
+      symbol: 'ERR',
+      walletClient,
+      publicClient,
+      logoUrl: sampleLogoUrl,
+      links: {},
+      amountIn: '0',
+    } as LaunchTokenParams;
+
+    await expect(sdk.launchToken(txParams)).rejects.toMatchObject({
+      code: 'MISSING_REQUIRED_PARAM',
+    });
+  });
+
+  it('should throw INVALID_AMOUNT_IN_PARAM for invalid amountIn', async () => {
+    const txParams: LaunchTokenParams = {
+      protocol: Protocol.Liquid,
+      name: 'Error Test Token',
+      symbol: 'ERR',
+      walletClient,
+      publicClient,
+      logoUrl: sampleLogoUrl,
+      links: {},
+      amountIn: 'not-a-number',
+    };
+
+    await expect(sdk.launchToken(txParams)).rejects.toMatchObject({
+      code: 'INVALID_AMOUNT_IN_PARAM',
+    });
+  });
 });
