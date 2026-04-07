@@ -1,0 +1,51 @@
+package.json
+  77873f030b0b52b1 6-7,10-11,56,60
+tsconfig.build.json
+  77873f030b0b52b1 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "53186d5490741387ac5c433376c04abe5d9fbd2b",
+  "prompts": {
+    "65f6eac16d7aadb1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d6628-b853-7a73-8f41-988d386edf3c",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 37,
+      "total_deletions": 2,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    },
+    "77873f030b0b52b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8c345866-5846-44b1-bff0-705371765d1e",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 14,
+      "total_deletions": 6,
+      "accepted_lines": 13,
+      "overriden_lines": 0
+    },
+    "e584a4c8c7e5f83e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d6629-c71f-7671-bf77-4f57d9b7f504",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 3,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    }
+  }
+}
