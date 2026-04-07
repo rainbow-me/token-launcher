@@ -1,0 +1,35 @@
+src/launchToken.ts
+  f565987d7b65acf5 20-32
+src/protocols/clanker/index.ts
+  f565987d7b65acf5 141
+src/protocols/clanker/index.test.ts
+  f565987d7b65acf5 32,65,97,127
+src/types/index.ts
+  f565987d7b65acf5 1,18
+test/sdk.test.ts
+  f565987d7b65acf5 37
+.changeset/viem-migration.md
+  f565987d7b65acf5 12
+README.md
+  f565987d7b65acf5 86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "e96d10de4a49b44c02f2bffa4ee4b0dbf9aa4b9a",
+  "prompts": {
+    "f565987d7b65acf5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "636d7af4-2a0f-49cd-95a5-c831a068097d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 25,
+      "total_deletions": 23,
+      "accepted_lines": 23,
+      "overriden_lines": 0
+    }
+  }
+}
