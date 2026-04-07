@@ -3,15 +3,15 @@
 [![npm version](https://img.shields.io/npm/v/@rainbow-me/token-launcher.svg)](https://www.npmjs.com/package/@rainbow-me/token-launcher)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-A TypeScript SDK for launching tokens through protocol adapters.
+Launch ERC-20 tokens on Base through [Clanker](https://clanker.world) and [Liquid Protocol](https://github.com/Liquid-Protocol-Ops/liquid-protocol-v0).
 
-## Installation
+## Install
 
 ```bash
 npm install @rainbow-me/token-launcher viem
 ```
 
-## Usage
+## Quick Start
 
 ```typescript
 import { TokenLauncher, Protocol } from '@rainbow-me/token-launcher';
@@ -20,102 +20,45 @@ import { privateKeyToAccount } from 'viem/accounts';
 import { base } from 'viem/chains';
 
 const account = privateKeyToAccount('0x...');
-const publicClient = createPublicClient({
-  chain: base,
-  transport: http('https://mainnet.base.org'),
-});
-const walletClient = createWalletClient({
-  account,
-  chain: base,
-  transport: http('https://mainnet.base.org'),
-});
+const publicClient = createPublicClient({ chain: base, transport: http() });
+const walletClient = createWalletClient({ account, chain: base, transport: http() });
 
-TokenLauncher.configure({
-  chains: [base.id],
-});
+TokenLauncher.configure({ chains: [8453] });
 
-const result = await TokenLauncher.launchToken({
-  protocol: Protocol.Clanker,
+const { txHash, tokenAddress } = await TokenLauncher.launchToken({
+  protocol: Protocol.Liquid, // or Protocol.Clanker
   name: 'My Token',
   symbol: 'MTK',
   walletClient,
   publicClient,
   logoUrl: 'https://example.com/logo.png',
-  description: 'My token',
-  links: {
-    website: 'https://mytoken.com',
-  },
+  amountIn: '0', // wei — set non-zero for a dev buy at launch
 });
 ```
 
-## Public API
+## API
 
-- `TokenLauncher.configure(config)`
-- `TokenLauncher.getConfig()`
-- `TokenLauncher.getInitialTick(tokenPrice)`
-- `TokenLauncher.launchToken(params)`
-
-## Configuration
-
-```typescript
-interface SDKConfig {
-  chains?: readonly number[];
-}
-```
-
-## Launch Parameters
-
-```typescript
-enum Protocol {
-  Clanker = 'clanker',
-}
-
-interface LaunchTokenParams {
-  protocol: Protocol;
-  name: string;
-  symbol: string;
-  walletClient: WalletClient;
-  publicClient: PublicClient;
-  amountIn?: string;
-  logoUrl?: string;
-  description?: string;
-  links?: Record<string, string>;
-}
-
-interface LaunchTokenResponse {
-  txHash: Hash;
-  tokenUri?: string;
-  tokenAddress: string;
-}
-```
-
-If `amountIn` is provided and non-zero, `launchToken` performs a launch and buy in the same protocol call.
+| Method | Description |
+|---|---|
+| `configure(config)` | Set `{ chains: number[] }` |
+| `getConfig()` | Read current config |
+| `getInitialTick(price)` | Compute starting tick from a token price |
+| `launchToken(params)` | Deploy a token and return `{ txHash, tokenAddress, tokenUri? }` |
 
 ## Protocols
 
-- `clanker`
-  - Protocol version: Clanker v4
-  - SDK dependency: `clanker-sdk@4.1.19`
-  - Supported chain: Base (`8453`)
-  - Hardcoded addresses used by this repo:
-    - Interface reward recipient/admin: `0xE96D3027913064A16A17B27ca8b5A52120C11F91`
-    - Default quote token in Clanker v4 examples: WETH on Base `0x4200000000000000000000000000000000000006`
-  - Notes: this repo does not hardcode the Clanker factory address; deployment contract resolution is delegated to `clanker-sdk`.
+Both protocols deploy tokens paired against WETH on Base via Uniswap V4.
 
-## Error Handling
+|  | Clanker | Liquid |
+|---|---|---|
+| **Token** | ERC-20 | ERC-20 (18 decimals, 100B supply) |
+| **Rewards** | 50% creator / 50% Rainbow | 100% creator (WETH) |
+| **Fees** | Set by Clanker SDK | 80% creator / 20% protocol |
 
-All SDK errors are instances of `TokenLauncherSDKError` and expose a `code` from `TokenLauncherErrorCode`.
+Liquid contracts are verified on Basescan, forked from Clanker v4, and audited by [0xMacro](https://0xmacro.com/library/audits/clanker-3) and [Cantina](https://cantina.xyz/portfolio/e4db23cd-f46d-4d99-adca-a60941b44f65).
 
-### Error Codes
+## Errors
 
-- `INVALID_PROTOCOL`
-- `INVALID_ADDRESS`
-- `UNSUPPORTED_CHAIN_ID`
-- `INVALID_AMOUNT_IN_PARAM`
-- `MISSING_REQUIRED_PARAM`
-- `INSUFFICIENT_FUNDS`
-- `GAS_ESTIMATION_FAILED`
-- `CONTRACT_INTERACTION_FAILED`
-- `TRANSACTION_FAILED`
-- `WALLET_CONNECTION_ERROR`
-- `UNKNOWN_ERROR`
+All errors are `TokenLauncherSDKError` with a `code`:
+
+`INVALID_PROTOCOL` · `INVALID_ADDRESS` · `UNSUPPORTED_CHAIN_ID` · `INVALID_AMOUNT_IN_PARAM` · `MISSING_REQUIRED_PARAM` · `INSUFFICIENT_FUNDS` · `GAS_ESTIMATION_FAILED` · `CONTRACT_INTERACTION_FAILED` · `TRANSACTION_FAILED` · `WALLET_CONNECTION_ERROR` · `UNKNOWN_ERROR`

@@ -126,4 +126,38 @@ describe('Clanker protocol', () => {
     const launchResponse = await sdk.launchToken(txParams);
     expect(launchResponse?.txHash).toBeTruthy();
   }, 60000);
+
+  it('should launch token with a very small dev buy', async () => {
+    const amountIn = parseEther('0.0000001').toString();
+    const txParams: LaunchTokenParams = {
+      protocol: Protocol.Clanker,
+      name: 'Clanker Tiny Buy',
+      symbol: 'CTB',
+      walletClient,
+      publicClient,
+      logoUrl: sampleLogoUrl,
+      links: {},
+      amountIn,
+    };
+
+    const launchResponse = await sdk.launchToken(txParams);
+    expect(launchResponse?.txHash).toBeTruthy();
+  }, 60000);
+
+  it('should launch token with a large dev buy', async () => {
+    const amountIn = parseEther('10').toString();
+    const txParams: LaunchTokenParams = {
+      protocol: Protocol.Clanker,
+      name: 'Clanker Large Buy',
+      symbol: 'CLB',
+      walletClient,
+      publicClient,
+      logoUrl: sampleLogoUrl,
+      links: {},
+      amountIn,
+    };
+
+    const launchResponse = await sdk.launchToken(txParams);
+    expect(launchResponse?.txHash).toBeTruthy();
+  }, 60000);
 });

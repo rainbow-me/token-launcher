@@ -1,0 +1,26 @@
+diff --git a/dist/index.js b/dist/index.js
+index 31cf2fa9d0059e2af4c7ec4d0f38d1d66d46b3e7..c7b6d5923737876e11df83fc96e95ce2b713de4d 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1371,7 +1371,7 @@ var LiquidSDK = class {
+       functionName: "deployToken",
+       args: [deploymentConfig],
+       value: msgValue,
+-      gas: 5000000n,
++      gas: 10000000n,
+       chain: import_chains2.base,
+       account: this.walletClient.account
+     });
+diff --git a/dist/index.mjs b/dist/index.mjs
+index d1838027657d65bb70a5170d4c0d2bf8aa722520..f55b1531bf179053f00eac2e98a252f1666dc5c6 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -1313,7 +1313,7 @@ var LiquidSDK = class {
+       functionName: "deployToken",
+       args: [deploymentConfig],
+       value: msgValue,
+-      gas: 5000000n,
++      gas: 10000000n,
+       chain: base2,
+       account: this.walletClient.account
+     });
