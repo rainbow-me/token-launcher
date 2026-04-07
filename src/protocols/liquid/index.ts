@@ -1,5 +1,12 @@
 import { buildContext, buildMetadata, LiquidSDK } from 'liquid-sdk';
-import type { Address } from 'viem';
+import {
+  BaseError,
+  ContractFunctionRevertedError,
+  EstimateGasExecutionError,
+  InsufficientFundsError,
+  UserRejectedRequestError,
+  type Address,
+} from 'viem';
 import { base } from 'viem/chains';
 import {
   TokenLauncherErrorCode,
@@ -94,14 +101,67 @@ async function launch(params: LaunchTokenParams, operation: string): Promise<Lau
       tokenAddress: result.tokenAddress,
     };
   } catch (error) {
-    if (error instanceof TokenLauncherSDKError) {
-      throw error;
+    if (error instanceof TokenLauncherSDKError) throw error;
+
+    const errorParams = {
+      protocol: params.protocol,
+      name: params.name,
+      symbol: params.symbol,
+      amountIn: params.amountIn,
+      logoUrl: params.logoUrl,
+      description: params.description,
+      links: params.links,
+    };
+
+    if (error instanceof BaseError) {
+      if (error.walk(e => e instanceof InsufficientFundsError))
+        throwTokenLauncherError(TokenLauncherErrorCode.INSUFFICIENT_FUNDS, error.shortMessage, {
+          operation,
+          originalError: error,
+          source: 'chain',
+          params: errorParams,
+        });
+      if (error.walk(e => e instanceof ContractFunctionRevertedError))
+        throwTokenLauncherError(
+          TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
+          error.shortMessage,
+          {
+            operation,
+            originalError: error,
+            source: 'chain',
+            params: errorParams,
+          }
+        );
+      if (error.walk(e => e instanceof UserRejectedRequestError))
+        throwTokenLauncherError(
+          TokenLauncherErrorCode.WALLET_CONNECTION_ERROR,
+          error.shortMessage,
+          {
+            operation,
+            originalError: error,
+            source: 'sdk',
+            params: errorParams,
+          }
+        );
+      if (error.walk(e => e instanceof EstimateGasExecutionError))
+        throwTokenLauncherError(TokenLauncherErrorCode.GAS_ESTIMATION_FAILED, error.shortMessage, {
+          operation,
+          originalError: error,
+          source: 'chain',
+          params: errorParams,
+        });
+      throwTokenLauncherError(TokenLauncherErrorCode.TRANSACTION_FAILED, error.shortMessage, {
+        operation,
+        originalError: error,
+        source: 'chain',
+        params: errorParams,
+      });
     }
 
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNKNOWN_ERROR,
       `Unexpected error in ${operation}: ${(error as Error).message || String(error)}`,
-      { operation, originalError: error, source: 'sdk', params }
+      { operation, originalError: error, source: 'sdk', params: errorParams }
     );
   }
 }
