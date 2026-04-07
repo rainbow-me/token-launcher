@@ -1,5 +1,5 @@
 import { Instance, Server } from 'prool';
-import { TokenLauncher } from '../../src';
+import { TokenLauncher } from '../../index';
 import { type Chain, createPublicClient, createWalletClient, http } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { base } from 'viem/chains';

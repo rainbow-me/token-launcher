@@ -1,4 +1,4 @@
-import { createTestHarness } from '../../../test/harness/anvil';
+import { createTestHarness } from '../../test/harness/anvil';
 import { type LaunchTokenParams, Protocol } from '../../types/index';
 import { ClankerToken_v4_abi } from './abis/ClankerToken';
 import { type Address, getContract, parseEther } from 'viem';

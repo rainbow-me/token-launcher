@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import { TokenLauncherErrorCode } from '../src/errors';
-import { createTestHarness } from './harness/anvil';
+import { createTestHarness } from '../src/test/harness/anvil';
 import { type LaunchTokenParams, Protocol } from '../src/types/index';
 import { base } from 'viem/chains';
 

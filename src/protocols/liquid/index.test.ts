@@ -15,7 +15,7 @@ import {
   zeroAddress,
 } from 'viem';
 import { base } from 'viem/chains';
-import { createTestHarness } from '../../../test/harness/anvil';
+import { createTestHarness } from '../../test/harness/anvil';
 import { type LaunchTokenParams, Protocol } from '../../types/index';
 import { protocols } from '../index';
 import { liquid } from './index';
