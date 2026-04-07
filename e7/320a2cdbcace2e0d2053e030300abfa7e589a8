@@ -1,0 +1,23 @@
+test/harness/anvil.ts
+  ed97c8c58a3b2202 3,42,44,49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "e7320a2cdbcace2e0d2053e030300abfa7e589a8",
+  "prompts": {
+    "ed97c8c58a3b2202": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1be11877-9657-4c84-9a64-806b32b7c14f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 8,
+      "total_deletions": 13,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    }
+  }
+}
