@@ -1,14 +1,6 @@
-import type { JsonRpcProvider } from '@ethersproject/providers';
-import {
-  BaseError,
-  ContractFunctionRevertedError,
-  EstimateGasExecutionError,
-  InsufficientFundsError,
-  UserRejectedRequestError,
-} from 'viem';
 import { protocols } from './protocols';
-import type { LaunchTokenParams, LaunchTokenResponse, SDKConfig } from './types/index';
-import { TokenLauncherErrorCode, TokenLauncherSDKError, throwTokenLauncherError } from './errors';
+import type { LaunchTokenParams, LaunchTokenResponse, SDKConfig } from './types';
+import { TokenLauncherErrorCode, throwTokenLauncherError } from './errors';
 
 export async function launchToken(
   params: LaunchTokenParams,
@@ -25,8 +17,26 @@ export async function launchToken(
     );
   }
 
-  const provider = params.wallet.provider as JsonRpcProvider;
-  const { chainId } = await provider.getNetwork();
+  let chainId: number;
+  let walletChainId: number;
+  try {
+    chainId = await params.publicClient.getChainId();
+    walletChainId = await params.walletClient.getChainId();
+  } catch (error) {
+    throwTokenLauncherError(
+      TokenLauncherErrorCode.WALLET_CONNECTION_ERROR,
+      `Failed to fetch chain ID: ${(error as Error).message || String(error)}`,
+      { operation, originalError: error, source: 'chain' }
+    );
+  }
+
+  if (chainId !== walletChainId) {
+    throwTokenLauncherError(
+      TokenLauncherErrorCode.UNSUPPORTED_CHAIN_ID,
+      `publicClient chain (${chainId}) does not match walletClient chain (${walletChainId})`,
+      { operation, params: { publicChainId: chainId, walletChainId } }
+    );
+  }
 
   if (config.chains?.length && !config.chains.includes(chainId)) {
     throwTokenLauncherError(
@@ -44,62 +54,5 @@ export async function launchToken(
     );
   }
 
-  try {
-    return await protocol.launchToken(params, config, operation);
-  } catch (error) {
-    if (error instanceof TokenLauncherSDKError) throw error;
-
-    const context = (source: 'chain' | 'sdk') => ({
-      operation,
-      originalError: error,
-      source,
-      params: {
-        protocol: params.protocol,
-        name: params.name,
-        symbol: params.symbol,
-        amountIn: params.amountIn,
-        logoUrl: params.logoUrl,
-        description: params.description,
-        links: params.links,
-      },
-    });
-
-    if (error instanceof BaseError) {
-      if (error.walk(e => e instanceof InsufficientFundsError))
-        throwTokenLauncherError(
-          TokenLauncherErrorCode.INSUFFICIENT_FUNDS,
-          error.shortMessage,
-          context('chain')
-        );
-      if (error.walk(e => e instanceof ContractFunctionRevertedError))
-        throwTokenLauncherError(
-          TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
-          error.shortMessage,
-          context('chain')
-        );
-      if (error.walk(e => e instanceof UserRejectedRequestError))
-        throwTokenLauncherError(
-          TokenLauncherErrorCode.WALLET_CONNECTION_ERROR,
-          error.shortMessage,
-          context('sdk')
-        );
-      if (error.walk(e => e instanceof EstimateGasExecutionError))
-        throwTokenLauncherError(
-          TokenLauncherErrorCode.GAS_ESTIMATION_FAILED,
-          error.shortMessage,
-          context('chain')
-        );
-      throwTokenLauncherError(
-        TokenLauncherErrorCode.TRANSACTION_FAILED,
-        error.shortMessage,
-        context('chain')
-      );
-    }
-
-    throwTokenLauncherError(
-      TokenLauncherErrorCode.UNKNOWN_ERROR,
-      `Unexpected error in ${operation}: ${(error as Error).message || String(error)}`,
-      context('sdk')
-    );
-  }
+  return protocol.launchToken(params, config, operation);
 }
