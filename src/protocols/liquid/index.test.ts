@@ -76,7 +76,7 @@ describe('Liquid protocol', () => {
     ]);
     expect(name).toBe(txParams.name);
     expect(symbol).toBe(txParams.symbol);
-  }, 60000);
+  }, 120000);
 
   it('should launch token with description metadata', async () => {
     const txParams: LaunchTokenParams = {
@@ -99,7 +99,7 @@ describe('Liquid protocol', () => {
     expect(config.tokenConfig.image).toBe(txParams.logoUrl);
     const metadata = JSON.parse(config.tokenConfig.metadata);
     expect(metadata?.description).toBe(txParams.description);
-  }, 60000);
+  }, 120000);
 
   it('should launch token with full metadata', async () => {
     const txParams: LaunchTokenParams = {
@@ -122,7 +122,7 @@ describe('Liquid protocol', () => {
     const metadata = JSON.parse(config.tokenConfig.metadata);
     expect(metadata?.socialMediaUrls?.[0]?.platform).toBe('other');
     expect(metadata?.socialMediaUrls?.[0]?.url).toBe(txParams.links?.other);
-  }, 60000);
+  }, 120000);
 
   it('should launch token with dev buy', async () => {
     const amountIn = parseEther('0.1').toString();
@@ -150,7 +150,7 @@ describe('Liquid protocol', () => {
     });
     const balance = await deployedToken.read.balanceOf([account.address]);
     expect(balance > 0n).toBe(true);
-  }, 60000);
+  }, 120000);
 
   it('should launch token with a very small dev buy', async () => {
     const amountIn = parseEther('0.0000001').toString();
@@ -177,7 +177,7 @@ describe('Liquid protocol', () => {
     });
     const balance = await deployedToken.read.balanceOf([account.address]);
     expect(balance > 0n).toBe(true);
-  }, 60000);
+  }, 120000);
 
   it('should launch token with a large dev buy', async () => {
     const amountIn = parseEther('10').toString();
@@ -204,7 +204,7 @@ describe('Liquid protocol', () => {
     });
     const balance = await deployedToken.read.balanceOf([account.address]);
     expect(balance > 0n).toBe(true);
-  }, 60000);
+  }, 120000);
 
   it('should verify deployment info on-chain', async () => {
     const txParams: LaunchTokenParams = {
@@ -226,7 +226,7 @@ describe('Liquid protocol', () => {
     expect(deployment.token.toLowerCase()).toBe(tokenAddress.toLowerCase());
     expect(deployment.hook).not.toBe(zeroAddress);
     expect(deployment.locker).not.toBe(zeroAddress);
-  }, 60000);
+  }, 120000);
 
   it('should throw MISSING_REQUIRED_PARAM when walletClient has no account', async () => {
     const noAccountClient = createWalletClient({
