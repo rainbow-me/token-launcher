@@ -1,0 +1,38 @@
+.github/workflows/ci.yml
+  77873f030b0b52b1 12,18
+.github/workflows/release.yml
+  77873f030b0b52b1 15,21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "edd4339c06905cf13f305ca4c7d5ae953551967c",
+  "prompts": {
+    "6b8e5119a2d305c2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "38dc61ad-9618-4fc9-a74d-95bcfe9a87e6",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 3,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    },
+    "77873f030b0b52b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8c345866-5846-44b1-bff0-705371765d1e",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 4,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    }
+  }
+}
