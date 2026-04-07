@@ -1,0 +1,23 @@
+package.json
+  77873f030b0b52b1 6-7,10-11,56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "f9f577522724667036f38f63efbaac0b732a5c05",
+  "prompts": {
+    "77873f030b0b52b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8c345866-5846-44b1-bff0-705371765d1e",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 5,
+      "accepted_lines": 5,
+      "overriden_lines": 0
+    }
+  }
+}
