@@ -1,11 +1,4 @@
-import type {
-  Account,
-  Chain,
-  GetTransactionReturnType,
-  PublicClient,
-  Transport,
-  WalletClient,
-} from 'viem';
+import type { Account, Chain, Hash, PublicClient, Transport, WalletClient } from 'viem';
 import type { SDKConfig, SupportedChain } from './config';
 import type { Protocol } from './protocol';
 
@@ -22,7 +15,7 @@ export interface LaunchTokenParams {
 }
 
 export interface LaunchTokenResponse {
-  transaction: GetTransactionReturnType;
+  txHash: Hash;
   tokenUri?: string;
   tokenAddress: string;
 }

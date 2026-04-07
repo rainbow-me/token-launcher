@@ -34,7 +34,7 @@ describe('TokenLauncher SDK', () => {
     };
 
     const launchResponse = await sdk.launchToken(txParams);
-    expect(launchResponse?.transaction?.hash).toBeTruthy();
+    expect(launchResponse?.txHash).toBeTruthy();
     expect(launchResponse?.tokenAddress).toBeTruthy();
   }, 60000);
 

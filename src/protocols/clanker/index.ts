@@ -137,10 +137,8 @@ async function launch(params: LaunchTokenParams, operation: string): Promise<Lau
         { operation, source: 'chain' }
       );
     }
-    const tx = await params.publicClient.getTransaction({ hash: txHash });
-
     return {
-      transaction: tx,
+      txHash,
       tokenUri: params.logoUrl,
       tokenAddress,
     };

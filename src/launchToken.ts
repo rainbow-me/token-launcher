@@ -17,8 +17,19 @@ export async function launchToken(
     );
   }
 
-  const chainId = await params.publicClient.getChainId();
-  const walletChainId = await params.walletClient.getChainId();
+  let chainId: number;
+  let walletChainId: number;
+  try {
+    chainId = await params.publicClient.getChainId();
+    walletChainId = await params.walletClient.getChainId();
+  } catch (error) {
+    throwTokenLauncherError(
+      TokenLauncherErrorCode.WALLET_CONNECTION_ERROR,
+      `Failed to fetch chain ID: ${(error as Error).message || String(error)}`,
+      { operation, originalError: error, source: 'chain' }
+    );
+  }
+
   if (chainId !== walletChainId) {
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNSUPPORTED_CHAIN_ID,

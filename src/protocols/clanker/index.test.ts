@@ -29,7 +29,7 @@ describe('Clanker protocol', () => {
     };
 
     const launchResponse = await sdk.launchToken(txParams);
-    expect(launchResponse?.transaction?.hash).toBeTruthy();
+    expect(launchResponse?.txHash).toBeTruthy();
     expect(launchResponse?.tokenAddress).toBeTruthy();
     const tokenAddress = launchResponse!.tokenAddress as Address;
 
@@ -62,7 +62,7 @@ describe('Clanker protocol', () => {
     };
 
     const launchResponse = await sdk.launchToken(txParams);
-    expect(launchResponse?.transaction?.hash).toBeTruthy();
+    expect(launchResponse?.txHash).toBeTruthy();
     expect(launchResponse?.tokenAddress).toBeTruthy();
     const tokenAddress = launchResponse!.tokenAddress as Address;
 
@@ -94,7 +94,7 @@ describe('Clanker protocol', () => {
     };
 
     const launchResponse = await sdk.launchToken(txParams);
-    expect(launchResponse?.transaction?.hash).toBeTruthy();
+    expect(launchResponse?.txHash).toBeTruthy();
     expect(launchResponse?.tokenAddress).toBeTruthy();
     const tokenAddress = launchResponse!.tokenAddress as Address;
 
@@ -124,6 +124,6 @@ describe('Clanker protocol', () => {
     };
 
     const launchResponse = await sdk.launchToken(txParams);
-    expect(launchResponse?.transaction?.hash).toBeTruthy();
+    expect(launchResponse?.txHash).toBeTruthy();
   }, 60000);
 });

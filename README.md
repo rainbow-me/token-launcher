@@ -83,7 +83,7 @@ interface LaunchTokenParams {
 }
 
 interface LaunchTokenResponse {
-  transaction: Transaction;
+  txHash: Hash;
   tokenUri?: string;
   tokenAddress: string;
 }
