@@ -1,5 +1,11 @@
+import { jest } from '@jest/globals';
 import { ERC20Abi, LiquidFactoryAbi, LiquidSDK } from 'liquid-sdk';
 import {
+  BaseError,
+  ContractFunctionRevertedError,
+  EstimateGasExecutionError,
+  InsufficientFundsError,
+  UserRejectedRequestError,
   type Address,
   createWalletClient,
   decodeFunctionData,
@@ -275,6 +281,93 @@ describe('Liquid protocol', () => {
 
     await expect(sdk.launchToken(txParams)).rejects.toMatchObject({
       code: 'INVALID_AMOUNT_IN_PARAM',
+    });
+  });
+
+  describe('viem error classification', () => {
+    const validParams: LaunchTokenParams = {
+      protocol: Protocol.Liquid,
+      name: 'Error Classification Token',
+      symbol: 'ECT',
+      walletClient,
+      publicClient,
+      logoUrl: sampleLogoUrl,
+      links: {},
+      amountIn: '0',
+    };
+
+    it('should classify InsufficientFundsError as INSUFFICIENT_FUNDS', async () => {
+      const spy = jest
+        .spyOn(LiquidSDK.prototype, 'deployToken')
+        .mockRejectedValue(new InsufficientFundsError({ cause: new BaseError('test') }));
+
+      await expect(sdk.launchToken(validParams)).rejects.toMatchObject({
+        code: 'INSUFFICIENT_FUNDS',
+      });
+
+      spy.mockRestore();
+    });
+
+    it('should classify ContractFunctionRevertedError as CONTRACT_INTERACTION_FAILED', async () => {
+      const spy = jest
+        .spyOn(LiquidSDK.prototype, 'deployToken')
+        .mockRejectedValue(new ContractFunctionRevertedError({ abi: [], functionName: 'deploy' }));
+
+      await expect(sdk.launchToken(validParams)).rejects.toMatchObject({
+        code: 'CONTRACT_INTERACTION_FAILED',
+      });
+
+      spy.mockRestore();
+    });
+
+    it('should classify UserRejectedRequestError as WALLET_CONNECTION_ERROR', async () => {
+      const spy = jest
+        .spyOn(LiquidSDK.prototype, 'deployToken')
+        .mockRejectedValue(new UserRejectedRequestError(new Error('rejected')));
+
+      await expect(sdk.launchToken(validParams)).rejects.toMatchObject({
+        code: 'WALLET_CONNECTION_ERROR',
+      });
+
+      spy.mockRestore();
+    });
+
+    it('should classify EstimateGasExecutionError as GAS_ESTIMATION_FAILED', async () => {
+      const spy = jest
+        .spyOn(LiquidSDK.prototype, 'deployToken')
+        .mockRejectedValue(
+          new EstimateGasExecutionError(new BaseError('gas'), { account: walletClient.account })
+        );
+
+      await expect(sdk.launchToken(validParams)).rejects.toMatchObject({
+        code: 'GAS_ESTIMATION_FAILED',
+      });
+
+      spy.mockRestore();
+    });
+
+    it('should classify unrecognized BaseError as TRANSACTION_FAILED', async () => {
+      const spy = jest
+        .spyOn(LiquidSDK.prototype, 'deployToken')
+        .mockRejectedValue(new BaseError('something went wrong'));
+
+      await expect(sdk.launchToken(validParams)).rejects.toMatchObject({
+        code: 'TRANSACTION_FAILED',
+      });
+
+      spy.mockRestore();
+    });
+
+    it('should classify non-viem errors as UNKNOWN_ERROR', async () => {
+      const spy = jest
+        .spyOn(LiquidSDK.prototype, 'deployToken')
+        .mockRejectedValue(new Error('unexpected'));
+
+      await expect(sdk.launchToken(validParams)).rejects.toMatchObject({
+        code: 'UNKNOWN_ERROR',
+      });
+
+      spy.mockRestore();
     });
   });
 });
