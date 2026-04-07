@@ -1,27 +1,27 @@
+README.md
+  70c6a2a1d7774194 73,107-118
+THEORY.MD
+  70c6a2a1d7774194 1-25
+src/getInitialTick.ts
+  0668ccc699e7a08d 10
+test/sdk.test.ts
+  0668ccc699e7a08d 1
+src/types/protocol.ts
+  70c6a2a1d7774194 3
+src/getInitialTick.test.ts
+  0668ccc699e7a08d 1-11
+src/errors.ts
+  0668ccc699e7a08d 18,30,48
+package.json
+  70c6a2a1d7774194 32
 src/protocols/clanker/types.ts
   0668ccc699e7a08d 2,14-15
 src/protocols/clanker/index.ts
   0668ccc699e7a08d 69,107,112,114-117,126-127,133
-src/protocols/index.ts
-  70c6a2a1d7774194 4,8,10-12
 src/index.ts
   70c6a2a1d7774194 90
-src/getInitialTick.ts
-  0668ccc699e7a08d 10
-src/getInitialTick.test.ts
-  0668ccc699e7a08d 1-11
-test/sdk.test.ts
-  0668ccc699e7a08d 1
-package.json
-  70c6a2a1d7774194 32
-THEORY.MD
-  70c6a2a1d7774194 1-25
-README.md
-  70c6a2a1d7774194 73,107-118
-src/errors.ts
-  0668ccc699e7a08d 18,30,48
-src/types/protocol.ts
-  70c6a2a1d7774194 3
+src/protocols/index.ts
+  70c6a2a1d7774194 4,8,10-12
 ---
 {
   "schema_version": "authorship/3.0.0",
