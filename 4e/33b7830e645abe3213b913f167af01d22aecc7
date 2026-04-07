@@ -2,16 +2,16 @@ sdk/test/helpers/setupTestEnv.ts
   096fbf4ec2d26388 8
 sdk/src/index.ts
   096fbf4ec2d26388 52,54
-sdk/src/deployToken.ts
-  096fbf4ec2d26388 3,12
-sdk/test/launchV2TokenAndBuy.test.ts
-  096fbf4ec2d26388 20
 sdk/package.json
   096fbf4ec2d26388 22,25
-sdk/src/types/index.ts
-  096fbf4ec2d26388 4-8,14-16
+sdk/test/launchV2TokenAndBuy.test.ts
+  096fbf4ec2d26388 20
 sdk/src/utils/tickMath.ts
   096fbf4ec2d26388 6-9
+sdk/src/deployToken.ts
+  096fbf4ec2d26388 3,12
+sdk/src/types/index.ts
+  096fbf4ec2d26388 4-8,14-16
 ---
 {
   "schema_version": "authorship/3.0.0",
