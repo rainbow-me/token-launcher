@@ -15,7 +15,7 @@ beforeAll(async () => {
   const forkUrl = process.env.RPC_URL;
   if (!forkUrl) {
     throw new Error(
-      'RPC_URL is required for forked integration tests. Set it in your shell or .env before running `yarn test`, for example: RPC_URL=https://mainnet.base.org yarn test'
+      'RPC_URL is required for forked integration tests. Export it in your shell before running tests, for example: RPC_URL=https://mainnet.base.org yarn test'
     );
   }
 
