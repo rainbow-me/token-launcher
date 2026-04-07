@@ -1,12 +1,6 @@
 import { Instance, Server } from 'prool';
 import { TokenLauncher } from '../../src';
-import {
-  type PublicClient,
-  type WalletClient,
-  createPublicClient,
-  createWalletClient,
-  http,
-} from 'viem';
+import { type Chain, createPublicClient, createWalletClient, http } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { base } from 'viem/chains';
 
@@ -45,15 +39,16 @@ afterAll(async () => {
 
 export function createTestHarness() {
   const account = privateKeyToAccount(TEST_PRIVATE_KEY);
+  const chain: Chain = base;
   const publicClient = createPublicClient({
-    chain: base,
+    chain,
     transport: http(ANVIL_URL),
-  }) as unknown as PublicClient;
+  });
   const walletClient = createWalletClient({
     account,
-    chain: base,
+    chain,
     transport: http(ANVIL_URL),
-  }) as unknown as WalletClient;
+  });
 
   return {
     publicClient,
