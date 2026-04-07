@@ -1,0 +1,46 @@
+src/protocols/liquid/index.test.ts
+  77873f030b0b52b1 18
+tsconfig.json
+  77873f030b0b52b1 12,20
+src/test/harness/anvil.ts
+  77873f030b0b52b1 2
+package.json
+  77873f030b0b52b1 6-7,10-11
+test/sdk.test.ts
+  77873f030b0b52b1 3
+src/protocols/clanker/index.test.ts
+  77873f030b0b52b1 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "da9a29ff5a4533122935d8ce1eb5df1679a1de16",
+  "prompts": {
+    "3dc1da510a1a7bc8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d4be4-7316-7821-aa3e-cb780271fd2d",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 32,
+      "overriden_lines": 0
+    },
+    "77873f030b0b52b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8c345866-5846-44b1-bff0-705371765d1e",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 15,
+      "total_deletions": 15,
+      "accepted_lines": 10,
+      "overriden_lines": 0
+    }
+  }
+}
