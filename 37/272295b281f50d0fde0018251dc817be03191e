@@ -1,0 +1,40 @@
+src/protocols/clanker/index.ts
+  a38e9a27177193a1 150-154,161-163,172,181,186,196,202,208,214,219,226
+test/harness/anvil.ts
+  ed97c8c58a3b2202 18
+src/index.ts
+  a38e9a27177193a1 22,27-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "37272295b281f50d0fde0018251dc817be03191e",
+  "prompts": {
+    "a38e9a27177193a1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a32affc1-abd6-4611-be50-3bb8d5f0f3ca",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 32,
+      "total_deletions": 62,
+      "accepted_lines": 23,
+      "overriden_lines": 0
+    },
+    "ed97c8c58a3b2202": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1be11877-9657-4c84-9a64-806b32b7c14f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Sinclair",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
