@@ -103,65 +103,57 @@ async function launch(params: LaunchTokenParams, operation: string): Promise<Lau
   } catch (error) {
     if (error instanceof TokenLauncherSDKError) throw error;
 
-    const errorParams = {
-      protocol: params.protocol,
-      name: params.name,
-      symbol: params.symbol,
-      amountIn: params.amountIn,
-      logoUrl: params.logoUrl,
-      description: params.description,
-      links: params.links,
-    };
+    const context = (source: 'chain' | 'sdk') => ({
+      operation,
+      originalError: error,
+      source,
+      params: {
+        protocol: params.protocol,
+        name: params.name,
+        symbol: params.symbol,
+        amountIn: params.amountIn,
+        logoUrl: params.logoUrl,
+        description: params.description,
+        links: params.links,
+      },
+    });
 
     if (error instanceof BaseError) {
       if (error.walk(e => e instanceof InsufficientFundsError))
-        throwTokenLauncherError(TokenLauncherErrorCode.INSUFFICIENT_FUNDS, error.shortMessage, {
-          operation,
-          originalError: error,
-          source: 'chain',
-          params: errorParams,
-        });
+        throwTokenLauncherError(
+          TokenLauncherErrorCode.INSUFFICIENT_FUNDS,
+          error.shortMessage,
+          context('chain')
+        );
       if (error.walk(e => e instanceof ContractFunctionRevertedError))
         throwTokenLauncherError(
           TokenLauncherErrorCode.CONTRACT_INTERACTION_FAILED,
           error.shortMessage,
-          {
-            operation,
-            originalError: error,
-            source: 'chain',
-            params: errorParams,
-          }
+          context('chain')
         );
       if (error.walk(e => e instanceof UserRejectedRequestError))
         throwTokenLauncherError(
           TokenLauncherErrorCode.WALLET_CONNECTION_ERROR,
           error.shortMessage,
-          {
-            operation,
-            originalError: error,
-            source: 'sdk',
-            params: errorParams,
-          }
+          context('sdk')
         );
       if (error.walk(e => e instanceof EstimateGasExecutionError))
-        throwTokenLauncherError(TokenLauncherErrorCode.GAS_ESTIMATION_FAILED, error.shortMessage, {
-          operation,
-          originalError: error,
-          source: 'chain',
-          params: errorParams,
-        });
-      throwTokenLauncherError(TokenLauncherErrorCode.TRANSACTION_FAILED, error.shortMessage, {
-        operation,
-        originalError: error,
-        source: 'chain',
-        params: errorParams,
-      });
+        throwTokenLauncherError(
+          TokenLauncherErrorCode.GAS_ESTIMATION_FAILED,
+          error.shortMessage,
+          context('chain')
+        );
+      throwTokenLauncherError(
+        TokenLauncherErrorCode.TRANSACTION_FAILED,
+        error.shortMessage,
+        context('chain')
+      );
     }
 
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNKNOWN_ERROR,
       `Unexpected error in ${operation}: ${(error as Error).message || String(error)}`,
-      { operation, originalError: error, source: 'sdk', params: errorParams }
+      context('sdk')
     );
   }
 }
