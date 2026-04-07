@@ -2404,7 +2404,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^7.0.1"
     jest: "npm:^29.7.0"
     jsbi: "npm:^4.3.0"
-    liquid-sdk: "patch:liquid-sdk@npm%3A1.7.1#~/.yarn/patches/liquid-sdk-npm-1.7.1-d7f43b4934.patch"
+    liquid-sdk: "patch:liquid-sdk@npm%3A1.7.2#~/.yarn/patches/liquid-sdk-npm-1.7.2-d7f43b4934.patch"
     prettier: "npm:^3.3.3"
     prool: "npm:^0.2.4"
     tiny-invariant: "npm:^1.3.3"
@@ -6885,21 +6885,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"liquid-sdk@npm:1.7.1":
-  version: 1.7.1
-  resolution: "liquid-sdk@npm:1.7.1"
+"liquid-sdk@npm:1.7.2":
+  version: 1.7.2
+  resolution: "liquid-sdk@npm:1.7.2"
   peerDependencies:
     viem: ^2.0.0
-  checksum: 10c0/55850f9d15c0c8184739da18751ebcad4b6d6ec577465aaf483dfe4bcf84032427d83626eccb4bae0cafedc1243618b5f6fd013e67d9842584de3d365c867770
+  checksum: 10c0/afc7fdfda86568c220cc574e781cc4c7b68b67338deccf706cc17bb8e1e4996635faca12365631e7a6388c78e19d3ae8d3ee8a3d06dff795c86d65dc52618195
   languageName: node
   linkType: hard
 
-"liquid-sdk@patch:liquid-sdk@npm%3A1.7.1#~/.yarn/patches/liquid-sdk-npm-1.7.1-d7f43b4934.patch":
-  version: 1.7.1
-  resolution: "liquid-sdk@patch:liquid-sdk@npm%3A1.7.1#~/.yarn/patches/liquid-sdk-npm-1.7.1-d7f43b4934.patch::version=1.7.1&hash=b43aee"
+"liquid-sdk@patch:liquid-sdk@npm%3A1.7.2#~/.yarn/patches/liquid-sdk-npm-1.7.2-d7f43b4934.patch":
+  version: 1.7.2
+  resolution: "liquid-sdk@patch:liquid-sdk@npm%3A1.7.2#~/.yarn/patches/liquid-sdk-npm-1.7.2-d7f43b4934.patch::version=1.7.2&hash=d05625"
   peerDependencies:
     viem: ^2.0.0
-  checksum: 10c0/36df24e1a3cf9cb0d8b883b0f0675ee1cb84c612ae66a34a4f8c7c6d66be770e266c5cf601312fa5b0b225c81b5ce1580f5c7f3d9fbf74c60938a959dc6f8487
+  checksum: 10c0/891a13133261d1ee8af2571ca9ab1776ff67da6b2bb86a2b97428e0d5df9a42b973f90d7e0fe24342580167eabaf752d23dffecf199e425f85150d97d38b4984
   languageName: node
   linkType: hard
 
