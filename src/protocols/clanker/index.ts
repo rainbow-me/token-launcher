@@ -33,7 +33,7 @@ function assertWalletClientAccount(
   const accountAddress = walletClient.account?.address;
   if (!accountAddress) {
     throwTokenLauncherError(
-      TokenLauncherErrorCode.UNKNOWN_ERROR,
+      TokenLauncherErrorCode.MISSING_REQUIRED_PARAM,
       'walletClient must be created with a local account',
       { operation, source: 'sdk' }
     );
