@@ -18,6 +18,15 @@ export async function launchToken(
   }
 
   const chainId = await params.publicClient.getChainId();
+  const walletChainId = await params.walletClient.getChainId();
+  if (chainId !== walletChainId) {
+    throwTokenLauncherError(
+      TokenLauncherErrorCode.UNSUPPORTED_CHAIN_ID,
+      `publicClient chain (${chainId}) does not match walletClient chain (${walletChainId})`,
+      { operation, params: { publicChainId: chainId, walletChainId } }
+    );
+  }
+
   if (config.chains?.length && !config.chains.includes(chainId)) {
     throwTokenLauncherError(
       TokenLauncherErrorCode.UNSUPPORTED_CHAIN_ID,
