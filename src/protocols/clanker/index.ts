@@ -114,8 +114,8 @@ const getClankerClient = (params: LaunchTokenParams, operation: string): Clanker
     chainId: base.id,
     accountAddress,
     clankerClient: new Clanker({
-      wallet: params.walletClient as any,
-      publicClient: params.publicClient as any,
+      wallet: params.walletClient,
+      publicClient: params.publicClient,
     }),
   };
 };
