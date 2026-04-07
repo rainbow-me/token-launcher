@@ -1,5 +1,5 @@
 import { ERC20Abi, LiquidFactoryAbi, LiquidSDK } from 'liquid-sdk';
-import { type Address, decodeFunctionData, getContract, parseEther } from 'viem';
+import { type Address, decodeFunctionData, getContract, parseEther, zeroAddress } from 'viem';
 import { base } from 'viem/chains';
 import { createTestHarness } from '../../../test/harness/anvil';
 import { type LaunchTokenParams, Protocol } from '../../types/index';
@@ -210,7 +210,7 @@ describe('Liquid protocol', () => {
     const liquidSdk = new LiquidSDK({ publicClient });
     const deployment = await liquidSdk.getDeploymentInfo(tokenAddress);
     expect(deployment.token.toLowerCase()).toBe(tokenAddress.toLowerCase());
-    expect(deployment.hook).not.toBe('0x0000000000000000000000000000000000000000');
-    expect(deployment.locker).not.toBe('0x0000000000000000000000000000000000000000');
+    expect(deployment.hook).not.toBe(zeroAddress);
+    expect(deployment.locker).not.toBe(zeroAddress);
   }, 60000);
 });
